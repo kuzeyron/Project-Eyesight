@@ -1,0 +1,87 @@
+# Example for an internationalized Kivy app
+# Copyright (C) 2013 Mathieu Virbel
+# This file is distributed under the same license as the Kivy package.
+# Mathieu Virbel <mat@kivy.org>, 2013
+# Mathias Lindström <kuzeyron@gmail.com>, 2021
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 20:15+0300\n"
+"PO-Revision-Date: 2013-08-01 15:36+0200\n"
+"Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language-Team: Mathieu Virbel <kuzeyron@gmail.com>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "SMS"
+msgstr ""
+
+msgid "Phonebook"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Battery"
+msgstr ""
+
+msgid "Charging"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Favorite contacts"
+msgstr ""
+
+msgid "All contacts"
+msgstr ""
+
+msgid "Device language"
+msgstr ""
+
+msgid "Color theme"
+msgstr ""
+
+msgid "Device contacts"
+msgstr ""
+
+msgid "Short delay"
+msgstr ""
+
+msgid "Medium delay"
+msgstr ""
+
+msgid "Long delay"
+msgstr ""
+
+msgid "Press delay"
+msgstr ""
+
+msgid "Seconds"
+msgstr ""
+
+msgid "Wallpapers"
+msgstr ""

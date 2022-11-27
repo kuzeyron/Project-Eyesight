@@ -1,0 +1,87 @@
+# Example for an internationalized Kivy app
+# Copyright (C) 2013 Mathieu Virbel
+# This file is distributed under the same license as the Kivy package.
+# Mathieu Virbel <mat@kivy.org>, 2013
+# Mathias Lindström <kuzeyron@gmail.com>, 2021
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 20:15+0300\n"
+"PO-Revision-Date: 2013-08-01 15:36+0200\n"
+"Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language-Team: Mathieu Virbel <kuzeyron@gmail.com>\n"
+"Language: Svenska\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "SMS"
+msgstr "SMS"
+
+msgid "Phonebook"
+msgstr "Telefonbok"
+
+msgid "Monday"
+msgstr "Måndag"
+
+msgid "Tuesday"
+msgstr "Tisdag"
+
+msgid "Wednesday"
+msgstr "Onsdag"
+
+msgid "Thursday"
+msgstr "Torsdag"
+
+msgid "Friday"
+msgstr "Fredag"
+
+msgid "Saturday"
+msgstr "Lördag"
+
+msgid "Sunday"
+msgstr "Söndag"
+
+msgid "Battery"
+msgstr "Batteri"
+
+msgid "Charging"
+msgstr "Laddar"
+
+msgid "Back"
+msgstr "Bakåt"
+
+msgid "Favorite contacts"
+msgstr "Favorit kontakter"
+
+msgid "All contacts"
+msgstr "Alla kontakter"
+
+msgid "Device language"
+msgstr "Enhetsspråk"
+
+msgid "Color theme"
+msgstr "Färgtema"
+
+msgid "Device contacts"
+msgstr "Enhetskontakter"
+
+msgid "Short delay"
+msgstr "Kort fördröjning"
+
+msgid "Medium delay"
+msgstr "Medium fördröjning"
+
+msgid "Long delay"
+msgstr "Lång fördröjning"
+
+msgid "Press delay"
+msgstr "Tryck fördröjning"
+
+msgid "Seconds"
+msgstr "Sekunder"
+
+msgid "Wallpapers"
+msgstr "Bakgrundsbilder"

@@ -1,0 +1,87 @@
+# Example for an internationalized Kivy app
+# Copyright (C) 2013 Mathieu Virbel
+# This file is distributed under the same license as the Kivy package.
+# Mathieu Virbel <mat@kivy.org>, 2013
+# Mathias Lindström <kuzeyron@gmail.com>, 2021
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 20:15+0300\n"
+"PO-Revision-Date: 2013-08-01 15:36+0200\n"
+"Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language-Team: Mathieu Virbel <kuzeyron@gmail.com>\n"
+"Language: Suomi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "SMS"
+msgstr "Viestit"
+
+msgid "Phonebook"
+msgstr "Puhelinluettelo"
+
+msgid "Monday"
+msgstr "Maanantai"
+
+msgid "Tuesday"
+msgstr "Tiistai"
+
+msgid "Wednesday"
+msgstr "Keskiviikko"
+
+msgid "Thursday"
+msgstr "Torstai"
+
+msgid "Friday"
+msgstr "Perjantai"
+
+msgid "Saturday"
+msgstr "Lauantai"
+
+msgid "Sunday"
+msgstr "Sunnuntai"
+
+msgid "Battery"
+msgstr "Akku"
+
+msgid "Charging"
+msgstr "Lataus"
+
+msgid "Back"
+msgstr "Takaisin"
+
+msgid "Favorite contacts"
+msgstr "Suosikkikuntat"
+
+msgid "All contacts"
+msgstr "Kaikki kontaktit"
+
+msgid "Device language"
+msgstr "Laitteen kieli"
+
+msgid "Color theme"
+msgstr "Väriteema"
+
+msgid "Device contacts"
+msgstr "Laitteen yhteystiedot"
+
+msgid "Short delay"
+msgstr "Lyhyt viivästys"
+
+msgid "Medium delay"
+msgstr "Keskipitkä viivästys"
+
+msgid "Long delay"
+msgstr "Pitkä viivästys"
+
+msgid "Press delay"
+msgstr "Painamisviive"
+
+msgid "Seconds"
+msgstr "Sekuntia"
+
+msgid "Wallpapers"
+msgstr "Taustakuvia"
