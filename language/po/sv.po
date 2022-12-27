@@ -85,3 +85,15 @@ msgstr "Sekunder"
 
 msgid "Wallpapers"
 msgstr "Bakgrundsbilder"
+
+msgid "Date format"
+msgstr "Datumformat"
+
+msgid "Time format"
+msgstr "Tidsformat"
+
+msgid "Color opacity"
+msgstr "Genomskinlig färg"
+
+msgid "Border radius"
+msgstr "Gränsradie"

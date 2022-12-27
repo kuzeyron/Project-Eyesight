@@ -77,8 +77,7 @@ def set_value(table=None, target=None, content=None):
 
 def get_language() -> tuple:
     config = get_value('language')
-    language = config['language']
-    auto = bool(config['auto'])
-    lang = locales() if auto else language
+    lang = config['language']
+    language = locales() if lang == 'auto' else lang
 
-    return (auto, lang)
+    return language, 'language.language'

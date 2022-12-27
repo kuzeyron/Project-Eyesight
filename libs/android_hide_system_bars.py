@@ -8,7 +8,7 @@ if platform == 'android':
     from jnius import autoclass
     from android.permissions import Permission, request_permissions
 
-    request_permissions([Permission.READ_CONTACTS])
+    request_permissions([Permission.READ_CONTACTS, Permission.CALL_PHONE])
 
     AndroidView = autoclass('android.view.View')
     AndroidPythonActivity = autoclass('org.kivy.android.PythonActivity')

@@ -1,175 +1,175 @@
 from kivy.app import App
-from kivy.lang.builder import Builder
-from kivy.properties import BooleanProperty, NumericProperty, StringProperty, ListProperty
+from __main__ import tr
+from kivy.lang import Builder
+from kivy.properties import (AliasProperty, BooleanProperty, ColorProperty,
+                             DictProperty, ListProperty, NumericProperty,
+                             StringProperty, ObjectProperty)
+from kivy.uix.behaviors import ToggleButtonBehavior
 from kivy.uix.behaviors.touchripple import TouchRippleBehavior
-from kivy.uix.checkbox import CheckBox
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.recycleview import RecycleView
+from kivy.uix.behaviors import ButtonBehavior
+from libs.configuration import get_value, set_value
 
-from libs.configuration import get_value, locales
-
-__all__ = ['BaseLayout', 'CheckBoxItem', 'ContactsCrawler', 'Crawler',
-           'DateFormatCrawler', 'LangCheckBoxItem', 'LanguageCrawler',
-           'PressDelayCrawler', 'TimeFormatCrawler']
+__all__ = ('SettingsCrawler', 'LabeledCheckBox')
 
 Builder.load_string('''
-<CheckBoxLabel>:
-    color: .9, .9, .9, 1
-    font_size: dp(25)
-    size: self.texture_size
-    size_hint_x: None
+#:import tr __main__.tr
 
-<LanguageCrawler>:
-    LangCheckBoxItem:
-        group: 'language'
-        id: sv
-        content: 'sv'
-    CheckBoxLabel:
-        on_release:
-            sv.active = True
-            sv.change_language()
-        text: 'Svenska'
-
-    LangCheckBoxItem:
-        group: 'language'
-        id: en
-        content: 'en'
-    CheckBoxLabel:
-        on_release:
-            en.active = True
-            en.change_language()
-        text: 'English'
-
-    LangCheckBoxItem:
-        group: 'language'
-        id: fi
-        content: 'fi'
-    CheckBoxLabel:
-        on_release:
-            fi.active = True
-            fi.change_language()
-        text: 'Suomea'
-
-    LangCheckBoxItem:
-        group: 'language'
-        id: auto
-        content: 'auto'
-    CheckBoxLabel:
-        on_release:
-            auto.active = True
-            auto.change_language()
-        text: 'Auto'
-
-<DateFormatCrawler>:
-    CheckBoxItem:
-        group: 'dateformat'
-        id: obliquestroke
-        content: 'obliquestroke'
-    CheckBoxLabel:
-        on_release:
-            obliquestroke.active = True
-            # obliquestroke.change_language()
-        text: 'dd/mm/yyyy'
-
-    CheckBoxItem:
-        group: 'dateformat'
-        id: fullstop
-        content: 'fullstop'
-    CheckBoxLabel:
-        on_release:
-            fullstop.active = True
-            # fullstop.change_language()
-        text: 'dd.mm.yyyy'
-
-    CheckBoxItem:
-        group: 'dateformat'
-        id: hyphen
-        content: 'hyphen'
-    CheckBoxLabel:
-        on_release:
-            hyphen.active = True
-            # hyphen.change_language()
-        text: 'dd-mm-yyyy'
-
-<TimeFormatCrawler>:
-    CheckBoxItem:
-        group: 'timeformat'
-        id: h241
-        content: 'h241'
-    CheckBoxLabel:
-        on_release:
-            h241.active = True
-            # h241.change_language()
-        text: 'hh:mm'
-
-    CheckBoxItem:
-        group: 'timeformat'
-        id: h242
-        content: 'h242'
-    CheckBoxLabel:
-        on_release:
-            h242.active = True
-            # h242.change_language()
-        text: 'hh.mm'
-
-    CheckBoxItem:
-        group: 'timeformat'
-        id: am12
-        content: 'am12'
-    CheckBoxLabel:
-        on_release:
-            am12.active = True
-            # am12.change_language()
-        text: 'AM/PM'
-
-<CheckBoxItem>:
-    size: dp(50), dp(50)
-    size_hint: None, 1
+<LabeledCheckBox>:
+    active: self.rv_key in app.current_selection.get(self.dict_name, [])
+    on_active: self.select_row(self.active)
+    font_size: self.button_size
+    text: tr._(self.cached_text)
+    _checkbox_state_image:
+        self.background_checkbox_down \
+        if self.active else self.background_checkbox_normal
+    _checkbox_disabled_image:
+        self.background_checkbox_disabled_down \
+        if self.active else self.background_checkbox_disabled_normal
+    _radio_state_image:
+        self.background_radio_down \
+        if self.active else self.background_radio_normal
+    _radio_disabled_image:
+        self.background_radio_disabled_down \
+        if self.active else self.background_radio_disabled_normal
+    _checkbox_image:
+        self._checkbox_disabled_image \
+        if self.disabled else self._checkbox_state_image
+    _radio_image:
+        self._radio_disabled_image \
+        if self.disabled else self._radio_state_image
     canvas:
-        Clear
+        Clear:  # Clearing out label-canvas
         Color:
-            rgba: self.color
+            rgba: 0, 0, 0, app.color[-1]
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(10), ]
+        Color:
+            rgba: self.color[:3] + [1]
         Rectangle:
-            pos: int(self.center_x - dp(21)), int(self.center_y - dp(21))
-            size: dp(42), dp(42)
+            pos: int(self.x + self.button_size / 2), self.center_y - self.button_size
+            size: self.button_size * 2, self.button_size * 2
             source: self._radio_image if self.group else self._checkbox_image
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            texture: self.texture
+            size: self.texture_size
+            pos:
+                int(self.x + (self.button_size * 2.5)), \
+                int(self.center_y - self.texture_size[1] / 2.)
+
+<SettingsCrawler>:
+    viewclass: 'LabeledCheckBox'
+    effect_cls: 'ScrollEffect'
+    
+    RecycleGridLayout:
+        default_size: 100, dp(80)
+        default_size_hint: 1, None 
+        size_hint_y: None
+        height: self.minimum_height
+        cols: root.cols
+        rows: root.rows
+        spacing: dp(5)
 
 ''')
 
 
-class CheckBoxItem(CheckBox):
+class CheckBoxLabel(ButtonBehavior, Label):
+    font_size = NumericProperty("22dp")
+
+
+class LabeledCheckBox(ToggleButtonBehavior, Label):
     allow_no_selection = BooleanProperty(False)
-    content = StringProperty()
+    button_size = NumericProperty("20dp")
+    rv_key = ObjectProperty()
+    text = StringProperty()
+
+    def _get_active(self):
+        return self.state == 'down'
+
+    def _set_active(self, value):
+        self.state = 'down' if value else 'normal'
+
+    active = AliasProperty(
+        _get_active, _set_active, bind=('state', ), cache=True)
+    background_checkbox_normal = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_off')
+    background_checkbox_down = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_on')
+    background_checkbox_disabled_normal = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_disabled_off')
+    background_checkbox_disabled_down = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_disabled_on')
+    background_radio_normal = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_radio_off')
+    background_radio_down = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_radio_on')
+    background_radio_disabled_normal = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_radio_disabled_off')
+    background_radio_disabled_down = StringProperty(
+        'atlas://data/images/defaulttheme/checkbox_radio_disabled_on')
+    color = ColorProperty([1, 1, 1, 1])
+    dict_name = StringProperty()
+    settings = ListProperty()
+    cached_text = StringProperty()
+
+    def __init__(self, **kwargs):
+        self.fbind('state', self._on_state)
+        super().__init__(**kwargs)
+
+    def _on_state(self, instance, value):
+        if self.group and self.state == 'down':
+            self._release_group(self)
+
+    def on_group(self, *largs):
+        super().on_group(*largs)
+        if self.active:
+            self._release_group(self)
+
+    def on_settings(self, *largs):
+        self.group = self.settings[1]
+        app = App.get_running_app()
+        self.dict_name = name = '.'.join(self.settings)
+        
+        if name not in app.current_selection:
+            app.current_selection[name] = []
+        
+        data = get_value(self.settings[0])
+        app.current_selection[name].append(data[self.settings[1]])
+    
+    def select_row(self, active):
+        app = App.get_running_app()
+        selection = app.current_selection.get(self.dict_name, [])
+
+        if active and self.rv_key not in selection:
+            selection.clear()
+            selection.append(self.rv_key)
+            set_value(*self.settings, self.rv_key)
+            tr.switch_lang(self.rv_key)
+        elif not active and self.rv_key in selection:
+            selection.remove(self.rv_key)
 
 
-class LangCheckBoxItem(CheckBoxItem):
+class SettingsCrawler(TouchRippleBehavior, RecycleView):
+    ripple_scale = NumericProperty(.25)
+    show_traces = BooleanProperty(True)
+    settings = ListProperty()
+    labels = DictProperty()
+    cols = NumericProperty(None, allownone=True)
+    rows = NumericProperty(None, allownone=True)
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.bind(labels=self.setup)
 
-    def on_kv_post(self, *largs):
-        self.bind(active=self.change_language)
-
-    def change_language(self, *largs):
-        instance = App.get_running_app()
-
-        if self.content == 'auto':
-            lang = locales()
-            auto = True
-        else:
-            lang = self.content
-            auto = False
-
-        changes = instance.lang_changes
-        changes['1'] = (auto, lang)
-
-        if all([
-            changes['0'] != changes['1'],
-            changes['changed'] is False
-        ]):
-            changes['0'] = changes['1']
-            changes['changed'] = True
-            instance.set_language(lang, auto)
-        else:
-            changes['changed'] = False
-
-        changes['1'] = self.content
+    def setup(self, *largs):
+        self.data = [dict(rv_key=k, cached_text=v, settings=self.settings)
+                     for k, v in self.labels.items()]
 
 
 class BaseLayout(TouchRippleBehavior, GridLayout):
@@ -194,41 +194,10 @@ class BaseLayout(TouchRippleBehavior, GridLayout):
         return False
 
 
-class ContactsCrawler(BaseLayout):
-    pass
-
-
-class PressDelayCrawler(BaseLayout):
-    pass
-
-
-class Crawler(BaseLayout):
-    from_settings = ListProperty()
-    hasbool = BooleanProperty(False)
-
-    def on_kv_post(self, *largs):
-        s = self.from_settings
-        content = get_value(s[0])
-        usebool = False
-        usecat = content[s[1]]
-
-        if self.hasbool:
-            usebool = bool(content[s[1]])
-            usecat = content[s[0]]
-
-        subject = s[1] if self.hasbool and usebool else usecat
-        self.ids[subject].active = True
-
-
-class LanguageCrawler(Crawler):
-    from_settings = ListProperty(('language', 'auto'))
-    hasbool = BooleanProperty(True)
-
-
-class DateFormatCrawler(Crawler):
-    from_settings = ListProperty(('format', 'date'))
-
-
-class TimeFormatCrawler(Crawler):
-    from_settings: tuple = ('format', 'time')
-
+if __name__ == '__main__':
+    from kivy.base import runTouchApp
+    x = SettingsCrawler()
+    x.current_selection = []
+    x.settings = ('language', 'language')
+    x.labels = dict(sv='Svenska', en='English', fi='Suomi', auto='Auto')
+    runTouchApp(x)

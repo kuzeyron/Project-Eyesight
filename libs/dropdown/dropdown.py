@@ -31,17 +31,17 @@ Builder.load_string('''
             size: self.size
         StencilUse
         Color:
-            rgba: app.color[:3] + [.35]
+            rgba: app.coloro
         RoundedRectangle:
             pos: self.pos
-            radius: [dp(10), ]
+            radius: app.border_radius
             size: self.size
         Color:
-            rgba: 1,1,1,.2
+            rgba: 1, 1, 1, .2
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \
-                self.height, dp(10)
+                self.height, app.border_radius[0]
 
     canvas.after:
         StencilUnUse

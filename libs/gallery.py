@@ -55,9 +55,9 @@ Builder.load_string('''
             cap: 'square'
             joint: 'miter'
             points: [ \
-                (self.center_x-dp(15), self.center_y-dp(12)+root.bwidth), \
-                (self.center_x, self.center_y-dp(25)+root.bwidth), \
-                (self.center_x+dp(30), self.center_y+dp(5)+root.bwidth) \
+                (self.center_x - dp(15), self.center_y - dp(12) + root.bwidth), \
+                (self.center_x, self.center_y-dp(25) + root.bwidth), \
+                (self.center_x + dp(30), self.center_y + dp(5) + root.bwidth) \
             ]
             width: dp(5)
 ''')
@@ -100,7 +100,7 @@ class Picture(CheckBox):
 
 class PhotoGallery(StackLayout):
     allowed_exts = ListProperty(['.png', '.jpg', '.jpeg', '.webp'])
-    border_width = NumericProperty('10sp')
+    border_width = NumericProperty('10dp')
     collection = ListProperty()
     corner_radius = NumericProperty()
     folder = StringProperty('assets/wallpapers')
@@ -109,8 +109,7 @@ class PhotoGallery(StackLayout):
     rows = NumericProperty(3)
     is_open = BooleanProperty(False)
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def on_kv_post(self, *largs):
         self.bind(is_open=self.open_status,
                   size=self.recompute_layout)
 

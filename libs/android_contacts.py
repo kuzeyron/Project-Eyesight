@@ -96,7 +96,7 @@ def get_kind_of_contacts(contact_type: bool = True) -> list:
 
     print('Getting contacts is only available on Android devices')
     return [
-        {'name': 'Name (1)', 'number':  _split_nrs('+3580000000')},
-        {'name': 'Name (2)', 'number':  _split_nrs('+3581111111')},
-        {'name': 'Name (3)', 'number':  _split_nrs('+3582222222')}
+        {'name': 'John Smith', 'number':  _split_nrs('+3580000000')},
+        {'name': 'Sally Sweet', 'number':  _split_nrs('+3581111111')},
+        {'name': 'John Doe', 'number':  _split_nrs('+3582222222')}
     ]

@@ -14,17 +14,17 @@ Builder.load_string('''
 <Contact>:
     canvas.before:
         Color:
-            rgba: root.background_color if root.state == 'down' else app.color
+            rgba: root.background_color if root.state == 'down' else app.coloro
         RoundedRectangle:
             pos: self.pos
-            radius: [dp(15), ]
+            radius: app.border_radius
             size: self.size
         Color:
-            rgba: 1,1,1,.1
+            rgba: 1, 1, 1, .1
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \
-                self.height, dp(15)
+                self.height, app.border_radius[0]
 
 <Contacts>:
     do_scroll_y: False

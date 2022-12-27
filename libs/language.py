@@ -7,7 +7,7 @@ from kivy.utils import platform
 __all__ = ['locales', 'Lang']
 
 def locales():
-    available = ('sv', 'en', 'fi')
+    available = {'sv', 'en', 'fi'}
 
     if platform == 'android':
         from jnius import autoclass
@@ -31,11 +31,11 @@ def locales():
 
 
 class Lang(Observable):
-    observers = []
+    observers: list = []
     lang = None
 
     def __init__(self, defaultlang):
-        super(Lang, self).__init__()
+        super().__init__()
         self.ugettext = None
         self.lang = defaultlang
         self.switch_lang(self.lang)
@@ -47,7 +47,9 @@ class Lang(Observable):
         if name == "_":
             self.observers.append((func, args, kwargs))
         else:
-            return super(Lang, self).fbind(name, func, *args, **kwargs)
+            return super().fbind(name, func, *args, **kwargs)
+
+        return False
 
     def funbind(self, name, func, args, **kwargs):
         if name == "_":
@@ -55,15 +57,19 @@ class Lang(Observable):
             if key in self.observers:
                 self.observers.remove(key)
         else:
-            return super(Lang, self).funbind(name, func, *args, **kwargs)
+            return super().funbind(name, func, *args, **kwargs)
+
+        return False
 
     def switch_lang(self, lang):
-        # get the right locales directory, and instanciate a gettext
-        locale_dir = join('language', 'data', 'locales')
-        locales = gettext.translation('langapp', locale_dir, languages=[lang])
-        self.ugettext = locales.gettext
-        self.lang = lang
+        if lang in {'sv', 'en', 'fi', 'auto'}:
+            lang = locales() if lang == 'auto' else lang
+            # get the right locales directory, and instanciate a gettext
+            locale_dir = join('language', 'data', 'locales')
+            locales_ = gettext.translation('langapp', locale_dir, languages=[lang])
+            self.ugettext = locales_.gettext
+            self.lang = lang
 
-        # update all the kv rules attached to this text
-        for func, largs, kwargs in self.observers:
-            func(largs, None, None)
+            # update all the kv rules attached to this text
+            for func, largs, _ in self.observers:
+                func(largs, None, None)

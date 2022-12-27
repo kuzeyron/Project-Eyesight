@@ -85,3 +85,15 @@ msgstr "Sekuntia"
 
 msgid "Wallpapers"
 msgstr "Taustakuvia"
+
+msgid "Date format"
+msgstr "Päivämäärämuoto"
+
+msgid "Time format"
+msgstr "Aikamäärämuoto"
+
+msgid "Color opacity"
+msgstr "Värin opasiteetti"
+
+msgid "Border radius"
+msgstr "Reunan säde"

@@ -85,3 +85,16 @@ msgstr ""
 
 msgid "Wallpapers"
 msgstr ""
+
+msgid "Date format"
+msgstr ""
+
+msgid "Time format"
+msgstr ""
+
+msgid "Color opacity"
+msgstr ""
+
+msgid "Border radius"
+msgstr ""
+

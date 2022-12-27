@@ -12,17 +12,17 @@ Builder.load_string('''
     font_size: self.height // 3
     canvas.before:
         Color:
-            rgba: root.background_color if root.state == 'down' else app.color
+            rgba: root.background_color if root.state == 'down' else app.coloro
         RoundedRectangle:
-            radius: [dp(15), ]
+            radius: app.border_radius
             pos: self.pos
             size: self.size
         Color:
-            rgba: 1,1,1,.1
+            rgba: 1, 1, 1, .1
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \
-                self.height, dp(15)
+                self.height, app.border_radius[0]
 ''')
 
 

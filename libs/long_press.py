@@ -16,8 +16,8 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
     long_press_time = NumericProperty(1.5)
     short_press_time = NumericProperty(.08)
     min_state_time = NumericProperty(.5)
-    background_color = ColorProperty((.25, .15, .25, .5))
-    background_up = ColorProperty((.25, .15, .25, .5))
+    background_color = ColorProperty((.25, .15, .25, .7))
+    background_up = ColorProperty((.25, .15, .25, .7))
     always_release = BooleanProperty(True)
     ripple_scale = NumericProperty(.25)
     show_traces = BooleanProperty(True)
@@ -25,13 +25,14 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
 
     def on_state(self, instance, value):
         instance = App.get_running_app()
-        if self.override:
+
+        if not self.override:
             self.long_press_time = instance.press_delay
 
         if value == 'down':
-            color = instance.color[:3]
-            self.background_color = [self.c_switch(x, step=.25)
-                                     for x in color] + [.5]
+            color = instance.coloro
+            self.background_color = [self.c_switch(x, step=.1)
+                                     for x in color]
             self._clock1 = Clock.schedule_once(self._do_long_press,
                                                self.long_press_time)
             self._clock2 = Clock.schedule_once(self._do_short_press,
@@ -41,10 +42,10 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
             self._clock2.cancel()
 
     def c_switch(self, value, step, *largs):
-        if sum(App.get_running_app().color[:3]) < 1.5:
+        if sum(App.get_running_app().color[:3]) < 0.5:
             return value + step
 
-        return value - step
+        return abs(value - step)
 
     def on_touch_down(self, touch):
         super().on_touch_down(touch)
@@ -79,7 +80,7 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
         pass
 
     def on_short_press(self, *largs):
-        self._vib = vibrate(self.long_press_time - self.short_press_time)
+        self._vib = vibrate(max(self.long_press_time - self.short_press_time, 0))
 
     def on_press(self, *largs):
         pass

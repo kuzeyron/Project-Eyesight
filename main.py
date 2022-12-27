@@ -4,12 +4,13 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
-                             NumericProperty, ObjectProperty, StringProperty)
+                             ListProperty, NumericProperty, ObjectProperty,
+                             StringProperty)
 from kivy.uix.screenmanager import ScreenManager
 from kivy.utils import get_color_from_hex, platform
 
 from libs.android_hide_system_bars import HideBars
-from libs.configuration import get_language, get_value, set_value
+from libs.configuration import get_language, get_value
 from libs.language import Lang
 from libs.wallpaper import Wallpaper
 
@@ -17,8 +18,8 @@ if platform not in {'android', 'ios'}:
     from kivy.metrics import dp
     Window.size = (dp(400), dp(700))
 
-globlang = get_language()
-tr = Lang(globlang[1])
+language = get_language()
+tr = Lang(language[0])
 
 Builder.load_string('''
 #:import TimeData libs.timedata.TimeData
@@ -51,8 +52,8 @@ Builder.load_string('''
             orientation: 'vertical'
 
             TimeData:
-                short_press_time: app.press_delay * 5
-                long_press_time: app.press_delay * 10
+                short_press_time: 8 
+                long_press_time: 8
                 override: True
                 on_long_press:
                     root.current = 'settings'
@@ -86,38 +87,32 @@ class Basement(ScreenManager):
 
 class ProjectSimplifier(App, HideBars):
     background = ObjectProperty(None, allownone=True)
-    color = ColorProperty()
+    color = ColorProperty((1, 1, 1, 1))
+    coloro = ColorProperty((1, 1, 1, 1))
+    border_radius = ListProperty([10, ])
     icon = StringProperty(join('assets', 'images', 'icon.png'))
-    lang_changes = DictProperty({'0': globlang,
-                                 '1': globlang,
-                                 'changed': False})
     press_delay = NumericProperty(1.5)
     starred = BooleanProperty(True)
     title = StringProperty('ProjectEyesight')
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        config = get_value('settings')
-        self.background = Wallpaper(source=config['wallpaper'],
-                                    crop=None).texture
-        self.color = get_color_from_hex(config['bg_color'])
-        self.press_delay = config['press_delay']
-        self.starred = config['starred_contacts']
+    current_selection = DictProperty({language[1]: [language[0]]})
 
     def build(self):
+        config = {**get_value('settings'), **get_value('format')}
+        self.background = Wallpaper(source=config['wallpaper'],
+                                    crop=None).texture
+        color = get_color_from_hex(config['bg_color'])
+        opacity = config['color_opacity']
+        self.color = color[:3] + [opacity]
+        self.coloro = color[:3] + [max(opacity - .2, 0)]
+        self.press_delay = config['press_delay']
+        self.current_selection.update({
+            'settings.starred_contacts': [config['starred_contacts']],
+            'format.time': [config['time']],
+            'format.date': [config['date']]
+        })
+        self.border_radius = [config['border_radius']]
+
         return Basement()
-
-    def set_language(self, lang=None, auto=None):
-        if all([
-            isinstance(lang, str),
-            isinstance(auto, bool)
-        ]):
-            auto = int(auto)
-            lang = lang or 'en'
-            tr.switch_lang(lang)
-
-            set_value('language', "language", tr.lang)
-            set_value('language','auto', auto)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,172 @@
+#:import BorderRadius libs.settingswidgets.BorderRadius
+#:import ColorOpacity libs.settingswidgets.ColorOpacity
+#:import DropDownSettings libs.dropdown.DropDownSettings
+#:import PhotoGallery libs.gallery.PhotoGallery
+#:import PressDelayCrawler libs.settingswidgets.PressDelayCrawler
+#:import SettingsCrawler libs.checkboxitem.SettingsCrawler
+#:import tr __main__.tr
+
+<ContentBox>:
+    opacity: 0
+    orientation: 'vertical'
+    padding: dp(10), dp(10)
+    spacing: dp(5)
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, .1
+        RoundedRectangle:
+            pos: self.pos
+            radius: app.border_radius
+            size: self.size
+
+<ContentBoxCategory@Label>:
+    color: 1, 1, 1, .6
+    font_size: dp(28)
+    halign: 'left'
+    height: dp(42)
+    outline_width: dp(1)
+    size_hint_y: None
+    text_size: self.size
+
+<BackButton>:
+    cols: 2
+    height: sp(60)
+    padding: dp(5), dp(5)
+    size_hint_y: None
+    canvas.before:
+        Color:
+            rgba: root.background_color if root.state == 'down' else app.color
+        RoundedRectangle:
+            pos: self.pos
+            radius: app.border_radius
+            size: self.size
+        Color:
+            rgba: 1, 1, 1, .1
+        SmoothLine:
+            width: dp(1)
+            rounded_rectangle: self.x, self.y, self.width, self.height, app.border_radius[0]
+
+<ColorBox>:
+    canvas.before:
+        Color:
+            rgba: self.color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: (1, 1, 1, 1 if self.color[:3] == app.color[:3] else 0)
+        Line:
+            cap: 'square'
+            joint: 'miter'
+            points: [(self.center_x - dp(15), self.center_y - dp(12) + root.bwidth), (self.center_x, self.center_y - dp(25) + root.bwidth), (self.center_x + dp(30), self.center_y + dp(5) + root.bwidth)]
+            width: dp(5)
+
+<ColorGenerator>:
+    viewclass: 'ColorBox'
+
+    RecycleGridLayout:
+        default_size: None, dp(56)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        cols: 3
+
+<DeviceSettings>:
+    padding: dp(15), dp(15)
+    spacing: dp(15)
+
+    BackButton:
+        padding: dp(10), dp(15)
+        spacing: dp(20)
+        id: backbutton
+        Image:
+            opacity: .4
+            size_hint_x: .1
+            source: 'assets/images/back.png'
+        Label:
+            font_size: sp(25)
+            halign: 'left'
+            outline_width: dp(1)
+            text: tr._('Back')
+            text_size: self.size
+            valign: 'middle'
+
+    ScrollView:
+        spacing: dp(15)
+        bar_width: 0
+        do_scroll_x: False
+        effect_cls: 'ScrollEffect'
+
+        BoxLayout:
+            height: self.minimum_height
+            orientation: 'vertical'
+            size_hint_y: None
+            spacing: dp(20)
+
+            DropDownSettings:
+                category: tr._('Device language')
+                ContentBox:
+                    SettingsCrawler:
+                        settings: ('language', 'language')
+                        labels: dict(sv='Svenska', en='English', fi='Suomi', auto='Auto')
+                        cols: 2
+
+            DropDownSettings:
+                category: tr._('Date format')
+                ContentBox:
+                    SettingsCrawler:
+                        settings: ('format', 'date')
+                        labels: dict(obliquestroke='mm/dd/yyyy', auto='dd.mm.yyyy', hyphen='dd-mm-yyyy')
+                        cols: 2
+
+            DropDownSettings:
+                category: tr._('Time format')
+                ContentBox:
+                    SettingsCrawler:
+                        settings: ('format', 'time')
+                        labels: dict(auto='hh:mm', h24='hh.mm', h12='h.m', am12='AM/PM')
+                        cols: 2
+            
+            DropDownSettings:
+                category: tr._('Color opacity')
+                ContentBox:
+                    ColorOpacity
+            
+            DropDownSettings:
+                category: tr._('Border radius')
+                ContentBox:
+                    BorderRadius:
+                        value_track_color: 0, 0, .8
+            
+            DropDownSettings:
+                category: tr._('Press delay')
+                ContentBox:
+                    PressDelayCrawler
+
+            DropDownSettings:
+                category: tr._('Device contacts')
+                ContentBox:
+                    SettingsCrawler:
+                        settings: ('settings', 'starred_contacts')
+                        labels: {1: 'Favorite contacts', 0: 'All contacts'}
+                        rows: 2
+
+            DropDownSettings:
+                category: tr._('Color theme')
+                ContentBox:
+                    custom_height: dp(450)
+                    ColorGenerator
+
+            DropDownSettings:
+                category: tr._('Wallpapers')
+                id: gallery
+                ContentBox:
+                    custom_height: dp(450)
+                    ScrollView:
+                        do_scroll_x: False
+                        effect_cls: 'ScrollEffect'
+                        PhotoGallery
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: dp(5)
+                            is_open: gallery._is_open
