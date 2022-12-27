@@ -1,4 +1,4 @@
-# ProjectVision
+# ProjectEyesight
 For people with impaired vision
 
 
