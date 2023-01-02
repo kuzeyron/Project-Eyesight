@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+version = 0.2
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -94,7 +94,7 @@ icon.filename = %(source.dir)s/assets/images/icon.png
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,QUERY_ALL_PACKAGES,READ_CONTACTS
+android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,READ_CONTACTS
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host

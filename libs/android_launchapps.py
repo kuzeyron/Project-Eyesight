@@ -1,26 +1,30 @@
+from importlib import import_module
+
 from kivy.utils import platform
 
 __all__ = ['launch_app', ]
 
-
 def launch_app(package):
-    if platform == 'android' and package:
-        from jnius import autoclass
-        from libs.android_applaunch import available_apps
+    if platform in {'android'}:
+        jnius = import_module('jnius')
+        autoclass = jnius.autoclass
+        Intent = autoclass('android.content.Intent')
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        activity = PythonActivity.mActivity
+        intent = Intent()
+        intent.setAction("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.LAUNCHER");
+        intent.addCategory("android.intent.category.DEFAULT");
 
-        if package in sum(available_apps().values(), []):
-            Intent: type[autoclass] = autoclass('android.content.Intent')
-            PythonActivity: type[autoclass] = autoclass(
-                'org.kivy.android.PythonActivity'
-            )
-            activity: type[PythonActivity] = PythonActivity.mActivity
+        if package == 'contacts':
+            ComponentName = autoclass('android.content.ComponentName')
+            intent.setComponent(ComponentName('com.google.android.dialer',
+                                              'com.android.dialer.DialtactsActivity'))
+        
+        elif package == 'messaging':
+            intent.addCategory(Intent.CATEGORY_APP_MESSAGING);
 
-            pm: type[activity] = activity.getPackageManager()
-            app_intent: type[pm] = pm.getLaunchIntentForPackage(package)
-            app_intent.setAction(Intent.ACTION_VIEW)
-            app_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-            activity.startActivity(app_intent)
+        activity.startActivity(intent)
 
     else:
         print("Launching apps is only supported on Android devices.")

@@ -25,7 +25,6 @@ Builder.load_string('''
 #:import TimeData libs.timedata.TimeData
 #:import Contacts libs.contacts.Contacts
 #:import AppLauncher libs.applauncher.AppLauncher
-#:import app_run libs.android_applaunch.os_return_value_of_subject
 #:import tr __main__.tr
 #:import DeviceSettings libs.settings.DeviceSettings
 
@@ -63,12 +62,12 @@ Builder.load_string('''
                 starred: app.starred
 
             AppLauncher:
-                package: app_run('contacts')
+                package: 'contacts'
                 size_hint_y: .5
                 text: tr._('Phonebook')
 
             AppLauncher:
-                package: app_run('messaging')
+                package: 'messaging'
                 size_hint_y: .4
                 text: tr._('SMS')
 

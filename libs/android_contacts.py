@@ -1,8 +1,6 @@
 from kivy.utils import platform
 
-__all__ = [
-    'get_kind_of_contacts',
-]
+__all__ = ('get_kind_of_contacts', )
 
 
 def _split_nrs(nr: str = '', padding: str = ' ') -> str:
@@ -28,11 +26,12 @@ def _cursor_interaction(caller) -> tuple:
 
     from android.permissions import Permission, request_permissions
     from jnius import autoclass
-    from libs.android_applaunch import available_contact_apps
 
     request_permissions([Permission.READ_CONTACTS])
 
-    if any(available_contact_apps()):
+    try:
+        # Since QUERY_ALL_PACKAGES is forbidden to use
+        # with the Play Strore, we just have to try
         Contract: str = 'android.provider.ContactsContract'
         Common: str = 'CommonDataKinds'
         Phone = autoclass(f"{Contract}${Common}$Phone")
@@ -51,7 +50,9 @@ def _cursor_interaction(caller) -> tuple:
 
         return _cursor_extraction(cursor, Phone, caller)
 
-    return ()
+    except Exception:
+        # We cannot access the contacts
+        return ()
 
 
 def _cursor_extraction(cursor, Phone, caller) -> tuple:
@@ -62,6 +63,8 @@ def _cursor_extraction(cursor, Phone, caller) -> tuple:
     strd_index: int = cursor.getColumnIndex(Phone.STARRED)
 
     found_nrs: list = []
+    # pos = found contacts
+    # neg = all contacts or not listed
     pos: list = []
     neg: list = []
 
@@ -96,7 +99,7 @@ def get_kind_of_contacts(contact_type: bool = True) -> list:
 
     print('Getting contacts is only available on Android devices')
     return [
-        {'name': 'John Smith', 'number':  _split_nrs('+3580000000')},
-        {'name': 'Sally Sweet', 'number':  _split_nrs('+3581111111')},
-        {'name': 'John Doe', 'number':  _split_nrs('+3582222222')}
+        {'name': 'John Smith', 'number':  _split_nrs('+35812345678')},
+        {'name': 'Sally Sweet', 'number':  _split_nrs('+35876543210')},
+        {'name': 'John Doe', 'number':  _split_nrs('+35813253647')}
     ]
