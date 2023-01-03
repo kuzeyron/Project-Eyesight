@@ -9,4 +9,4 @@ The application does not use the internet to work, but the application can be up
 
 Sovellus ei käytä internetiä, mutta sovellus voidaan päivittää Play Kaupasta ja käyttäjä voi päättää itse. Emme koskaan paljasta tietojasi kenellekään.  
   
-<img src="https://github.com/kuzeyron/ProjectEyesight/blob/master/screenshots/feature.png" />
+<img src="https://github.com/kuzeyron/ProjectEyesight/blob/main/screenshots/feature.png" />
