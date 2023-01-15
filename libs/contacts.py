@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, NumericProperty, ObjectProperty,
@@ -9,6 +10,8 @@ from kivy.uix.recycleview import RecycleView
 from libs.android_call import dial_up
 from libs.android_contacts import get_kind_of_contacts
 from libs.long_press import LongPress
+
+__all__ = ('Contacts', )
 
 Builder.load_string('''
 <Contact>:
@@ -77,22 +80,25 @@ class Contacts(RecycleView):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.bind(data=self.refresh_content, starred=self.refresh_content)
-        Clock.schedule_once(self.refresh_content, 0)
+        self._app = App.get_running_app()
+        self._app.bind(settings_starred_contacts=self._refresh_content,
+                       trigger_events=self._refresh_content)
+        Clock.schedule_once(self._refresh_content, 0)
 
-    def refresh_content(self, *largs):
+    def _refresh_content(self, *largs):
         """ Refresh contacts every 6 hour """
-        Clock.unschedule(self.refresh_content)
-        Clock.schedule_once(self.access_contacts, 0)
-        Clock.schedule_once(self.refresh_content, 21600)
+        content = self._app.settings_starred_contacts
+        self.starred = bool(int(content))
 
-    def access_contacts(self, *largs):
+        Clock.unschedule(self._refresh_content)
+        Clock.schedule_once(self._access_contacts, 0)
+        Clock.schedule_once(self._refresh_content, 21600)
+
+    def _access_contacts(self, *largs):
         self.data = get_kind_of_contacts(self.starred)
 
 
 if __name__ == '__main__':
-    from kivy.app import App
-
     class ContactCaller(App):
         def build(self):
             return Contacts()

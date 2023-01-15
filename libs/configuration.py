@@ -5,10 +5,7 @@ from os.path import dirname, exists, join
 
 from kivy.utils import platform
 
-__all__ = [
-    'locales',
-]
-
+__all__ = ('locales', 'set_value', 'get_value', 'get_language', )
 
 def locales():
     available = {'sv', 'en', 'fi'}
@@ -25,12 +22,12 @@ def locales():
     return locale if locale in available else 'en'
 
 
-def dict_factory(cursor, row):
+def _dict_factory(cursor, row):
     fields = [column[0] for column in cursor.description]
     return dict(zip(fields, row))
 
 
-def reset_db():
+def _reset_db():
     file = join(dirname(sys.argv[0]),
                 'assets',
                 'data',
@@ -47,18 +44,18 @@ def reset_db():
     return False
 
 
-def db_exist(file=None):
+def _db_exist(file=None):
     file = file or 'config.db'
 
     if isinstance(file, str) and exists(file):
         return sqlite3.connect(file)
 
-    return reset_db()
+    return _reset_db()
 
 
 def get_value(table=None) -> dict:
-    database = db_exist()
-    database.row_factory = dict_factory
+    database = _db_exist()
+    database.row_factory = _dict_factory
     cur = database.cursor()
     res = cur.execute(f"SELECT * FROM {table}")
     result = res.fetchone()
@@ -68,7 +65,7 @@ def get_value(table=None) -> dict:
 
 
 def set_value(table=None, target=None, content=None):
-    database = db_exist()
+    database = _db_exist()
     cur = database.cursor()
     res = cur.execute(f"UPDATE {table} SET {target}='{content}'")
     database.commit()
@@ -80,4 +77,4 @@ def get_language() -> tuple:
     lang = config['language']
     language = locales() if lang == 'auto' else lang
 
-    return language, 'language.language'
+    return language, 'language_language'

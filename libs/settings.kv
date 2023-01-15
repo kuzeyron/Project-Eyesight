@@ -4,7 +4,6 @@
 #:import PhotoGallery libs.gallery.PhotoGallery
 #:import PressDelayCrawler libs.settingswidgets.PressDelayCrawler
 #:import SettingsCrawler libs.checkboxitem.SettingsCrawler
-#:import tr __main__.tr
 
 <ContentBox>:
     opacity: 0
@@ -87,7 +86,7 @@
             font_size: sp(25)
             halign: 'left'
             outline_width: dp(1)
-            text: tr._('Back')
+            text: app.tr._('Back')
             text_size: self.size
             valign: 'middle'
 
@@ -104,7 +103,7 @@
             spacing: dp(20)
 
             DropDownSettings:
-                category: tr._('Device language')
+                category: app.tr._('Device language')
                 ContentBox:
                     SettingsCrawler:
                         settings: ('language', 'language')
@@ -112,7 +111,7 @@
                         cols: 2
 
             DropDownSettings:
-                category: tr._('Date format')
+                category: app.tr._('Date format')
                 ContentBox:
                     SettingsCrawler:
                         settings: ('format', 'date')
@@ -120,7 +119,7 @@
                         cols: 2
 
             DropDownSettings:
-                category: tr._('Time format')
+                category: app.tr._('Time format')
                 ContentBox:
                     SettingsCrawler:
                         settings: ('format', 'time')
@@ -128,37 +127,36 @@
                         cols: 2
             
             DropDownSettings:
-                category: tr._('Color opacity')
+                category: app.tr._('Color opacity')
                 ContentBox:
                     ColorOpacity
             
             DropDownSettings:
-                category: tr._('Border radius')
+                category: app.tr._('Border radius')
                 ContentBox:
-                    BorderRadius:
-                        value_track_color: 0, 0, .8
+                    BorderRadius
             
             DropDownSettings:
-                category: tr._('Press delay')
+                category: app.tr._('Press delay')
                 ContentBox:
                     PressDelayCrawler
 
             DropDownSettings:
-                category: tr._('Device contacts')
+                category: app.tr._('Device contacts')
                 ContentBox:
                     SettingsCrawler:
                         settings: ('settings', 'starred_contacts')
-                        labels: {1: 'Favorite contacts', 0: 'All contacts'}
+                        labels: {'1': 'Favorite contacts', '0': 'All contacts'}
                         rows: 2
 
             DropDownSettings:
-                category: tr._('Color theme')
+                category: app.tr._('Color theme')
                 ContentBox:
                     custom_height: dp(450)
                     ColorGenerator
 
             DropDownSettings:
-                category: tr._('Wallpapers')
+                category: app.tr._('Wallpapers')
                 id: gallery
                 ContentBox:
                     custom_height: dp(450)

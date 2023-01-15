@@ -1,5 +1,4 @@
 from kivy.app import App
-from __main__ import tr
 from kivy.lang import Builder
 from kivy.properties import (AliasProperty, BooleanProperty, ColorProperty,
                              DictProperty, ListProperty, NumericProperty,
@@ -15,13 +14,11 @@ from libs.configuration import get_value, set_value
 __all__ = ('SettingsCrawler', 'LabeledCheckBox')
 
 Builder.load_string('''
-#:import tr __main__.tr
-
 <LabeledCheckBox>:
-    active: self.rv_key in app.current_selection.get(self.dict_name, [])
+    active: self.rv_key == getattr(app, self.dict_name, False)
     on_active: self.select_row(self.active)
     font_size: self.button_size
-    text: tr._(self.cached_text)
+    text: app.tr._(self.cached_text)
     _checkbox_state_image:
         self.background_checkbox_down \
         if self.active else self.background_checkbox_normal
@@ -119,8 +116,9 @@ class LabeledCheckBox(ToggleButtonBehavior, Label):
     cached_text = StringProperty()
 
     def __init__(self, **kwargs):
-        self.fbind('state', self._on_state)
         super().__init__(**kwargs)
+        self.fbind('state', self._on_state)
+        self._app = App.get_running_app()
 
     def _on_state(self, instance, value):
         if self.group and self.state == 'down':
@@ -133,27 +131,16 @@ class LabeledCheckBox(ToggleButtonBehavior, Label):
 
     def on_settings(self, *largs):
         self.group = self.settings[1]
-        app = App.get_running_app()
-        self.dict_name = name = '.'.join(self.settings)
-        
-        if name not in app.current_selection:
-            app.current_selection[name] = []
-        
+        self.dict_name = name = '_'.join(self.settings)
         data = get_value(self.settings[0])
-        app.current_selection[name].append(data[self.settings[1]])
+        setattr(self._app, name, data[self.settings[1]])
     
     def select_row(self, active):
-        app = App.get_running_app()
-        selection = app.current_selection.get(self.dict_name, [])
-
-        if active and self.rv_key not in selection:
-            selection.clear()
-            selection.append(self.rv_key)
-            set_value(*self.settings, self.rv_key)
-            tr.switch_lang(self.rv_key)
-        elif not active and self.rv_key in selection:
-            selection.remove(self.rv_key)
-
+        if active and self.rv_key is not getattr(self._app, self.dict_name):
+            setattr(self._app, self.dict_name, self.rv_key)
+            if self.rv_key is getattr(self._app, self.dict_name):
+                set_value(*self.settings, self.rv_key)
+                self._app.tr.switch_lang(self.rv_key)
 
 class SettingsCrawler(TouchRippleBehavior, RecycleView):
     ripple_scale = NumericProperty(.25)

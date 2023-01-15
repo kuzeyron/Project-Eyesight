@@ -3,16 +3,17 @@ from threading import Thread
 from time import sleep
 
 from kivy.app import App
-from __main__ import tr
 from kivy.clock import Clock
 from kivy.lang import Builder
-from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
-                             NumericProperty, StringProperty)
+from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
+                             StringProperty)
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
 from libs.android_battery import battery
 from libs.long_press import LongPress
+
+__all__ = ('TimeData', )
 
 Builder.load_string('''
 <TimeData>:
@@ -55,6 +56,8 @@ class Time(BoxLayout):
 
 
 class TimeData(LongPress, BoxLayout):
+    _date = StringProperty('auto')
+    _time = StringProperty('auto')
     background_color = ColorProperty((0, 0, 0, 0))
     battery_charging = BooleanProperty(False)
     battery_percent = NumericProperty(0)
@@ -63,15 +66,18 @@ class TimeData(LongPress, BoxLayout):
     rows = NumericProperty(3)
     show_traces = BooleanProperty(False)
     time = StringProperty('00:00')
-    date_format = DictProperty(dict(obliquestroke='%m/%d/%Y',
-                                    auto='%d.%m.%Y',
-                                    hyphen='%d-%m-%Y'))
-    time_format = DictProperty(dict(auto='%H:%M',
-                                    h24='%H.%M',
-                                    h12='%I:%M',
-                                    am12='%I:%M[color=#ddffe7]%p[/color]'))
 
     def on_kv_post(self, *largs):
+        self.date_format = dict(obliquestroke='%m/%d/%Y',
+                                auto='%d.%m.%Y',
+                                hyphen='%d-%m-%Y')
+        self.time_format = dict(auto='%H:%M',
+                                h24='%H.%M',
+                                h12='%I:%M',
+                                am12='%I:%M[color=#ddffe7]%p[/color]')
+        self._app = App.get_running_app()
+        self._app.bind(format_time=self.format_change,
+                       format_date=self.format_change)
         Clock.schedule_once(self.status, 0)
         Clock.schedule_interval(self.status, 1)
         Thread(target=self.refresh_data, daemon=True).start()
@@ -84,17 +90,18 @@ class TimeData(LongPress, BoxLayout):
     def format(self, target):
         pass
 
+    def format_change(self, *largs):
+        self._time = self._app.format_time
+        self._date = self._app.format_date
+
     def status(self, *largs):
         now = datetime.now()
-        week_name = tr._(now.strftime("%A").title())
-        app = App.get_running_app().current_selection
-        time = app.get('format.time', ['auto'])[0]
-        date = app.get('format.date', ['auto'])[0]
-        date = now.strftime(self.date_format[date])
-        self.time = now.strftime(self.time_format[time])
-        charge_status = tr._('Charging'
-                             if self.battery_charging
-                             else 'Battery')
+        week_name = self._app.tr._(now.strftime("%A").title())
+        date = now.strftime(self.date_format[self._date])
+        self.time = now.strftime(self.time_format[self._time])
+        charge_status = self._app.tr._('Charging'
+                                       if self.battery_charging
+                                       else 'Battery')
 
         self.info = (f"{date} - {week_name}\n{charge_status}:"
                      f" {self.battery_percent}%")

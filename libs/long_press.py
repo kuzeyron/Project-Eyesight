@@ -6,7 +6,7 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.behaviors.touchripple import TouchRippleBehavior
 from libs.android_vibrator import vibrate
 
-__all__ = ['LongPress', ]
+__all__ = ('LongPress', )
 
 
 class LongPress(ButtonBehavior, TouchRippleBehavior):
@@ -42,10 +42,10 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
             self._clock2.cancel()
 
     def c_switch(self, value, step, *largs):
-        if sum(App.get_running_app().color[:3]) < 0.5:
+        if sum(App.get_running_app().color[:3]) <= 0.5:
             return value + step
 
-        return abs(value - step)
+        return max(value - step, 0)
 
     def on_touch_down(self, touch):
         super().on_touch_down(touch)

@@ -1,7 +1,6 @@
 from os.path import join
 
 from kivy.app import App
-from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
                              ListProperty, NumericProperty, ObjectProperty,
@@ -15,21 +14,17 @@ from libs.language import Lang
 from libs.wallpaper import Wallpaper
 
 if platform not in {'android', 'ios'}:
+    from kivy.core.window import Window
     from kivy.metrics import dp
     Window.size = (dp(400), dp(700))
-
-language = get_language()
-tr = Lang(language[0])
 
 Builder.load_string('''
 #:import TimeData libs.timedata.TimeData
 #:import Contacts libs.contacts.Contacts
 #:import AppLauncher libs.applauncher.AppLauncher
-#:import tr __main__.tr
 #:import DeviceSettings libs.settings.DeviceSettings
 
 <Basement>:
-    # on_kv_post: self.current = 'settings'
     canvas.before:
         Color:
             rgb: 1, 1, 1
@@ -51,25 +46,25 @@ Builder.load_string('''
             orientation: 'vertical'
 
             TimeData:
-                short_press_time: 8 
-                long_press_time: 8
+                short_press_time: 4 
+                long_press_time: 4
                 override: True
                 on_long_press:
                     root.current = 'settings'
                     root.transition.direction = 'up'
 
             Contacts:
-                starred: app.starred
+                starred: bool(int(app.settings_starred_contacts))
 
             AppLauncher:
                 package: 'contacts'
                 size_hint_y: .5
-                text: tr._('Phonebook')
+                text: app.tr._('Phonebook')
 
             AppLauncher:
                 package: 'messaging'
                 size_hint_y: .4
-                text: tr._('SMS')
+                text: app.tr._('SMS')
 
             Widget:
                 size_hint_y: .4
@@ -86,32 +81,43 @@ class Basement(ScreenManager):
 
 class ProjectSimplifier(App, HideBars):
     background = ObjectProperty(None, allownone=True)
+    border_radius = ListProperty([10, ])
     color = ColorProperty((1, 1, 1, 1))
     coloro = ColorProperty((1, 1, 1, 1))
-    border_radius = ListProperty([10, ])
+    current_selection = DictProperty()
+    format_date = StringProperty()
+    format_time = StringProperty()
     icon = StringProperty(join('assets', 'images', 'icon.png'))
+    language_language = StringProperty()
     press_delay = NumericProperty(1.5)
-    starred = BooleanProperty(True)
+    settings_starred_contacts = StringProperty()
     title = StringProperty('ProjectEyesight')
-    current_selection = DictProperty({language[1]: [language[0]]})
+    trigger_events = BooleanProperty(False)
+    tr = ObjectProperty(None, allownone=True)
 
-    def build(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        language = get_language()
+        self.tr = Lang(language[0])
         config = {**get_value('settings'), **get_value('format')}
         self.background = Wallpaper(source=config['wallpaper'],
                                     crop=None).texture
         color = get_color_from_hex(config['bg_color'])
         opacity = config['color_opacity']
+        self.border_radius = [config['border_radius']]
         self.color = color[:3] + [opacity]
         self.coloro = color[:3] + [max(opacity - .2, 0)]
+        self.format_date = config['date']
+        self.format_time = config['time']
+        self.language_language = language[0]
         self.press_delay = config['press_delay']
-        self.current_selection.update({
-            'settings.starred_contacts': [config['starred_contacts']],
-            'format.time': [config['time']],
-            'format.date': [config['date']]
-        })
-        self.border_radius = [config['border_radius']]
+        self.settings_starred_contacts = config['starred_contacts']
 
+    def build(self):
         return Basement()
+
+    def on_resume(self):
+        self.trigger_events = not self.trigger_events
 
 
 if __name__ == '__main__':

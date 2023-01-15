@@ -1,4 +1,5 @@
 import gettext
+from importlib import import_module
 from os.path import join
 
 from kivy.lang import Observable
@@ -10,19 +11,16 @@ def locales():
     available = {'sv', 'en', 'fi'}
 
     if platform == 'android':
-        from jnius import autoclass
-
+        jnius = import_module('jnius')
+        autoclass = jnius.autoclass
         locale = autoclass('java.util.Locale')
         locale = str(
             locale.getDefault().getLanguage()
         )
 
     elif platform == 'linux':
-        import locale
-
-        locale = str(
-            locale.getdefaultlocale()[0].split("_", -1)[0]
-        )
+        locale = import_module('locale')
+        locale = str(locale.getdefaultlocale()[0].split("_", -1)[0])
 
     if locale in available:
         return locale
@@ -34,7 +32,7 @@ class Lang(Observable):
     observers: list = []
     lang = None
 
-    def __init__(self, defaultlang):
+    def __init__(self, defaultlang='en'):
         super().__init__()
         self.ugettext = None
         self.lang = defaultlang
