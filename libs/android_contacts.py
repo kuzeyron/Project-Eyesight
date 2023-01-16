@@ -1,3 +1,5 @@
+from time import sleep
+
 from kivy.utils import platform
 
 __all__ = ('get_kind_of_contacts', )
@@ -92,9 +94,15 @@ def get_kind_of_contacts(contact_type: bool = True) -> list:
     """ Partly dummy function to support all platforms and Android """
 
     if platform == 'android':
+        from android.permissions import Permission, check_permission
+        while True:
+            if check_permission(Permission.READ_CONTACTS):
+                break
+            else:
+                sleep(.5)
         content: tuple = _cursor_interaction(contact_type)
 
-        # Return negative list if positive list is empty
+         # Reiturn negative list if positive list is empty
         return content[0] or content[1]
 
     print('Getting contacts is only available on Android devices')
