@@ -1,16 +1,12 @@
 from os.path import dirname, join, realpath
 
 from kivy.animation import Animation
-from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import BooleanProperty, NumericProperty, StringProperty
 from kivy.uix.behaviors import ButtonBehavior
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
-__all__ = [
-    'DropDownSettings'
-]
+__all__ = ('DropDownSettings', )
 
 Builder.load_string('''
 <DropDownButton>:
@@ -114,14 +110,13 @@ class DropDownSettings(GridLayout):
     _original_height = NumericProperty("60dp")
     category = StringProperty('Category')
     delay = NumericProperty(.2)
-    source = StringProperty()
+    source = StringProperty(None, allownone=True)
     orientation = StringProperty('vertical')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if not self.source:
-            self.source = join(dirname(realpath(__file__)),
-                               'rotate.png')
+        self.source = self.source or join(dirname(realpath(__file__)),
+                                          'rotate.png')
 
     def on_touch_down(self, touch):
         if not self.collide_point(*touch.pos):
@@ -137,48 +132,3 @@ class DropDownSettings(GridLayout):
         if not self.collide_point(*touch.pos):
             return False
         return super().on_touch_up(touch)
-
-
-if __name__ == '__main__':
-    from textwrap import dedent
-
-    Builder.load_string(dedent('''
-    <TestBox>:
-        ScrollView:
-            bar_width: 0
-            do_scroll_x: False
-            effect_cls: 'ScrollEffect'
-
-            BoxLayout:
-                height: self.minimum_height + dp(50)
-                orientation: 'vertical'
-                size_hint_y: None
-
-                DropDownSettings:
-                    Label:
-                        text: 'Test'
-                        custom_height: dp(300)
-                        opacity: 0
-
-                Label:
-                    height: dp(400)
-                    size_hint_y: None
-                    text: 'Test'
-
-                DropDownSettings:
-                    Label:
-                        text: 'Test'
-                        custom_height: dp(100)
-                        opacity: 0
-    '''))
-
-    class TestBox(BoxLayout):
-        pass
-
-    class DropDownSettingsApp(App):
-
-        def build(self):
-
-            return TestBox()
-
-    DropDownSettingsApp().run()

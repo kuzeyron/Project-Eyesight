@@ -1,23 +1,31 @@
+from kivy.event import EventDispatcher
+from kivy.properties import StringProperty
 from kivy.utils import platform
 
-__all__ = ['dial_up', ]
+__all__ = ['dial_up', 'CallService', ]
 
+class CallService(EventDispatcher):
+    caller = StringProperty()
 
-def dial_up(caller) -> None:
-    if platform == 'android':
-        from jnius import autoclass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        caller = kwargs.get('caller')
 
-        PythonActivity: type[autoclass] = autoclass(
-            'org.kivy.android.PythonActivity'
-        )
-        Intent: type[autoclass] = autoclass('android.content.Intent')
-        uri: type[autoclass] = autoclass('android.net.Uri')
-        activity = PythonActivity.mActivity
+        if platform in {'android'}:
+            from android.permissions import Permission, request_permissions
+            from jnius import autoclass
+            permissions = [Permission.CALL_PHONE]
+            request_permissions(permissions, self.dial)
+            
+            PythonActivity = autoclass('org.kivy.android.PythonActivity')
+            Intent = autoclass('android.content.Intent')
+            uri = autoclass('android.net.Uri')
+            self.activity = PythonActivity.mActivity
 
-        intent = Intent(Intent.ACTION_CALL)
-        intent.setData(uri.parse(f"tel:{caller}"))
+            self.intent = Intent(Intent.ACTION_CALL)
+            self.intent.setData(uri.parse(f"tel:{caller}"))
+        else:
+            print("Calls are only supported on Android devices.")
 
-        activity.startActivity(intent)
-
-    else:
-        print("Calls are only supported on Android devices.")
+    def dial(self, *largs):
+        self.activity.startActivity(self.intent)

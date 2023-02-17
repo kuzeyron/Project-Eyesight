@@ -1,8 +1,7 @@
 from os import listdir
-from os.path import isfile, join
+from os.path import join
 
 from kivy.app import App
-from kivy.clock import Clock
 from kivy.core.image import Image
 from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, ListProperty, NumericProperty,
@@ -10,7 +9,7 @@ from kivy.properties import (BooleanProperty, ListProperty, NumericProperty,
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.stacklayout import StackLayout
 
-from libs.configuration import get_value, set_value
+from libs.configuration import set_value
 from libs.wallpaper import Wallpaper
 
 __all__ = ['PhotoGallery', 'Picture', ]
@@ -64,41 +63,38 @@ Builder.load_string('''
 
 
 class Picture(CheckBox):
+    __events__ = ('on_layout_changes', )
     allow_no_selection = BooleanProperty(False)
     bwidth = NumericProperty('10dp')
     corner_radius = NumericProperty()
     filename = StringProperty()
-    hover = BooleanProperty(True)
     image_ratio = NumericProperty(1.)
     keep_ratio = BooleanProperty(True)
     multiselection = BooleanProperty(None)
     preview_texture = ObjectProperty(None)
+    chosen_image = StringProperty()
 
     def on_kv_post(self, *largs):
-        config = get_value('settings')
+        self._app = App.get_running_app()
         self.preview_texture = Image(self.filename,
                                      mipmap=True)
-        if config['wallpaper'] == self.filename:
-            self.active = True
         self.bind(active=self.toggle_click,
-                  size=self.layout_changes)
-        Clock.schedule_once(self.layout_changes, 0)
-
-    def layout_changes(self, *largs):
+                  size=self.on_layout_changes)
+        self.dispatch('on_layout_changes')
+    
+    def on_layout_changes(self, *largs):
         pt = self.preview_texture
         self.image_ratio = pt.width / float(pt.height)
         self.height = self.width / self.image_ratio
 
     def toggle_click(self, *largs):
-        app = App.get_running_app()
-        self.preview_texture = Wallpaper(source=self.filename,
-                                         crop=app.root.size)
-        pt = self.preview_texture.texture
-        app.background = pt
+        self.preview_texture = Wallpaper(source=self.filename)
+        self._app.background = self.preview_texture.texture
         set_value('settings', 'wallpaper', self.filename)
 
 
 class PhotoGallery(StackLayout):
+    __events__ = ('on_collect', )
     allowed_exts = ListProperty(['.png', '.jpg', '.jpeg', '.webp'])
     border_width = NumericProperty('10dp')
     collection = ListProperty()
@@ -115,7 +111,7 @@ class PhotoGallery(StackLayout):
 
     def open_status(self, *largs):
         if self.is_open:
-            Clock.schedule_once(self._collect, 0)
+            self.dispatch('on_collect')
         else:
             self.collection.clear()
             self.clear_widgets()
@@ -126,19 +122,19 @@ class PhotoGallery(StackLayout):
         sr = sum(self.spacing[::2] + self.padding[::2]) * self.rows
         return (self.width - sr) / self.rows
 
-    def _collect(self, *largs):
+    def on_collect(self, *largs):
         """ Main core """
         width = self.width_calculation()
+        app = App.get_running_app()
 
         for filename in listdir(self.folder):
             path = join(self.folder, filename)
-
-            if isfile(path):
-                self.add_widget(Picture(filename=path,
-                                        width=width,
-                                        corner_radius=self.corner_radius,
-                                        bwidth=self.border_width,
-                                        multiselection=self.multiselection))
+            self.add_widget(Picture(bwidth=self.border_width,
+                                    active=path==app.config['wallpaper'],
+                                    corner_radius=self.corner_radius,
+                                    filename=path,
+                                    multiselection=self.multiselection,
+                                    width=width))
 
     def recompute_layout(self, *largs):
         """ Giving the width for the children """

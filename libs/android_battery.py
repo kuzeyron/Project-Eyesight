@@ -1,26 +1,24 @@
+from importlib import import_module
+
 from kivy.utils import platform
 
 __all__ = ['battery', ]
 
 
-def battery() -> tuple:
+def battery():
     if platform == 'android':
-        from jnius import autoclass, cast
+        jnius = import_module('jnius')
+        autoclass = jnius.autoclass
+        cast = jnius.cast
 
-        BatteryManager: type[autoclass] = autoclass(
-            'android.os.BatteryManager')
-        Intent: type[autoclass] = autoclass('android.content.Intent')
-        IntentFilter: type[autoclass] = autoclass(
-            'android.content.IntentFilter')
-        PythonActivity: type[autoclass] = autoclass(
-            'org.kivy.android.PythonActivity')
+        BatteryManager = autoclass('android.os.BatteryManager')
+        Intent = autoclass('android.content.Intent')
+        IntentFilter = autoclass('android.content.IntentFilter')
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
         activity = PythonActivity.mActivity
-        ifilter = IntentFilter(
-            Intent.ACTION_BATTERY_CHANGED)
-        battery_status: type[cast] = cast(
-            'android.content.Intent',
-            activity.registerReceiver(None, ifilter)
-        )
+        ifilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        battery_status = cast('android.content.Intent',
+                              activity.registerReceiver(None, ifilter))
 
         query = battery_status.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
         is_charging = query == BatteryManager.BATTERY_STATUS_CHARGING
@@ -29,12 +27,10 @@ def battery() -> tuple:
         level = battery_status.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         scale = battery_status.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
-        return int((level / float(scale)) * 100), is_charging or is_full
+        return int((level / max(scale, 1)) * 100), is_charging or is_full
 
-    else:
-        print("Battery function is only supported on Android devices.")
-
-        return -1, False
+    print("Battery function is only supported on Android devices.")
+    return -1, False
 
 
 if __name__ == '__main__':

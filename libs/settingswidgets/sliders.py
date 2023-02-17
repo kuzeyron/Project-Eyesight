@@ -67,7 +67,7 @@ class ItemSlider(Slider):
 
 class PressDelayItem(ItemSlider):
     min = NumericProperty(0)
-    default = NumericProperty(2)
+    default = NumericProperty(1)
     step = NumericProperty(.5)
 
     def __init__(self, **kwargs):

@@ -64,6 +64,18 @@ def get_value(table=None) -> dict:
     return result
 
 
+def configuration(table=None) -> dict:
+    table = table or []
+    database = _db_exist()
+    database.row_factory = _dict_factory
+    cur = database.cursor()
+    res = cur.execute(f"SELECT * FROM {', '.join(table)}")
+    result = res.fetchone()
+    res.close()
+
+    return result
+
+
 def set_value(table=None, target=None, content=None):
     database = _db_exist()
     cur = database.cursor()
@@ -73,8 +85,7 @@ def set_value(table=None, target=None, content=None):
 
 
 def get_language() -> tuple:
-    config = get_value('language')
-    lang = config['language']
+    lang = get_value('language')['language']
     language = locales() if lang == 'auto' else lang
 
     return language, 'language_language'

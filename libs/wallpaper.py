@@ -3,15 +3,18 @@ from os.path import basename, isfile, join
 
 from kivy.app import App
 from kivy.core.image import Image
+from kivy.core.window import Window
 from kivy.event import EventDispatcher
+from kivy.logger import Logger
 from kivy.properties import (BooleanProperty, ListProperty, NumericProperty,
                              ObjectProperty, StringProperty)
 
-__all__ = ['Wallpaper', ]
+__all__ = ('Wallpaper', )
 
 
 class Wallpaper(EventDispatcher):
-    crop = ListProperty((50, 50), allownone=True)
+    __events__ = ('on_execute', 'on_textures', 'on_texture_crop')
+    crop = ListProperty(None, allownone=True)
     filename = StringProperty()
     mipmap = BooleanProperty(True)
     size = ListProperty((100, 100))
@@ -19,60 +22,63 @@ class Wallpaper(EventDispatcher):
     store_name = NumericProperty()
     texture = ObjectProperty(None, allownone=True)
 
-    def __init__(self, source=None, crop=None, texture=None):
-        self.filesize = stat(source).st_size
-        self.filename = f"{self.filesize};{basename(source)}"
+    def __init__(self, source=None, crop=None, texture=None, **kwargs):
+        super().__init__(**kwargs)
+        self.crop = crop
+        self.source = source
+        self.texture = texture
+        self.dispatch('on_execute')
+
+    def on_execute(self, *largs):
+        filesize = stat(self.source).st_size
+        self.filename = f"{filesize};{basename(self.source)}"
         self._cache_folder = join('.cache', 'wallpapers')
         makedirs(self._cache_folder, exist_ok=True)
-        self.crop = crop
+        self.path = join(self._cache_folder, self.filename)
 
-        if texture:
-            self.bind(texture=self.texture_update)
-            self.texture = texture
-        elif isfile(self.filename):
-            _texture = Image(self.filename)
-            self.size = _texture.size
-            self.texture = _texture.texture
-        elif not crop:
-            self.texture = Image(source).texture
-            self.save()
+        if self.texture:
+            self.dispatch('on_textures')
+        elif self.crop is None:
+            self.texture = Image(self.source).texture
+            self.dispatch('on_textures')
+        elif isfile(self.path):
+            self.texture = Image(self.path).texture
+            self.size = self.texture.size
         else:
-            self.bind(source=self.texture_crop,
-                      crop=self.texture_crop)
+            self.bind(source=self.on_texture_crop,
+                      crop=self.on_texture_crop)
+            self.dispatch('on_texture_crop')
 
-        self.source = source
 
-    def _crop(self, textr):
-        body = (textr.width - self.crop[0]) / 2
-        x = (textr.width - body) / 2
+    def _crop(self, texture):
+        """ Cropping mechanism thanks to Cheaterman """
+        crop = self.crop or Window.size
 
-        try:
-            if all([textr.height >= 200,
-                    textr.width >= 200,
-                    body >= 200]):
-                texture = textr.get_region(height=textr.height,
-                                           width=body, x=x, y=0)
-            else:
-                texture = textr
+        Logger.debug('Wallpaper: Cropping {texture.size=%s} to {crop=%s}', texture.size, crop)
 
-        except Exception:
-            # We failed to crop the image
-            texture = textr
+        target_ratio = crop[0] / crop[1]
+        target_width = target_ratio * texture.height
 
-        self.texture = texture
-        self.size = texture.size
+        if texture.width < target_width:
+            return texture
 
-    def texture_crop(self, *largs):
-        self._crop(Image(self.source).texture)
+        target_x = (texture.width - target_width) / 2
+
+        return texture.get_region(x=target_x,
+                                  y=0,
+                                  width=target_width,
+                                  height=texture.height)
+
+    def on_texture_crop(self, *largs):
+        self.texture = self._crop(Image(self.source).texture)
         self.save()
 
-    def texture_update(self, *largs):
-        self._crop(self.texture)
+    def on_textures(self, *largs):
+        self.texture = self._crop(self.texture)
         self.save()
 
     def save(self, *largs):
-        cache_folder = join(self._cache_folder, self.filename)
-        self.texture.save(cache_folder, flipped=False)
+        self.texture.save(self.path, flipped=False)
 
 
 if __name__ == '__main__':
@@ -82,7 +88,7 @@ if __name__ == '__main__':
     from kivy.lang import Builder
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.recycleview import RecycleView
-    from kivy.uix.widget import Widget
+    from kivy.uix.image import Image as ImageWidget
 
     Builder.load_string(dedent('''
     <RV>:
@@ -100,27 +106,38 @@ if __name__ == '__main__':
         size_hint: None, None
         height: self.minimum_height
         spacing: 10
-        Widget:
+        Image
+            source: root.source
             size_hint: None, None
             size: 300, 300
+
             canvas.before:
                 Color:
                     rgba: 1, 1, 1, 1
                 Rectangle:
-                    source: root.source
                     size: self.size
                     pos: self.pos
+                Color:
+                    rgba: 1, 0, 0, 1
+                Line:
+                    rectangle: self.pos + self.size
+
         MyWid:
+            source: root.source
+            allow_stretch: True
             size_hint: None, None
             size: 150, 300
-            source: root.source
+
             canvas.before:
                 Color:
                     rgba: 1, 1, 1, 1
                 Rectangle:
-                    texture: self.preview_texture
                     size: self.size
                     pos: self.pos
+                Color:
+                    rgba: 0, 1, 0, 1
+                Line:
+                    rectangle: self.pos + self.size
     '''))
 
     class RV(RecycleView):
@@ -136,29 +153,24 @@ if __name__ == '__main__':
     class Box(BoxLayout):
         source = StringProperty()
 
-    class MyWid(Widget):
-        preview_texture = ObjectProperty()
-        source = StringProperty()
-        image_ratio = NumericProperty(1.)
-        source = StringProperty()
-        texture_size = ListProperty((0, 0))
+    class MyWid(ImageWidget):
+        def set_texture_from_resource(self, resource):
+            if not resource:
+                self._clear_core_image()
+                return
 
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            self.bind(source=self.load_texture)
-
-        def load_texture(self, *largs):
             wp = Wallpaper(
                 texture=None,
                 source=self.source,
                 crop=self.size
             )
-            self.preview_texture = wp.texture
-            self.texture_size = wp.size
-            self.image_ratio = wp.size[0] / float(wp.size[1])
+            self.bind(size=wp.setter('crop'))
+            self.texture = wp.texture
+            wp.bind(texture=self.setter('texture'))
 
     class VisionGalleria(App):
         def build(self):
             return RV()
 
     VisionGalleria().run()
+

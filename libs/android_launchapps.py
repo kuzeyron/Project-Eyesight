@@ -22,8 +22,9 @@ def launch_app(package):
                                               'com.android.dialer.DialtactsActivity'))
         
         elif package == 'messaging':
-            intent.addCategory(Intent.CATEGORY_APP_MESSAGING);
+            intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
 
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         activity.startActivity(intent)
 
     else:

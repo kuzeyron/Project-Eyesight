@@ -10,10 +10,10 @@ __all__ = ('LongPress', )
 
 
 class LongPress(ButtonBehavior, TouchRippleBehavior):
-    __events__ = ('on_long_press', 'on_short_press', )
+    __events__ = ('on_long_press', 'on_short_press')
     _vib = ObjectProperty(None, allow_none=True)
     always_release = BooleanProperty(True)
-    long_press_time = NumericProperty(1.5)
+    long_press_time = NumericProperty(1)
     short_press_time = NumericProperty(.08)
     min_state_time = NumericProperty(.5)
     background_color = ColorProperty((.25, .15, .25, .7))
@@ -23,28 +23,30 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
     show_traces = BooleanProperty(True)
     override = BooleanProperty(False)
 
-    def on_state(self, instance, value):
-        instance = App.get_running_app()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._app = App.get_running_app()
+
+    def on_state(self, instance, status):
 
         if not self.override:
-            self.long_press_time = instance.press_delay
+            self.long_press_time = self._app.press_delay
 
-        if value == 'down':
-            color = instance.coloro
+        if status == 'down':
+            color = self._app.coloro
             self.background_color = [self.c_switch(x, step=.1)
                                      for x in color]
-            self._clock1 = Clock.schedule_once(self._do_long_press,
-                                               self.long_press_time)
-            self._clock2 = Clock.schedule_once(self._do_short_press,
+            self._clock1 = Clock.schedule_once(self._do_short_press,
                                                self.short_press_time)
+            self._clock2 = Clock.schedule_once(self._do_long_press,
+                                               self.long_press_time)
         else:
             self._clock1.cancel()
             self._clock2.cancel()
 
     def c_switch(self, value, step, *largs):
-        if sum(App.get_running_app().color[:3]) <= 0.5:
+        if sum(self._app.color[:3]) <= 0.5:
             return value + step
-
         return max(value - step, 0)
 
     def on_touch_down(self, touch):

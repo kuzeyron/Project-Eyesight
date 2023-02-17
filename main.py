@@ -1,5 +1,3 @@
-from os.path import join
-
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
@@ -8,8 +6,8 @@ from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
 from kivy.uix.screenmanager import ScreenManager
 from kivy.utils import get_color_from_hex, platform
 
+from libs.configuration import configuration
 from libs.android_hide_system_bars import HideBars
-from libs.configuration import get_language, get_value
 from libs.language import Lang
 from libs.wallpaper import Wallpaper
 
@@ -41,8 +39,8 @@ Builder.load_string('''
     Screen:
         name: 'home'
         BoxLayout:
-            padding: sp(5), sp(5)
-            spacing: sp(5)
+            padding: dp(5), dp(5)
+            spacing: dp(5)
             orientation: 'vertical'
 
             TimeData:
@@ -53,8 +51,7 @@ Builder.load_string('''
                     root.current = 'settings'
                     root.transition.direction = 'up'
 
-            Contacts:
-                starred: bool(int(app.settings_starred_contacts))
+            Contacts
 
             AppLauncher:
                 package: 'contacts'
@@ -82,42 +79,41 @@ class Basement(ScreenManager):
 class ProjectSimplifier(App, HideBars):
     background = ObjectProperty(None, allownone=True)
     border_radius = ListProperty([10, ])
-    color = ColorProperty((1, 1, 1, 1))
-    coloro = ColorProperty((1, 1, 1, 1))
+    color = ColorProperty()
+    coloro = ColorProperty()
     current_selection = DictProperty()
     format_date = StringProperty()
     format_time = StringProperty()
-    icon = StringProperty(join('assets', 'images', 'icon.png'))
+    icon = 'assets/images/icon.png'
     language_language = StringProperty()
     press_delay = NumericProperty(1.5)
     settings_starred_contacts = StringProperty()
-    title = StringProperty('ProjectEyesight')
+    title = StringProperty('Project Eyesight')
     trigger_events = BooleanProperty(False)
     tr = ObjectProperty(None, allownone=True)
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        language = get_language()
-        self.tr = Lang(language[0])
-        config = {**get_value('settings'), **get_value('format')}
+    def build(self):
+        self.config = config = configuration(['settings', 'format', 'language'])
+        self.tr = Lang(config['language'])
         self.background = Wallpaper(source=config['wallpaper'],
                                     crop=None).texture
         color = get_color_from_hex(config['bg_color'])
         opacity = config['color_opacity']
         self.border_radius = [config['border_radius']]
         self.color = color[:3] + [opacity]
-        self.coloro = color[:3] + [max(opacity - .2, 0)]
+        self.coloro = color[:3] + [max(opacity - .1, 0)]
         self.format_date = config['date']
         self.format_time = config['time']
-        self.language_language = language[0]
+        self.language_language = config['language']
         self.press_delay = config['press_delay']
         self.settings_starred_contacts = config['starred_contacts']
 
-    def build(self):
         return Basement()
 
     def on_resume(self):
         self.trigger_events = not self.trigger_events
+
+        return True
 
 
 if __name__ == '__main__':

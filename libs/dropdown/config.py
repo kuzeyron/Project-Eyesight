@@ -1,6 +1,6 @@
 from kivy.properties import NumericProperty
 
-__all__ = ['DropDownConfig', ]
+__all__ = ('DropDownConfig', )
 
 
 class DropDownConfig:

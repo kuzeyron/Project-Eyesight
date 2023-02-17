@@ -1,6 +1,4 @@
 from datetime import datetime
-from threading import Thread
-from time import sleep
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -56,6 +54,7 @@ class Time(BoxLayout):
 
 
 class TimeData(LongPress, BoxLayout):
+    __events__ = ('on_status', )
     _date = StringProperty('auto')
     _time = StringProperty('auto')
     background_color = ColorProperty((0, 0, 0, 0))
@@ -78,30 +77,22 @@ class TimeData(LongPress, BoxLayout):
         self._app = App.get_running_app()
         self._app.bind(format_time=self.format_change,
                        format_date=self.format_change)
-        Clock.schedule_once(self.status, 0)
-        Clock.schedule_interval(self.status, 1)
-        Thread(target=self.refresh_data, daemon=True).start()
-
-    def refresh_data(self):
-        while True:
-            self.battery_percent, self.battery_charging = battery()
-            sleep(10)
-
-    def format(self, target):
-        pass
+        Clock.schedule_interval(self.on_status, 10)
+        self.dispatch('on_status')
 
     def format_change(self, *largs):
         self._time = self._app.format_time
         self._date = self._app.format_date
 
-    def status(self, *largs):
+    def on_status(self, *largs):
+        battery_percent, battery_charging = battery()
         now = datetime.now()
         week_name = self._app.tr._(now.strftime("%A").title())
         date = now.strftime(self.date_format[self._date])
         self.time = now.strftime(self.time_format[self._time])
         charge_status = self._app.tr._('Charging'
-                                       if self.battery_charging
+                                       if battery_charging
                                        else 'Battery')
 
         self.info = (f"{date} - {week_name}\n{charge_status}:"
-                     f" {self.battery_percent}%")
+                     f" {battery_percent}%")

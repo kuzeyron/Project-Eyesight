@@ -1,14 +1,14 @@
 from kivy.core.window import Window
 from kivy.utils import platform
 
-__all__ = ['android_hide_system_bars', 'HideBars', ]
+__all__ = ('HideBars', )
 
 if platform == 'android':
     from android.runnable import run_on_ui_thread
     from jnius import autoclass
-    from android.permissions import Permission, request_permissions
 
-    request_permissions([Permission.READ_CONTACTS, Permission.CALL_PHONE])
+    # from android.permissions import Permission, request_permissions
+    # request_permissions([Permission.CALL_PHONE])
 
     AndroidView = autoclass('android.view.View')
     AndroidPythonActivity = autoclass('org.kivy.android.PythonActivity')
@@ -17,11 +17,8 @@ if platform == 'android':
     def android_hide_system_bars():
         view = AndroidPythonActivity.mActivity.getWindow().getDecorView()
         view.setSystemUiVisibility(
-            AndroidView.SYSTEM_UI_FLAG_LAYOUT_STABLE |
             AndroidView.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-            AndroidView.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
             AndroidView.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-            AndroidView.SYSTEM_UI_FLAG_FULLSCREEN |
             AndroidView.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         )
 else:
@@ -37,11 +34,8 @@ class HideBars:
     def on_start(self):
         android_hide_system_bars()
 
-    def on_resume(self):
-        android_hide_system_bars()
-
     def key_press(self, w, k, *lr):
-        if there := k in {27} and platform == 'android':
+        if there := k in {27} and platform in {'android'}:
             manager = self.root.ids.manager
             manager.current = 'home'
             manager.transition.direction = 'up'

@@ -65,7 +65,7 @@ class ColorBox(ButtonBehavior, Widget):
         opacity = app.color[-1]
         app.color = self.color[:3] + [opacity]
         set_value('settings', 'bg_color', get_hex_from_color(app.color))
-        app.coloro = self.color[:3] + [max(opacity - .2, 0)]
+        app.coloro = self.color[:3] + [max(opacity - .1, 0)]
 
 
 class ColorGenerator(RecycleView):
