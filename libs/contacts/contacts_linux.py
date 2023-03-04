@@ -14,8 +14,7 @@ class Contacts(RecycleView):
     bar_width = NumericProperty(0)
     opacity = NumericProperty(0)
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def on_kv_post(self, *largs):
         self.dispatch('on_permission_validation')
 
     def on_accessing_permissions(self, *largs) -> None:

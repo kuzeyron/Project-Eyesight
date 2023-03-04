@@ -51,7 +51,8 @@ Builder.load_string('''
                     root.current = 'settings'
                     root.transition.direction = 'up'
 
-            Contacts
+            Contacts:
+                id: contacts
 
             AppLauncher:
                 package: 'contacts'
