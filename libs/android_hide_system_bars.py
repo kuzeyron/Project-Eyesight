@@ -1,32 +1,42 @@
+from importlib import import_module
+
 from kivy.core.window import Window
+from kivy.logger import Logger
 from kivy.utils import platform
 
 __all__ = ('HideBars', )
+CUTOUT_HEIGHT = 0.
 
 if platform == 'android':
-    from android.runnable import run_on_ui_thread
-    from jnius import autoclass
+    ui_thread = import_module('android.runnable').run_on_ui_thread
+    jnius = import_module('jnius')
+    autoclass = jnius.autoclass
 
-    # from android.permissions import Permission, request_permissions
-    # request_permissions([Permission.CALL_PHONE])
-
+    ANDROID_VERSION_CODES = autoclass('android.os.Build$VERSION_CODES')
+    ANDROID_VERSION = autoclass('android.os.Build$VERSION')
     AndroidView = autoclass('android.view.View')
-    AndroidPythonActivity = autoclass('org.kivy.android.PythonActivity')
+    mActivity = import_module('android').mActivity
 
-    @run_on_ui_thread
+    if ANDROID_VERSION.SDK_INT >= ANDROID_VERSION_CODES.P:
+        decorview = mActivity.getWindow().getDecorView()
+        cutout = decorview.rootWindowInsets.displayCutout
+        rect = cutout.boundingRects.get(0)
+        CUTOUT_HEIGHT = float(rect.height())
+
+    @ui_thread
     def android_hide_system_bars():
-        view = AndroidPythonActivity.mActivity.getWindow().getDecorView()
-        view.setSystemUiVisibility(
+        decorview.setSystemUiVisibility(
             AndroidView.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
             AndroidView.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
             AndroidView.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         )
 else:
     def android_hide_system_bars():
-        print("Hiding bars is only supported on Android devices.")
+        Logger.debug("Hiding bars is only supported on Android devices.")
 
 
 class HideBars:
+    cutout_height = CUTOUT_HEIGHT
 
     def __init__(self, **kwargs):
         Window.bind(on_keyboard=self.key_press)

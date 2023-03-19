@@ -1,5 +1,6 @@
 from importlib import import_module
 
+from kivy.logger import Logger
 from kivy.utils import platform
 
 __all__ = ['launch_app', ]
@@ -28,4 +29,4 @@ def launch_app(package):
         activity.startActivity(intent)
 
     else:
-        print("Launching apps is only supported on Android devices.")
+        Logger.debug("Launching apps is only supported on Android devices.")

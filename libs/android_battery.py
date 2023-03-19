@@ -1,5 +1,6 @@
 from importlib import import_module
 
+from kivy.logger import Logger
 from kivy.utils import platform
 
 __all__ = ['battery', ]
@@ -29,9 +30,9 @@ def battery():
 
         return int((level / max(scale, 1)) * 100), is_charging or is_full
 
-    print("Battery function is only supported on Android devices.")
+    Logger.debug("Battery function is only supported on Android devices.")
     return -1, False
 
 
 if __name__ == '__main__':
-    print(battery())
+    Logger.debug("Returned data from battery: %s", battery())

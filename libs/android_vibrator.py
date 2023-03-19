@@ -1,3 +1,6 @@
+from importlib import import_module
+
+from kivy.logger import Logger
 from kivy.utils import platform
 
 __all__ = ['vibrate', ]
@@ -5,10 +8,11 @@ __all__ = ['vibrate', ]
 
 def vibrate(duration):
     if platform in {'android'}:
-        from jnius import autoclass
+        jnius = import_module('jnius')
+        autoclass = jnius.autoclass
 
-        Context: type[autoclass] = autoclass('android.content.Context')
-        PythonActivity: type[autoclass] = autoclass(
+        Context = autoclass('android.content.Context')
+        PythonActivity = autoclass(
             'org.kivy.android.PythonActivity'
         )
         activity = PythonActivity.mActivity
@@ -20,14 +24,13 @@ def vibrate(duration):
 
         return vibrator
 
-    else:
-        print("Vibrator function is only supported on Android devices.")
+    Logger.debug("Vibrator function is only supported on Android devices.")
 
-        class FakeVib:
-            def vibrate(self, *largs) -> None:
-                pass
+    class FakeVib:
+        def vibrate(self, *largs) -> None:
+            pass
 
-            def cancel(self, *largs) -> None:
-                pass
+        def cancel(self, *largs) -> None:
+            pass
 
-        return FakeVib()
+    return FakeVib()

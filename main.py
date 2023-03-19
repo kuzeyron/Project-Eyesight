@@ -1,20 +1,22 @@
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.logger import Logger
 from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
                              ListProperty, NumericProperty, ObjectProperty,
                              StringProperty)
 from kivy.uix.screenmanager import ScreenManager
 from kivy.utils import get_color_from_hex, platform
 
-from libs.configuration import configuration
 from libs.android_hide_system_bars import HideBars
+from libs.configuration import configuration
 from libs.language import Lang
 from libs.wallpaper import Wallpaper
 
 if platform not in {'android', 'ios'}:
     from kivy.core.window import Window
     from kivy.metrics import dp
-    Window.size = (dp(400), dp(700))
+    Window.size = dp(400), dp(650)
+    Logger.debug("Application is not Android.")
 
 Builder.load_string('''
 #:import TimeData libs.timedata.TimeData
@@ -39,7 +41,7 @@ Builder.load_string('''
     Screen:
         name: 'home'
         BoxLayout:
-            padding: dp(5), dp(5)
+            padding: dp(5), app.cutout_height + dp(5), dp(5), dp(5)
             spacing: dp(5)
             orientation: 'vertical'
 
@@ -79,7 +81,7 @@ class Basement(ScreenManager):
 
 class ProjectSimplifier(App, HideBars):
     background = ObjectProperty(None, allownone=True)
-    border_radius = ListProperty([10, ])
+    border_radius = ListProperty()
     color = ColorProperty()
     coloro = ColorProperty()
     current_selection = DictProperty()
@@ -94,25 +96,29 @@ class ProjectSimplifier(App, HideBars):
     tr = ObjectProperty(None, allownone=True)
 
     def build(self):
-        self.config = config = configuration(['settings', 'format', 'language'])
-        self.tr = Lang(config['language'])
-        self.background = Wallpaper(source=config['wallpaper'],
-                                    crop=None).texture
-        color = get_color_from_hex(config['bg_color'])
-        opacity = config['color_opacity']
-        self.border_radius = [config['border_radius']]
-        self.color = color[:3] + [opacity]
-        self.coloro = color[:3] + [max(opacity - .1, 0)]
-        self.format_date = config['date']
-        self.format_time = config['time']
-        self.language_language = config['language']
-        self.press_delay = config['press_delay']
-        self.settings_starred_contacts = config['starred_contacts']
+        self.config = conf = configuration(['settings', 'format', 'language'])
+        conf['tr'] = Lang(conf['language'])
+        conf['background'] = Wallpaper(source=conf['wallpaper'],
+                                       crop=None).texture
+        color = get_color_from_hex(conf['bg_color'])
+        opacity = conf['color_opacity']
+        conf['border_radius'] = [conf['border_radius']]
+        conf['color'] = color[:3] + [opacity]
+        conf['coloro'] = color[:3] + [max(opacity - .1, 0)]
+        conf['format_date'] = conf['date']
+        conf['format_time'] = conf['time']
+        conf['language_language'] = conf['language']
+        conf['press_delay'] = conf['press_delay']
+        conf['settings_starred_contacts'] = conf['starred_contacts']
+        
+        for key, value in conf.items():
+            setattr(self, key, value)
 
         return Basement()
 
     def on_resume(self):
         self.trigger_events = not self.trigger_events
+        Logger.debug("Returning to the application.")
 
         return True
 

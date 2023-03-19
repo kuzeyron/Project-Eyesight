@@ -1,5 +1,3 @@
-from functools import wraps
-
 from android.permissions import (Permission, check_permission,
                                  request_permissions)
 from android.runnable import run_on_ui_thread

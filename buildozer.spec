@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.4
+version = 0.5
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -159,6 +159,7 @@ android.home_app = True
 # (str) Android app theme, default is ok for Kivy-based app
 # android.apptheme = "@android:style/Theme.NoTitleBar"
 
+android.display_cutout = shortEdges
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
 
@@ -264,7 +265,7 @@ android.logcat_filters = *:S python:D
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
 android.archs = armeabi-v7a, arm64-v8a, x86, x86_64
-
+# android.archs = arm64-v8a
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
 # android.numeric_version = 1
@@ -304,7 +305,7 @@ p4a.branch = develop
 #p4a.commit = HEAD
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-# p4a.source_dir = /home/nemo/Python/python-for-android
+p4a.source_dir = /home/kuzeyron/p4apro/python-for-android
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes =

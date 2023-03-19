@@ -1,8 +1,11 @@
+from importlib import import_module
+
 from kivy.event import EventDispatcher
+from kivy.logger import Logger
 from kivy.properties import StringProperty
 from kivy.utils import platform
 
-__all__ = ['dial_up', 'CallService', ]
+__all__ = ['CallService', ]
 
 class CallService(EventDispatcher):
     caller = StringProperty()
@@ -12,8 +15,11 @@ class CallService(EventDispatcher):
         caller = kwargs.get('caller')
 
         if platform in {'android'}:
-            from android.permissions import Permission, request_permissions
-            from jnius import autoclass
+            jnius = import_module('jnius')
+            permissions = import_module('android.permissions')
+            Permission = permissions.Permission
+            request_permissions = permissions.request_permissions
+            autoclass = jnius.autoclass
             permissions = [Permission.CALL_PHONE]
             request_permissions(permissions, self.dial)
             
@@ -25,7 +31,7 @@ class CallService(EventDispatcher):
             self.intent = Intent(Intent.ACTION_CALL)
             self.intent.setData(uri.parse(f"tel:{caller}"))
         else:
-            print("Calls are only supported on Android devices.")
+            Logger.debug("Calls are only supported on Android devices.")
 
     def dial(self, *largs):
         self.activity.startActivity(self.intent)
