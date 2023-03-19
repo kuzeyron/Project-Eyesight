@@ -12,16 +12,16 @@ if platform == 'android':
     jnius = import_module('jnius')
     autoclass = jnius.autoclass
 
-    ANDROID_VERSION_CODES = autoclass('android.os.Build$VERSION_CODES')
-    ANDROID_VERSION = autoclass('android.os.Build$VERSION')
     AndroidView = autoclass('android.view.View')
     mActivity = import_module('android').mActivity
 
-    if ANDROID_VERSION.SDK_INT >= ANDROID_VERSION_CODES.P:
+    try:
         decorview = mActivity.getWindow().getDecorView()
         cutout = decorview.rootWindowInsets.displayCutout
         rect = cutout.boundingRects.get(0)
         CUTOUT_HEIGHT = float(rect.height())
+    except Exception:
+        pass
 
     @ui_thread
     def android_hide_system_bars():
