@@ -98,3 +98,6 @@ msgstr ""
 msgid "Border radius"
 msgstr ""
 
+
+msgid "Privacy"
+msgstr ""

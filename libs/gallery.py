@@ -130,7 +130,7 @@ class PhotoGallery(StackLayout):
         for filename in listdir(self.folder):
             path = join(self.folder, filename)
             self.add_widget(Picture(bwidth=self.border_width,
-                                    active=path==app.config['wallpaper'],
+                                    active=path==app.appconfig['wallpaper'],
                                     corner_radius=self.corner_radius,
                                     filename=path,
                                     multiselection=self.multiselection,

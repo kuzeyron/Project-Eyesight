@@ -97,3 +97,6 @@ msgstr "Värin opasiteetti"
 
 msgid "Border radius"
 msgstr "Reunan säde"
+
+msgid "Privacy"
+msgstr "Yksityisyys"

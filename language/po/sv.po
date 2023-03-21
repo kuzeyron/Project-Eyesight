@@ -97,3 +97,6 @@ msgstr "Genomskinlig färg"
 
 msgid "Border radius"
 msgstr "Gränsradie"
+
+msgid "Privacy"
+msgstr "Integritet"

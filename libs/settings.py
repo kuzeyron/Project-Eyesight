@@ -1,3 +1,4 @@
+from os.path import join
 from random import uniform
 
 from kivy.app import App
@@ -8,11 +9,12 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.widget import Widget
 from kivy.utils import get_hex_from_color
 
-from libs.configuration import get_value, set_value
+from libs.configuration import get_value, locales, set_value
 from libs.dropdown import DropDownConfig
 from libs.long_press import LongPress
 
@@ -80,3 +82,20 @@ class ColorGenerator(RecycleView):
 
 class DeviceSettings(BoxLayout):
     orientation = StringProperty('vertical')
+
+
+class Disclaimer(Label):
+    __events__ = ('on_language', )
+
+    def on_kv_post(self, *largs):
+        self._app = App.get_running_app()
+        self._app.bind(language_language=self.on_language)
+        self.dispatch('on_language')
+
+    def on_language(self, *largs):
+        lang = self._app.language_language
+        lang = locales() if lang == 'auto' else lang
+
+        with open(join('assets', 'privacy', f"{lang}.ktxt"),
+                  encoding='utf-8') as file:
+            self.text = file.read()

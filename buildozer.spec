@@ -13,7 +13,7 @@ package.domain = org.kuzeyron
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk
+source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk,ktxt
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.5
+version = 0.6
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]

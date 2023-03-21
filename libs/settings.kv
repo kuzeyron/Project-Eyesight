@@ -70,6 +70,13 @@
         height: self.minimum_height
         cols: 3
 
+<Disclaimer>:
+    color: 1, 1, 1, .6
+    font_size: dp(18)
+    padding: dp(5), dp(5)
+    text_size: self.size
+    valign: 'top'
+
 <DeviceSettings>:
     padding: dp(15), dp(35)
     spacing: dp(15)
@@ -164,7 +171,18 @@
                         do_scroll_x: False
                         effect_cls: 'ScrollEffect'
                         PhotoGallery
-                            size_hint_y: None
                             height: self.minimum_height
-                            spacing: dp(5)
                             is_open: gallery._is_open
+                            size_hint_y: None
+                            spacing: dp(5)
+
+            DropDownSettings:
+                category: app.tr._('Privacy')
+                ContentBox:
+                    custom_height: dp(300)
+                    ScrollView:
+                        bar_width: 0
+                        do_scroll_x: False
+                        effect_cls: 'ScrollEffect'
+                        Disclaimer
+

@@ -80,8 +80,10 @@ class Basement(ScreenManager):
 
 
 class ProjectSimplifier(App, HideBars):
+    __events__ = ('on_configuration', )
     background = ObjectProperty(None, allownone=True)
     border_radius = ListProperty()
+    appconfig = DictProperty({})
     color = ColorProperty()
     coloro = ColorProperty()
     current_selection = DictProperty()
@@ -95,8 +97,12 @@ class ProjectSimplifier(App, HideBars):
     trigger_events = BooleanProperty(False)
     tr = ObjectProperty(None, allownone=True)
 
-    def build(self):
-        self.config = conf = configuration(['settings', 'format', 'language'])
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.dispatch('on_configuration')
+
+    def on_configuration(self, *largs):
+        self.appconfig = conf = configuration(['settings', 'format', 'language'])
         conf['tr'] = Lang(conf['language'])
         conf['background'] = Wallpaper(source=conf['wallpaper'],
                                        crop=None).texture
@@ -114,6 +120,7 @@ class ProjectSimplifier(App, HideBars):
         for key, value in conf.items():
             setattr(self, key, value)
 
+    def build(self):
         return Basement()
 
     def on_resume(self):

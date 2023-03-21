@@ -105,7 +105,7 @@ class ColorOpacity(ItemSlider):
 class BorderRadius(ItemSlider):
     max = NumericProperty(25)
     min = NumericProperty(2)
-    default = NumericProperty(10)
+    default = NumericProperty(15)
     step = NumericProperty(.1)
 
     def __init__(self, **kwargs):
