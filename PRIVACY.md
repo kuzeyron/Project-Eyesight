@@ -22,7 +22,7 @@ Project Eyesight does not perform any marketing.
 All data will be destroyed when you uninstall Project Eyesight from your device.  
   
 ### What kind of permissions are being used?
-Needed permissions that is required for the Project Eyesight to work:  
+1. List of needed permissions that is required for the Project Eyesight to work:  
 	- **CALL_PHONE** – For making phone calls from the application itself  
 	- **VIBRATE** – For heptic feedback while holding down buttons and cards  
 	- **BATTERY_STATUS** – Only in use for the information board  
