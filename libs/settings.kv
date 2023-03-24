@@ -4,6 +4,7 @@
 #:import PhotoGallery libs.gallery.PhotoGallery
 #:import PressDelayCrawler libs.settingswidgets.PressDelayCrawler
 #:import SettingsCrawler libs.checkboxitem.SettingsCrawler
+#:import webbrowser webbrowser
 
 <ContentBox>:
     opacity: 0
@@ -27,23 +28,42 @@
     size_hint_y: None
     text_size: self.size
 
-<BackButton>:
+<DirectionButton>:
+    color: app.color
     cols: 2
-    height: sp(60)
-    padding: dp(5), dp(5)
+    height: dp(55)
+    padding: dp(15), dp(10)
     size_hint_y: None
+    short_press_time: 0
+    long_press_time: 0
+    override: True
     canvas.before:
         Color:
-            rgba: root.background_color if root.state == 'down' else app.color
+            rgba: root.background_color if root.state == 'down' else root.color
         RoundedRectangle:
             pos: self.pos
             radius: app.border_radius
             size: self.size
         Color:
-            rgba: 1, 1, 1, .1
+            rgba: 1, 1, 1, .2
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, self.height, app.border_radius[0]
+
+    Image:
+        opacity: .7
+        size_hint_x: .1
+        source: f'assets/images/{root.icon}.png'
+ 
+    Label:
+        font_size: dp(25)
+        halign: 'left'
+        outline_width: dp(1)
+        text: app.tr._(root.text)
+        text_size: self.size
+        valign: 'middle'
+        color: 1, 1, 1, .6
+        outline_width: dp(1)
 
 <ColorBox>:
     canvas.before:
@@ -70,33 +90,45 @@
         height: self.minimum_height
         cols: 3
 
-<Disclaimer>:
+<PrivacyText>:
     color: 1, 1, 1, .6
-    font_size: dp(18)
+    font_size: dp(16)
+    markup: True
     padding: dp(5), dp(5)
-    text_size: self.size
-    valign: 'top'
+    size: self.texture_size
+    size_hint_y: None
+    text_size: self.width, None
+    on_ref_press:
+        webbrowser.open(args[1])
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, .1
+        RoundedRectangle:
+            pos: self.pos
+            radius: app.border_radius
+            size: self.size
+
+<Privacy>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(15), dp(35)
+        spacing: dp(15)
+
+        DirectionButton:
+            direction: 'settings'
+            icon: 'back'
+            text: app.tr._('Settings')
+
+        ScrollView:
+            bar_width: dp(5) 
+            do_scroll_x: False
+            effect_cls: 'ScrollEffect'
 
 <DeviceSettings>:
     padding: dp(15), dp(35)
     spacing: dp(15)
 
-    BackButton:
-        padding: dp(10), dp(15)
-        spacing: dp(20)
-        id: backbutton
-        Image:
-            opacity: .4
-            size_hint_x: .1
-            source: 'assets/images/back.png'
-        Label:
-            font_size: dp(25)
-            halign: 'left'
-            outline_width: dp(1)
-            text: app.tr._('Back')
-            text_size: self.size
-            valign: 'middle'
-
+    DirectionButton
     ScrollView:
         spacing: dp(15)
         bar_width: 0
@@ -176,13 +208,9 @@
                             size_hint_y: None
                             spacing: dp(5)
 
-            DropDownSettings:
-                category: app.tr._('Privacy')
-                ContentBox:
-                    custom_height: dp(300)
-                    ScrollView:
-                        bar_width: 0
-                        do_scroll_x: False
-                        effect_cls: 'ScrollEffect'
-                        Disclaimer
-
+            DirectionButton:
+                direction: 'privacy'
+                icon: 'next'
+                text: app.tr._('Privacy')
+                color: app.coloro
+                flipped: True

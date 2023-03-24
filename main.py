@@ -23,6 +23,7 @@ Builder.load_string('''
 #:import Contacts libs.contacts.Contacts
 #:import AppLauncher libs.applauncher.AppLauncher
 #:import DeviceSettings libs.settings.DeviceSettings
+#:import Privacy libs.settings.Privacy
 
 <Basement>:
     canvas.before:
@@ -72,6 +73,9 @@ Builder.load_string('''
     Screen:
         name: 'settings'
         on_kv_post: self.add_widget(DeviceSettings())
+
+    Privacy:
+        name: 'privacy'
 ''')
 
 

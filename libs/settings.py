@@ -1,8 +1,10 @@
 from os.path import join
 from random import uniform
 
+from kivy.animation import Animation
 from kivy.app import App
 from kivy.lang.builder import Builder
+from kivy.metrics import dp
 from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
                              StringProperty)
 from kivy.uix.behaviors import ButtonBehavior
@@ -11,10 +13,11 @@ from kivy.uix.checkbox import CheckBox
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
+from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.utils import get_hex_from_color
 
-from libs.configuration import get_value, locales, set_value
+from libs.configuration import get_value, set_value
 from libs.dropdown import DropDownConfig
 from libs.long_press import LongPress
 
@@ -28,14 +31,23 @@ class ContentBox(DropDownConfig, BoxLayout):
     pass
 
 
-class BackButton(LongPress, GridLayout):
+class DirectionButton(LongPress, GridLayout):
+    color = ColorProperty()
+    direction = StringProperty('home')
+    flipped = BooleanProperty(False)
+    icon = StringProperty('back')
     long_press_time = NumericProperty(.5)
     override = BooleanProperty(True)
+    text = StringProperty('Back')
+
+    def on_flipped(self, *largs):
+        a = self.children.pop(0)
+        self.children.append(a)
 
     def on_short_press(self, *largs):
         instance = App.get_running_app()
         instance.root.transition.direction = 'down'
-        instance.root.current = 'home'
+        instance.root.current = self.direction
 
 
 class ToggleStarredContacts(CheckBox):
@@ -84,18 +96,19 @@ class DeviceSettings(BoxLayout):
     orientation = StringProperty('vertical')
 
 
-class Disclaimer(Label):
-    __events__ = ('on_language', )
+class PrivacyText(Label):
+    opacity = NumericProperty()
 
     def on_kv_post(self, *largs):
-        self._app = App.get_running_app()
-        self._app.bind(language_language=self.on_language)
-        self.dispatch('on_language')
-
-    def on_language(self, *largs):
-        lang = self._app.language_language
-        lang = locales() if lang == 'auto' else lang
-
-        with open(join('assets', 'privacy', f"{lang}.ktxt"),
+        with open(join('assets', 'privacy', 'privacy.ktxt'),
                   encoding='utf-8') as file:
-            self.text = file.read()
+            self.text = file.read().format(int(dp(23)), int(dp(18)), int(dp(14)))
+        Animation(opacity=1, t='out_quad', d=.1).start(self)
+        
+
+class Privacy(Screen):
+    def on_enter(self, *largs):
+        self.children[0].children[0].add_widget(PrivacyText())
+    
+    def on_pre_leave(self, *largs):
+        self.children[0].children[0].clear_widgets()
