@@ -10,7 +10,7 @@ __all__ = ('LongPress', )
 
 
 class LongPress(ButtonBehavior, TouchRippleBehavior):
-    __events__ = ('on_long_press', 'on_short_press')
+    __events__ = ('on_long_press', 'on_short_press', 'on_activity')
     _vib = ObjectProperty(None, allow_none=True)
     always_release = BooleanProperty(True)
     long_press_time = NumericProperty(1)
@@ -90,3 +90,6 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
     def on_release(self, *largs):
         if self._vib is not None:
             self._vib.cancel()
+
+    def on_activity(self):
+        pass

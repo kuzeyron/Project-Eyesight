@@ -17,7 +17,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.utils import get_hex_from_color
 
-from libs.configuration import get_value, set_value
+from libs.configuration import set_value
 from libs.dropdown import DropDownConfig
 from libs.long_press import LongPress
 
@@ -52,22 +52,24 @@ class DirectionButton(LongPress, GridLayout):
 
 class ToggleStarredContacts(CheckBox):
     def on_kv_post(self, *largs):
-        self.active = get_value('settings').get('starred_contacts')
+        self._app = App.get_running_app()
+        self.active = self._app.starred_contacts
         self.bind(active=self.set_state)
 
     def set_state(self, *largs):
         set_value('settings', 'starred_contacts', int(self.active))
-        App.get_running_app().starred = self.active
+        self._app.starred = self.active
 
 
 class AntiTouches(CheckBox):
     def on_kv_post(self, *largs):
-        self.active = get_value('settings').get('anti_press')
+        self._app = App.get_running_app()
+        self.active = self._app.anti_press
         self.bind(active=self.set_state)
 
     def set_state(self, *largs):
         set_value('settings', 'anti_press', int(self.active))
-        App.get_running_app().starred = self.active
+        self._app.starred = self.active
 
 
 class ColorBox(ButtonBehavior, Widget):

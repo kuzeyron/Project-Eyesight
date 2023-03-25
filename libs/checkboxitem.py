@@ -9,7 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.behaviors import ButtonBehavior
-from libs.configuration import get_value, set_value
+from libs.configuration import set_value
 
 __all__ = ('SettingsCrawler', 'LabeledCheckBox')
 
@@ -131,16 +131,14 @@ class LabeledCheckBox(ToggleButtonBehavior, Label):
 
     def on_settings(self, *largs):
         self.group = self.settings[1]
-        self.dict_name = name = '_'.join(self.settings)
-        data = get_value(self.settings[0])
-        setattr(self._app, name, data[self.settings[1]])
-    
+        self.dict_name = '_'.join(self.settings)
+ 
     def select_row(self, active):
         if active and self.rv_key is not getattr(self._app, self.dict_name):
             setattr(self._app, self.dict_name, self.rv_key)
             if self.rv_key is getattr(self._app, self.dict_name):
                 set_value(*self.settings, self.rv_key)
-                self._app.tr.switch_lang(self.rv_key)
+
 
 class SettingsCrawler(TouchRippleBehavior, RecycleView):
     ripple_scale = NumericProperty(.25)
@@ -179,12 +177,3 @@ class BaseLayout(TouchRippleBehavior, GridLayout):
             self.ripple_fade()
             return True
         return False
-
-
-if __name__ == '__main__':
-    from kivy.base import runTouchApp
-    x = SettingsCrawler()
-    x.current_selection = []
-    x.settings = ('language', 'language')
-    x.labels = dict(sv='Svenska', en='English', fi='Suomi', auto='Auto')
-    runTouchApp(x)

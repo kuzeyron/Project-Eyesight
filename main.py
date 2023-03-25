@@ -103,6 +103,7 @@ class ProjectSimplifier(App, HideBars):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.bind(language_language=self.switch_language)
         self.dispatch('on_configuration')
 
     def on_configuration(self, *largs):
@@ -120,7 +121,7 @@ class ProjectSimplifier(App, HideBars):
         conf['language_language'] = conf['language']
         conf['press_delay'] = conf['press_delay']
         conf['settings_starred_contacts'] = conf['starred_contacts']
-        
+ 
         for key, value in conf.items():
             setattr(self, key, value)
 
@@ -132,6 +133,9 @@ class ProjectSimplifier(App, HideBars):
         Logger.debug("Returning to the application.")
 
         return True
+
+    def switch_language(self, *largs):
+        self.tr.switch_lang(self.language_language)
 
 
 if __name__ == '__main__':

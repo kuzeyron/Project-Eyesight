@@ -202,11 +202,8 @@
                     ScrollView:
                         do_scroll_x: False
                         effect_cls: 'ScrollEffect'
-                        PhotoGallery
-                            height: self.minimum_height
-                            is_open: gallery._is_open
-                            size_hint_y: None
-                            spacing: dp(5)
+                        PhotoGallery:
+                            disabled: not gallery._is_open
 
             DirectionButton:
                 direction: 'privacy'

@@ -60,6 +60,7 @@ def get_value(table=None) -> dict:
     res = cur.execute(f"SELECT * FROM {table}")
     result = res.fetchone()
     res.close()
+    print("PING", table, result)
 
     return result
 

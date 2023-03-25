@@ -3,13 +3,17 @@ from os.path import dirname, join, realpath
 from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.properties import BooleanProperty, NumericProperty, StringProperty
-from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.gridlayout import GridLayout
+
+from libs.long_press import LongPress
 
 __all__ = ('DropDownSettings', )
 
 Builder.load_string('''
 <DropDownButton>:
+    short_press_time: .1 
+    long_press_time: .1
+    override: True
     cols: 2
     size_hint_y: None
 
@@ -77,7 +81,7 @@ Builder.load_string('''
 ''')
 
 
-class DropDownButton(ButtonBehavior, GridLayout):
+class DropDownButton(LongPress, GridLayout):
 
     def on_release(self, *largs):
         p = self.parent
