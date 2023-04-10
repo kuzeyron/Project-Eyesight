@@ -7,10 +7,11 @@ from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
 from kivy.uix.screenmanager import ScreenManager
 from kivy.utils import get_color_from_hex, platform
 
+from libs.android_call import CallService
 from libs.android_hide_system_bars import HideBars
 from libs.configuration import configuration
 from libs.language import Lang
-from libs.wallpaper import Wallpaper
+from libs.wallpaper import wallpaper
 
 if platform not in {'android', 'ios'}:
     from kivy.core.window import Window
@@ -19,11 +20,14 @@ if platform not in {'android', 'ios'}:
     Logger.debug("Application is not Android.")
 
 Builder.load_string('''
-#:import TimeData libs.timedata.TimeData
-#:import Contacts libs.contacts.Contacts
 #:import AppLauncher libs.applauncher.AppLauncher
+#:import Contacts libs.contacts.Contacts
 #:import DeviceSettings libs.settings.DeviceSettings
+#:import DirectionScreen libs.settings.DirectionScreen
+#:import FontBahn libs.fonts.FontBahn
+#:import Gallery libs.gallery.Gallery
 #:import Privacy libs.settings.Privacy
+#:import TimeData libs.timedata.TimeData
 
 <Basement>:
     canvas.before:
@@ -74,8 +78,18 @@ Builder.load_string('''
         name: 'settings'
         on_kv_post: self.add_widget(DeviceSettings())
 
-    Privacy:
+    DirectionScreen:
+        name: 'wallpapers'
+        on_enter: self.add_element(Gallery())
+
+    DirectionScreen:
         name: 'privacy'
+        on_enter: self.add_element(Privacy())
+
+    DirectionScreen:
+        name: 'fonts'
+        on_enter: self.add_element(FontBahn())
+
 ''')
 
 
@@ -84,58 +98,56 @@ class Basement(ScreenManager):
 
 
 class ProjectSimplifier(App, HideBars):
-    __events__ = ('on_configuration', )
+    appconfig = DictProperty()
     background = ObjectProperty(None, allownone=True)
     border_radius = ListProperty()
-    appconfig = DictProperty({})
     color = ColorProperty()
     coloro = ColorProperty()
+    contact_caller = ObjectProperty(None, allownone=True)
     current_selection = DictProperty()
+    settings_font = StringProperty()
+    settings_font_border = NumericProperty()
     format_date = StringProperty()
     format_time = StringProperty()
     icon = 'assets/images/icon.png'
     language_language = StringProperty()
-    press_delay = NumericProperty(1.5)
+    press_delay = NumericProperty()
     settings_starred_contacts = StringProperty()
     title = StringProperty('Project Eyesight')
-    trigger_events = BooleanProperty(False)
     tr = ObjectProperty(None, allownone=True)
+    _change_of_events = BooleanProperty(False)
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.bind(language_language=self.switch_language)
-        self.dispatch('on_configuration')
-
-    def on_configuration(self, *largs):
+    def build(self):
+        self.contact_caller = CallService()
         self.appconfig = conf = configuration(['settings', 'format', 'language'])
-        conf['tr'] = Lang(conf['language'])
-        conf['background'] = Wallpaper(source=conf['wallpaper'],
-                                       crop=None).texture
+        conf['tr'] = Lang(conf['language_language'])
+        conf['background'] = wallpaper(source=conf['wallpaper'])
         color = get_color_from_hex(conf['bg_color'])
         opacity = conf['color_opacity']
-        conf['border_radius'] = [conf['border_radius']]
+        conf['border_radius'] = (conf['border_radius'], )
         conf['color'] = color[:3] + [opacity]
         conf['coloro'] = color[:3] + [max(opacity - .1, 0)]
-        conf['format_date'] = conf['date']
-        conf['format_time'] = conf['time']
-        conf['language_language'] = conf['language']
-        conf['press_delay'] = conf['press_delay']
-        conf['settings_starred_contacts'] = conf['starred_contacts']
  
         for key, value in conf.items():
             setattr(self, key, value)
 
-    def build(self):
+        self.bind(language_language=self.switch_language,
+                  settings_starred_contacts=self.trigger_events)
+
         return Basement()
 
     def on_resume(self):
-        self.trigger_events = not self.trigger_events
+        self.trigger_events()
         Logger.debug("Returning to the application.")
 
         return True
 
     def switch_language(self, *largs):
         self.tr.switch_lang(self.language_language)
+
+    def trigger_events(self, *largs):
+        Logger.debug("Triggers the events to happen.")
+        self._change_of_events = not self._change_of_events
 
 
 if __name__ == '__main__':

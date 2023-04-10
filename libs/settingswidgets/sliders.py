@@ -121,6 +121,25 @@ class BorderRadius(ItemSlider):
         set_value('settings', 'border_radius', dp(self.value))
 
 
+class BorderWidth(ItemSlider):
+    max = NumericProperty(15)
+    min = NumericProperty(0)
+    default = NumericProperty(5)
+    step = NumericProperty(1)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.value = self._app.settings_font_border
+
+    def time_set(self, *largs):
+        super().time_set(*largs)
+        self._app.settings_font_border = self.value
+
+    def on_touch_up(self, touch):
+        super().on_touch_up(touch)
+        set_value('settings', 'settings_font_border', self.value)
+
+
 class PressDelayCrawler(BaseLayout):
     pass
 

@@ -30,6 +30,7 @@ if platform == 'android':
             AndroidView.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
             AndroidView.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         )
+
 else:
     def android_hide_system_bars():
         Logger.debug("Hiding bars is only supported on Android devices.")

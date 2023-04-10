@@ -99,3 +99,12 @@ msgstr ""
 
 msgid "Privacy"
 msgstr ""
+
+msgid "Gathering all available wallpapers"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Border width for text's"
+msgstr ""

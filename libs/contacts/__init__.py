@@ -16,9 +16,8 @@ Contacts = importer(f'libs.contacts.contacts_{platform}', 'Contacts')
 
 Builder.load_string('''
 <Contact>:
-    font_name: 'assets/fonts/font.ttf'
+    font_name: app.settings_font
     opacity: 0
-    outline_width: 3
     canvas.before:
         Color:
             rgba: root.background_color if root.state == 'down' else app.coloro
@@ -42,28 +41,24 @@ class Contact(LongPress, Image):
     number = StringProperty()
 
     def on_kv_post(self, *largs):
+        self._app = App.get_running_app()
         self.label = Label(font_name=self.font_name,
                            font_size='45dp',
                            markup=True,
-                           outline_width=self.outline_width,
                            padding=('50dp', '10dp'))
+        self._app.bind(settings_font=self.on_number,
+                       settings_font_border=self.on_number)
 
     def on_number(self, *largs):
         font_size = int(self.label.font_size / 1.8)
         self.label.text = (f"{self.name}[size={font_size}]"
                            f"[color=#ddffe7]\n{self.number}"
                            "[/color][/size]")
+        self.label.font_name = self._app.settings_font
+        self.label.outline_width = self._app.settings_font_border
         self.label.texture_update()
         self.texture = self.label.texture
         Animation(opacity=1, d=.2, transition='in_out_quad').start(self)
 
     def on_long_press(self, *largs):
-        CallService(caller=self.number)
-
-
-if __name__ == '__main__':
-    class ContactCaller(App):
-        def build(self):
-            return Contacts()
-
-    ContactCaller().run()
+        self._app.contact_caller.call(self.number)

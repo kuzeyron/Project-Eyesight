@@ -1,10 +1,11 @@
-from .sliders import (BorderRadius, ColorOpacity, ItemSlider,
+from .sliders import (BorderRadius, BorderWidth, ColorOpacity, ItemSlider,
                       PressDelayCrawler, PressDelayItem)
 
 __all__ = (
-    'ItemSlider',
-    'PressDelayItem',
-    'ColorOpacity',
     'BorderRadius',
-    'PressDelayCrawler'
+    'BorderWidth',
+    'ColorOpacity',
+    'ItemSlider',
+    'PressDelayCrawler',
+    'PressDelayItem',
 )

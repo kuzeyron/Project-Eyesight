@@ -3,7 +3,6 @@ from android.permissions import (Permission, check_permission,
 from android.runnable import run_on_ui_thread
 from jnius import autoclass
 from kivy.app import App
-from kivy.event import EventDispatcher
 from kivy.lang import Builder
 from kivy.properties import BooleanProperty, ListProperty, NumericProperty
 from kivy.uix.recycleview import RecycleView
@@ -44,7 +43,7 @@ def _cursor_interaction(caller) -> tuple:
 
 
 def _cursor_extraction(cursor, Phone, caller) -> tuple:
-    """ Extracts the data from Android """
+    """ Extracts the data from Android. Part code from pydroid. """
 
     nm_index: int = cursor.getColumnIndex(Phone.DISPLAY_NAME)
     nr_index: int = cursor.getColumnIndex(Phone.NUMBER)
@@ -76,14 +75,18 @@ def _cursor_extraction(cursor, Phone, caller) -> tuple:
     return pos, neg
 
 
-def add_contacts(permisssions, status):
-    if all(status):
-        _app = App.get_running_app()
-        content = _cursor_interaction(bool(_app.settings_starred_contacts))
+def add_contacts(permissions, status):
+    perm = {p.split('.')[-1]: status[xy] for xy, p in enumerate(permissions)}
+    _app = App.get_running_app()
+
+    if perm.get('READ_CONTACTS', False):
+        content = _cursor_interaction(bool(int(_app.settings_starred_contacts)))
         _app.root.ids.contacts.data = content[0] or content[1]
 
+    _app.can_use_call = perm.get('CALL_PHONE', False)
 
-class Contacts(RecycleView, EventDispatcher):
+
+class Contacts(RecycleView):
     __events__ = ('on_accessing_permissions', )
     permissions = ListProperty((Permission.READ_CONTACTS, Permission.CALL_PHONE))
     starred = BooleanProperty(True)
@@ -92,8 +95,8 @@ class Contacts(RecycleView, EventDispatcher):
 
     def on_kv_post(self, *largs):
         _app = App.get_running_app()
-        _app.bind(trigger_events=self.on_accessing_permissions)
+        _app.bind(_change_of_events=self.on_accessing_permissions)
         self.dispatch('on_accessing_permissions')
 
-    def on_accessing_permissions(self, *largs) -> None:
+    def on_accessing_permissions(self, *largs):
         request_permissions(self.permissions, add_contacts)

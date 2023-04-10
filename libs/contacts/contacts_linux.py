@@ -17,10 +17,10 @@ class Contacts(RecycleView):
     def on_kv_post(self, *largs):
         self.dispatch('on_permission_validation')
 
-    def on_accessing_permissions(self, *largs) -> None:
+    def on_accessing_permissions(self, *largs):
         pass
     
-    def on_permission_validation(self, *largs) -> None:
+    def on_permission_validation(self, *largs):
         self.data = [{'name': 'John Smith', 'number': split_nrs('+35812345678')},
                      {'name': 'Sally Sweet', 'number': split_nrs('+35876543210')},
                      {'name': 'John Doe', 'number': split_nrs('+35813253647')}] * 5

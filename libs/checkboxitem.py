@@ -17,8 +17,10 @@ Builder.load_string('''
 <LabeledCheckBox>:
     active: self.rv_key == getattr(app, self.dict_name, False)
     on_active: self.select_row(self.active)
-    font_size: self.button_size
     text: app.tr._(self.cached_text)
+    font_name: self.rv_key if self.set_font else app.settings_font
+    text_size: self.size[0] - (self.button_size * 2.5), self.size[1]
+    valign: 'middle'
     _checkbox_state_image:
         self.background_checkbox_down \
         if self.active else self.background_checkbox_normal
@@ -77,14 +79,15 @@ Builder.load_string('''
 
 
 class CheckBoxLabel(ButtonBehavior, Label):
-    font_size = NumericProperty("22dp")
+    pass
 
 
 class LabeledCheckBox(ToggleButtonBehavior, Label):
     allow_no_selection = BooleanProperty(False)
-    button_size = NumericProperty("20dp")
+    button_size = NumericProperty("16dp")
     rv_key = ObjectProperty()
     text = StringProperty()
+    set_font = BooleanProperty(False)
 
     def _get_active(self):
         return self.state == 'down'
@@ -137,7 +140,7 @@ class LabeledCheckBox(ToggleButtonBehavior, Label):
         if active and self.rv_key is not getattr(self._app, self.dict_name):
             setattr(self._app, self.dict_name, self.rv_key)
             if self.rv_key is getattr(self._app, self.dict_name):
-                set_value(*self.settings, self.rv_key)
+                set_value(self.settings[0], self.dict_name, self.rv_key)
 
 
 class SettingsCrawler(TouchRippleBehavior, RecycleView):
@@ -147,13 +150,20 @@ class SettingsCrawler(TouchRippleBehavior, RecycleView):
     labels = DictProperty()
     cols = NumericProperty(None, allownone=True)
     rows = NumericProperty(None, allownone=True)
+    font_size = NumericProperty('18dp')
+    set_font = BooleanProperty(False)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.bind(labels=self.setup)
+    
 
     def setup(self, *largs):
-        self.data = [dict(rv_key=k, cached_text=v, settings=self.settings)
+        self.data = [dict(cached_text=v,
+                          font_size=self.font_size,
+                          rv_key=k,
+                          settings=self.settings,
+                          set_font=self.set_font)
                      for k, v in self.labels.items()]
 
 

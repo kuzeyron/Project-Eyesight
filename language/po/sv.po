@@ -100,3 +100,12 @@ msgstr "Gränsradie"
 
 msgid "Privacy"
 msgstr "Integritet"
+
+msgid "Gathering all available wallpapers"
+msgstr "Samlar alla tillgängliga bakgrundsbilder"
+
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Border width for text's"
+msgstr "Kantbredd för text"

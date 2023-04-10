@@ -9,7 +9,6 @@ from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
                              StringProperty)
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.checkbox import CheckBox
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
@@ -33,43 +32,31 @@ class ContentBox(DropDownConfig, BoxLayout):
 
 class DirectionButton(LongPress, GridLayout):
     color = ColorProperty()
-    direction = StringProperty('home')
+    direction = StringProperty()
     flipped = BooleanProperty(False)
     icon = StringProperty('back')
     long_press_time = NumericProperty(.5)
     override = BooleanProperty(True)
     text = StringProperty('Back')
+    font_name = StringProperty('Roboto')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._app = App.get_running_app()
+        self._app.bind(settings_font=self.on_direction)
+
+    def on_direction(self, *largs):
+        self.text = self._app.tr._(self.direction.title())
+        if self.direction in {'home', 'fonts', 'settings'}:
+            self.font_name = self._app.settings_font
 
     def on_flipped(self, *largs):
         a = self.children.pop(0)
         self.children.append(a)
 
     def on_short_press(self, *largs):
-        instance = App.get_running_app()
-        instance.root.transition.direction = 'down'
-        instance.root.current = self.direction
-
-
-class ToggleStarredContacts(CheckBox):
-    def on_kv_post(self, *largs):
-        self._app = App.get_running_app()
-        self.active = self._app.starred_contacts
-        self.bind(active=self.set_state)
-
-    def set_state(self, *largs):
-        set_value('settings', 'starred_contacts', int(self.active))
-        self._app.starred = self.active
-
-
-class AntiTouches(CheckBox):
-    def on_kv_post(self, *largs):
-        self._app = App.get_running_app()
-        self.active = self._app.anti_press
-        self.bind(active=self.set_state)
-
-    def set_state(self, *largs):
-        set_value('settings', 'anti_press', int(self.active))
-        self._app.starred = self.active
+        self._app.root.transition.direction = 'right'
+        self._app.root.current = self.direction
 
 
 class ColorBox(ButtonBehavior, Widget):
@@ -98,7 +85,7 @@ class DeviceSettings(BoxLayout):
     orientation = StringProperty('vertical')
 
 
-class PrivacyText(Label):
+class Privacy(Label):
     opacity = NumericProperty()
 
     def on_kv_post(self, *largs):
@@ -108,9 +95,11 @@ class PrivacyText(Label):
         Animation(opacity=1, t='out_quad', d=.1).start(self)
         
 
-class Privacy(Screen):
-    def on_enter(self, *largs):
-        self.children[0].children[0].add_widget(PrivacyText())
-    
+class DirectionScreen(Screen):
+    def add_element(self, element):
+        self.children[0].children[0].add_widget(element)
+
     def on_pre_leave(self, *largs):
-        self.children[0].children[0].clear_widgets()
+        child = self.children[0].children[0]
+        child._app = None
+        child.clear_widgets()

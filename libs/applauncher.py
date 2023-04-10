@@ -5,11 +5,13 @@ from kivy.uix.label import Label
 from libs.android_launchapps import launch_app
 from libs.long_press import LongPress
 
-__all__ = ['AppLauncher', ]
+__all__ = ('AppLauncher', )
 
 Builder.load_string('''
 <AppLauncher>:
     font_size: self.height // 3
+    outline_width: app.settings_font_border
+    font_name: app.settings_font
     canvas.before:
         Color:
             rgba: root.background_color if root.state == 'down' else app.coloro
@@ -27,20 +29,8 @@ Builder.load_string('''
 
 
 class AppLauncher(LongPress, Label):
-    font_name = StringProperty('assets/fonts/font.ttf')
     long_press_time = NumericProperty(1.5)
-    outline_width = NumericProperty(3)
     package = StringProperty('org.test')
 
     def on_long_press(self, *largs):
         launch_app(self.package)
-
-
-if __name__ == '__main__':
-    from kivy.app import App
-
-    class AppCaller(App):
-        def build(self):
-            return AppLauncher()
-
-    AppCaller().run()

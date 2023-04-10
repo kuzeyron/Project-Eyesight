@@ -1,0 +1,7 @@
+<compatible-screens>
+    <!-- Only small devices -->
+    <screen android:screenSize="small" android:screenDensity="ldpi" />
+    <screen android:screenSize="small" android:screenDensity="mdpi" />
+    <screen android:screenSize="small" android:screenDensity="hdpi" />
+    <screen android:screenSize="small" android:screenDensity="xhdpi" />
+</compatible-screens>

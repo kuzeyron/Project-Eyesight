@@ -57,9 +57,9 @@ Builder.load_string('''
         Label:
             color: 1, 1, 1, .6
             font_size: dp(26)
-            size_hint_x: None
             outline_width: dp(1)
             size: self.texture_size
+            size_hint_x: None
             text: root.category
 
         AnchorLayout:

@@ -14,6 +14,9 @@ from libs.long_press import LongPress
 __all__ = ('TimeData', )
 
 Builder.load_string('''
+<TimeLabel>:
+    font_name: app.settings_font
+
 <TimeData>:
     padding: dp(10), dp(10)
     canvas.before:
@@ -24,7 +27,7 @@ Builder.load_string('''
             radius: app.border_radius
             size: self.size
         Color:
-            rgba: 1,1,1,.1
+            rgba: 1, 1, 1, .1
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \
@@ -33,20 +36,20 @@ Builder.load_string('''
     TimeLabel:
         size_hint_y: 1.2
         font_size: self.height if len(self.text) < 6 else self.height / 1.6
-        outline_width: dp(5)
+        outline_width: app.settings_font_border
         text: root.time
         markup: True
 
     TimeLabel:
         font_size: self.height // 4
-        outline_width: dp(3)
+        outline_width: app.settings_font_border
         text: root.info
 
 ''')
 
 
 class TimeLabel(Label):
-    font_name = StringProperty('assets/fonts/font.ttf')
+    pass
 
 
 class Time(BoxLayout):

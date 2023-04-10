@@ -1,7 +1,6 @@
 #:import BorderRadius libs.settingswidgets.BorderRadius
 #:import ColorOpacity libs.settingswidgets.ColorOpacity
 #:import DropDownSettings libs.dropdown.DropDownSettings
-#:import PhotoGallery libs.gallery.PhotoGallery
 #:import PressDelayCrawler libs.settingswidgets.PressDelayCrawler
 #:import SettingsCrawler libs.checkboxitem.SettingsCrawler
 #:import webbrowser webbrowser
@@ -27,9 +26,10 @@
     outline_width: dp(1)
     size_hint_y: None
     text_size: self.size
+    font_name: app.settings_font
 
 <DirectionButton>:
-    color: app.color
+    color: app.coloro
     cols: 2
     height: dp(55)
     padding: dp(15), dp(10)
@@ -57,9 +57,10 @@
  
     Label:
         font_size: dp(25)
+        font_name: root.font_name
         halign: 'left'
         outline_width: dp(1)
-        text: app.tr._(root.text)
+        text: root.text
         text_size: self.size
         valign: 'middle'
         color: 1, 1, 1, .6
@@ -90,7 +91,7 @@
         height: self.minimum_height
         cols: 3
 
-<PrivacyText>:
+<Privacy>:
     color: 1, 1, 1, .6
     font_size: dp(16)
     markup: True
@@ -98,8 +99,7 @@
     size: self.texture_size
     size_hint_y: None
     text_size: self.width, None
-    on_ref_press:
-        webbrowser.open(args[1])
+    on_ref_press: webbrowser.open(args[1])
     canvas.before:
         Color:
             rgba: 1, 1, 1, .1
@@ -108,7 +108,7 @@
             radius: app.border_radius
             size: self.size
 
-<Privacy>:
+<DirectionScreen>:
     BoxLayout:
         orientation: 'vertical'
         padding: dp(15), dp(35)
@@ -117,7 +117,7 @@
         DirectionButton:
             direction: 'settings'
             icon: 'back'
-            text: app.tr._('Settings')
+            text: app.tr._(self.direction.title())
 
         ScrollView:
             bar_width: dp(5) 
@@ -128,7 +128,8 @@
     padding: dp(15), dp(35)
     spacing: dp(15)
 
-    DirectionButton
+    DirectionButton:
+        direction: 'home'
     ScrollView:
         spacing: dp(15)
         bar_width: 0
@@ -164,7 +165,12 @@
                         settings: ('format', 'time')
                         labels: dict(auto='hh:mm', h24='hh.mm', h12='h.m', am12='AM/PM')
                         cols: 2
-            
+
+            DirectionButton:
+                direction: 'fonts'
+                icon: 'next'
+                flipped: True
+
             DropDownSettings:
                 category: app.tr._('Color opacity')
                 ContentBox:
@@ -194,20 +200,12 @@
                     custom_height: dp(450)
                     ColorGenerator
 
-            DropDownSettings:
-                category: app.tr._('Wallpapers')
-                id: gallery
-                ContentBox:
-                    custom_height: dp(450)
-                    ScrollView:
-                        do_scroll_x: False
-                        effect_cls: 'ScrollEffect'
-                        PhotoGallery:
-                            disabled: not gallery._is_open
+            DirectionButton:
+                direction: 'wallpapers'
+                icon: 'next'
+                flipped: True
 
             DirectionButton:
                 direction: 'privacy'
                 icon: 'next'
-                text: app.tr._('Privacy')
-                color: app.coloro
                 flipped: True

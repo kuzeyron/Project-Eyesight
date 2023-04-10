@@ -100,3 +100,12 @@ msgstr "Reunan säde"
 
 msgid "Privacy"
 msgstr "Yksityisyys"
+
+msgid "Gathering all available wallpapers"
+msgstr "Kerää kaikki saatavilla olevat taustakuvat"
+
+msgid "Settings"
+msgstr "Asetukset"
+
+msgid "Border width for text's"
+msgstr "Tekstin reunuksen leveys"
