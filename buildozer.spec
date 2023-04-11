@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk,ktxt
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.8.0
+version = 0.8.1
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -146,7 +146,7 @@ android.accept_sdk_license = True
 
 # (str) Extra xml to write directly inside the <manifest> element of AndroidManifest.xml
 # use that parameter to provide a filename from where to load your custom XML code
-android.extra_manifest_xml = ./assets/data/extramanifest.xml
+# android.extra_manifest_xml = ./assets/data/extramanifest.xml
 
 # (str) Extra xml to write directly inside the <manifest><application> tag of AndroidManifest.xml
 # use that parameter to provide a filename from where to load your custom XML arguments:
