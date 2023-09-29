@@ -1,13 +1,10 @@
-from android.permissions import (Permission, check_permission,
-                                 request_permissions)
-from android.runnable import run_on_ui_thread
+from android.permissions import Permission, request_permissions
 from jnius import autoclass
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import BooleanProperty, ListProperty, NumericProperty
 from kivy.uix.recycleview import RecycleView
-
-from libs.utils import path_getter, split_nrs
+from ..utils import path_getter, split_nrs
 
 __all__ = ('Contacts', )
 
@@ -18,7 +15,7 @@ def _cursor_interaction(caller) -> tuple:
     """ Interaction with Android for contact informations """
     try:
         # Since QUERY_ALL_PACKAGES is forbidden to use
-         # with the Play Strore, we just have to try
+        # with the Play Strore, we just have to try
         Contract: str = 'android.provider.ContactsContract'
         Common: str = 'CommonDataKinds'
         Phone = autoclass(f"{Contract}${Common}$Phone")
@@ -80,7 +77,8 @@ def add_contacts(permissions, status):
     _app = App.get_running_app()
 
     if perm.get('READ_CONTACTS', False):
-        content = _cursor_interaction(bool(int(_app.settings_starred_contacts)))
+        content = _cursor_interaction(bool(int(
+            _app.settings_starred_contacts)))
         _app.root.ids.contacts.data = content[0] or content[1]
 
     _app.can_use_call = perm.get('CALL_PHONE', False)
@@ -88,7 +86,8 @@ def add_contacts(permissions, status):
 
 class Contacts(RecycleView):
     __events__ = ('on_accessing_permissions', )
-    permissions = ListProperty((Permission.READ_CONTACTS, Permission.CALL_PHONE))
+    permissions = ListProperty((Permission.READ_CONTACTS,
+                                Permission.CALL_PHONE))
     starred = BooleanProperty(True)
     bar_width = NumericProperty(0)
     opacity = NumericProperty(0)

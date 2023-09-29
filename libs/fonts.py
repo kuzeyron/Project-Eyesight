@@ -6,7 +6,7 @@ from kivy.lang.builder import Builder
 from kivy.properties import BooleanProperty, DictProperty, StringProperty
 from kivy.uix.scrollview import ScrollView
 
-from libs.checkboxitem import SettingsCrawler
+from .checkboxitem import SettingsCrawler
 
 __all__ = ('FontBahn', 'Fonts')
 
@@ -17,7 +17,7 @@ Builder.load_string('''
     bar_width: dp(5)
     do_scroll_x: False
     effect_cls: 'ScrollEffect'
-    
+
     BoxLayout:
         orientation: 'vertical'
         spacing: dp(15)

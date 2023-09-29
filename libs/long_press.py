@@ -4,7 +4,7 @@ from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
                              ObjectProperty)
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.behaviors.touchripple import TouchRippleBehavior
-from libs.android_vibrator import vibrate
+from .android_vibrator import vibrate
 
 __all__ = ('LongPress', )
 
@@ -82,7 +82,8 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
         pass
 
     def on_short_press(self, *largs):
-        self._vib = vibrate(max(self.long_press_time - self.short_press_time, 0))
+        self._vib = vibrate(max(
+            self.long_press_time - self.short_press_time, 0))
 
     def on_press(self, *largs):
         pass

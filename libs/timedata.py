@@ -8,8 +8,8 @@ from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
-from libs.android_battery import battery
-from libs.long_press import LongPress
+from .android_battery import battery
+from .long_press import LongPress
 
 __all__ = ('TimeData', )
 
@@ -59,8 +59,7 @@ class Time(BoxLayout):
 def is24(time, fm, fmt):
     if all([fm not in {'auto', 'h24'},
             time[:2].isdigit(),
-            fmt=='time'
-    ]):
+            fmt == 'time']):
         return time[int(int(time[:2]) < 10):]
     return time
 

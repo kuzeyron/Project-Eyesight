@@ -6,9 +6,8 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.utils import platform
 
-from libs.android_call import CallService
-from libs.long_press import LongPress
-from libs.utils import importer
+from ..long_press import LongPress
+from ..utils import importer
 
 __all__ = ('Contacts', 'Contact')
 

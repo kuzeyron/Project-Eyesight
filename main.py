@@ -51,7 +51,7 @@ Builder.load_string('''
             orientation: 'vertical'
 
             TimeData:
-                short_press_time: 4 
+                short_press_time: 4
                 long_press_time: 4
                 override: True
                 on_long_press:
@@ -119,7 +119,9 @@ class ProjectSimplifier(App, HideBars):
 
     def build(self):
         self.contact_caller = CallService()
-        self.appconfig = conf = configuration(['settings', 'format', 'language'])
+        self.appconfig = conf = configuration(['settings',
+                                               'format',
+                                               'language'])
         conf['tr'] = Lang(conf['language_language'])
         conf['background'] = wallpaper(source=conf['wallpaper'])
         color = get_color_from_hex(conf['bg_color'])
@@ -127,7 +129,7 @@ class ProjectSimplifier(App, HideBars):
         conf['border_radius'] = (conf['border_radius'], )
         conf['color'] = color[:3] + [opacity]
         conf['coloro'] = color[:3] + [max(opacity - .1, 0)]
- 
+
         for key, value in conf.items():
             setattr(self, key, value)
 

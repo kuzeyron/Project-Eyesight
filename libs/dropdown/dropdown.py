@@ -5,13 +5,13 @@ from kivy.lang import Builder
 from kivy.properties import BooleanProperty, NumericProperty, StringProperty
 from kivy.uix.gridlayout import GridLayout
 
-from libs.long_press import LongPress
+from ..long_press import LongPress
 
 __all__ = ('DropDownSettings', )
 
 Builder.load_string('''
 <DropDownButton>:
-    short_press_time: .1 
+    short_press_time: .1
     long_press_time: .1
     override: True
     cols: 2
@@ -65,7 +65,6 @@ Builder.load_string('''
         AnchorLayout:
             anchor_x: 'right'
             Image:
-                allow_stretch: True
                 size_hint_x: None
                 source: root.source
                 opacity: .7

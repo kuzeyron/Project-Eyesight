@@ -2,8 +2,8 @@ from kivy.lang import Builder
 from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.label import Label
 
-from libs.android_launchapps import launch_app
-from libs.long_press import LongPress
+from .android_launchapps import launch_app
+from .long_press import LongPress
 
 __all__ = ('AppLauncher', )
 

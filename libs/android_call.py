@@ -20,18 +20,17 @@ class CallService(EventDispatcher):
         request_permissions = permissions.request_permissions
         Permission = permissions.Permission
         autoclass = import_module('jnius').autoclass
-            
+
         Intent = autoclass('android.content.Intent')
         uri = autoclass('android.net.Uri')
 
         self.intent = Intent(Intent.ACTION_CALL)
         self.intent.setData(uri.parse(f"tel:{self.caller}"))
-        
+
         request_permissions([Permission.CALL_PHONE], self.dial)
-        
+
     def on_linux(self):
         Logger.debug("Calls are only supported on Android devices.")
 
     def dial(self, *largs):
         self.mActivity.startActivity(self.intent)
-

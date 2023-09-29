@@ -5,6 +5,7 @@ from kivy.utils import platform
 
 __all__ = ['launch_app', ]
 
+
 def launch_app(package):
     if platform in {'android'}:
         jnius = import_module('jnius')
@@ -13,15 +14,16 @@ def launch_app(package):
         PythonActivity = autoclass('org.kivy.android.PythonActivity')
         activity = PythonActivity.mActivity
         intent = Intent()
-        intent.setAction("android.intent.action.MAIN");
-        intent.addCategory("android.intent.category.LAUNCHER");
-        intent.addCategory("android.intent.category.DEFAULT");
+        intent.setAction("android.intent.action.MAIN")
+        intent.addCategory("android.intent.category.LAUNCHER")
+        intent.addCategory("android.intent.category.DEFAULT")
 
         if package == 'contacts':
             ComponentName = autoclass('android.content.ComponentName')
-            intent.setComponent(ComponentName('com.google.android.dialer',
-                                              'com.android.dialer.DialtactsActivity'))
-        
+            intent.setComponent(
+                ComponentName('com.google.android.dialer',
+                              'com.android.dialer.DialtactsActivity'))
+
         elif package == 'messaging':
             intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
 

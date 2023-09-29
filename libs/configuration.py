@@ -7,6 +7,7 @@ from kivy.utils import platform
 
 __all__ = ('locales', 'set_value', 'get_value', 'get_language', )
 
+
 def locales():
     available = {'sv', 'en', 'fi'}
 

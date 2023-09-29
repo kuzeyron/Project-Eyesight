@@ -10,8 +10,8 @@ from kivy.properties import (BooleanProperty, NumericProperty, ObjectProperty,
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.recycleview import RecycleView
 
-from libs.configuration import set_value
-from libs.wallpaper import wallpaper
+from .configuration import set_value
+from .wallpaper import wallpaper
 
 __all__ = ('Gallery', 'Wallpaper')
 
@@ -59,7 +59,7 @@ Builder.load_string('''
                 (self.center_x + dp(20), self.center_y + dp(5) + root.bwidth) \
             ]
             width: dp(5)
-    
+
 <Gallery>:
     viewclass: 'Wallpaper'
 

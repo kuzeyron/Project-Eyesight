@@ -9,7 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.behaviors import ButtonBehavior
-from libs.configuration import set_value
+from .configuration import set_value
 
 __all__ = ('SettingsCrawler', 'LabeledCheckBox')
 
@@ -50,7 +50,8 @@ Builder.load_string('''
         Color:
             rgba: self.color[:3] + [1]
         Rectangle:
-            pos: int(self.x + self.button_size / 2), self.center_y - self.button_size
+            pos: int(self.x + self.button_size / 2), \
+            self.center_y - self.button_size
             size: self.button_size * 2, self.button_size * 2
             source: self._radio_image if self.group else self._checkbox_image
         Color:
@@ -65,10 +66,10 @@ Builder.load_string('''
 <SettingsCrawler>:
     viewclass: 'LabeledCheckBox'
     effect_cls: 'ScrollEffect'
-    
+
     RecycleGridLayout:
         default_size: 100, dp(80)
-        default_size_hint: 1, None 
+        default_size_hint: 1, None
         size_hint_y: None
         height: self.minimum_height
         cols: root.cols
@@ -135,7 +136,7 @@ class LabeledCheckBox(ToggleButtonBehavior, Label):
     def on_settings(self, *largs):
         self.group = self.settings[1]
         self.dict_name = '_'.join(self.settings)
- 
+
     def select_row(self, active):
         if active and self.rv_key is not getattr(self._app, self.dict_name):
             setattr(self._app, self.dict_name, self.rv_key)
@@ -152,11 +153,10 @@ class SettingsCrawler(TouchRippleBehavior, RecycleView):
     rows = NumericProperty(None, allownone=True)
     font_size = NumericProperty('18dp')
     set_font = BooleanProperty(False)
-    
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.bind(labels=self.setup)
-    
 
     def setup(self, *largs):
         self.data = [dict(cached_text=v,

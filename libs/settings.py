@@ -16,9 +16,9 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.utils import get_hex_from_color
 
-from libs.configuration import set_value
-from libs.dropdown import DropDownConfig
-from libs.long_press import LongPress
+from .configuration import set_value
+from .dropdown import DropDownConfig
+from .long_press import LongPress
 
 __all__ = ('DeviceSettings', )
 
@@ -91,9 +91,11 @@ class Privacy(Label):
     def on_kv_post(self, *largs):
         with open(join('assets', 'privacy', 'privacy.ktxt'),
                   encoding='utf-8') as file:
-            self.text = file.read().format(int(dp(23)), int(dp(18)), int(dp(14)))
+            self.text = file.read().format(int(dp(23)),
+                                           int(dp(18)),
+                                           int(dp(14)))
         Animation(opacity=1, t='out_quad', d=.1).start(self)
-        
+
 
 class DirectionScreen(Screen):
     def add_element(self, element):

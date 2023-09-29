@@ -7,6 +7,7 @@ from kivy.utils import platform
 
 __all__ = ['locales', 'Lang']
 
+
 def locales():
     available = {'sv', 'en', 'fi'}
 
@@ -64,7 +65,9 @@ class Lang(Observable):
             lang = locales() if lang == 'auto' else lang
             # get the right locales directory, and instanciate a gettext
             locale_dir = join('language', 'data', 'locales')
-            locales_ = gettext.translation('langapp', locale_dir, languages=[lang])
+            locales_ = gettext.translation('langapp',
+                                           locale_dir,
+                                           languages=[lang])
             self.ugettext = locales_.gettext
             self.lang = lang
 

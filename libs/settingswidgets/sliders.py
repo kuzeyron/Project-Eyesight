@@ -4,8 +4,8 @@ from kivy.metrics import dp
 from kivy.properties import BooleanProperty, ColorProperty, NumericProperty
 from kivy.uix.slider import Slider
 
-from libs.checkboxitem import BaseLayout
-from libs.configuration import set_value
+from ..checkboxitem import BaseLayout
+from ..configuration import set_value
 
 __all__ = ('ItemSlider', 'PressDelayItem', 'ColorOpacity', 'BorderRadius', 'PressDelayCrawler')
 

@@ -102,7 +102,7 @@ def get_kind_of_contacts(contact_type: bool = True) -> list:
                 sleep(.5)
         content: tuple = _cursor_interaction(contact_type)
 
-         # Reiturn negative list if positive list is empty
+        # Reiturn negative list if positive list is empty
         return content[0] or content[1]
 
     print('Getting contacts is only available on Android devices')

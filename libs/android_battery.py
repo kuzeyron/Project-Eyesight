@@ -3,7 +3,7 @@ from importlib import import_module
 from kivy.logger import Logger
 from kivy.utils import platform
 
-__all__ = ['battery', ]
+__all__ = ('battery', )
 
 
 def battery():
