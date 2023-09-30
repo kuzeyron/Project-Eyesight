@@ -1,14 +1,17 @@
+from functools import partial
 from os import listdir
 from os.path import join
 from threading import Thread
+from time import sleep
 
 from kivy.app import App
-from kivy.clock import mainthread
+from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, NumericProperty, ObjectProperty,
                              StringProperty)
 from kivy.uix.checkbox import CheckBox
-from kivy.uix.recycleview import RecycleView
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.stacklayout import StackLayout
 
 from .configuration import set_value
 from .wallpaper import wallpaper
@@ -18,6 +21,7 @@ __all__ = ('Gallery', 'Wallpaper')
 Builder.load_string('''
 <Wallpaper>:
     size_hint: None, None
+    size: dp(90), dp(130)
     group: True
     canvas:
         Color:
@@ -61,16 +65,12 @@ Builder.load_string('''
             width: dp(5)
 
 <Gallery>:
-    viewclass: 'Wallpaper'
-
-    RecycleGridLayout:
-        cols: 3
-        default_size: None, dp(140)
-        default_size_hint: 1, None
-        height: self.minimum_height
+    GalleryPlatform:
         padding: dp(5), dp(5)
         size_hint_y: None
+        height: self.minimum_height
         spacing: dp(5)
+        folder: root.folder
 
 ''')
 
@@ -86,10 +86,6 @@ class Wallpaper(CheckBox):
 
     def on_filename(self, *largs):
         self._app = App.get_running_app()
-        Thread(target=self.load_image).start()
-
-    @mainthread
-    def load_image(self):
         self.texture = wallpaper(self.filename)
         w, h = self.texture.size
         self.image_ratio = w / float(h)
@@ -98,17 +94,24 @@ class Wallpaper(CheckBox):
     def on_active(self, *largs):
         if self.active:
             self._app.background = self.texture
+            self._app.wallpaper = self.filename
             set_value('settings', 'wallpaper', self.filename)
 
 
-class Gallery(RecycleView):
-    folder = StringProperty('./assets/wallpapers')
-    opacity = NumericProperty(0)
+class Gallery(ScrollView):
+    folder = StringProperty('assets/wallpapers')
+
+
+class GalleryPlatform(StackLayout):
+    folder = StringProperty()
 
     def on_kv_post(self, *largs):
-        Thread(target=self.setup, daemon=True).start()
+        Thread(target=self.scan, daemon=True).start()
 
-    @mainthread
-    def setup(self, *largs):
-        self.data = [{'filename': join(self.folder, source)}
-                     for source in listdir(self.folder)]
+    def scan(self, *largs):
+        for source in listdir(self.folder):
+            Clock.schedule_once(partial(self.on_source, source), 0)
+            sleep(.05)
+
+    def on_source(self, source, dt):
+        self.add_widget(Wallpaper(filename=join(self.folder, source)))

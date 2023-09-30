@@ -32,7 +32,3 @@ def battery():
 
     Logger.debug("Battery function is only supported on Android devices.")
     return -1, False
-
-
-if __name__ == '__main__':
-    Logger.debug("Returned data from battery: %s", battery())
