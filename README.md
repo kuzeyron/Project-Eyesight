@@ -14,4 +14,4 @@ You can find the Privacy statement [here](https://github.com/kuzeyron/ProjectEye
 Project Eyesight is published on [Play Store](https://play.google.com/store/apps/details?id=org.kuzeyron.eyesight).
 
 ## Screenshots
-<img src="https://github.com/kuzeyron/ProjectEyesight/blob/main/screenshots/feature.png" />
+<img src="https://github.com/kuzeyron/ProjectEyesight/tree/master/screenshots/feature.png" />

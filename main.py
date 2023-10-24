@@ -13,11 +13,11 @@ from libs.configuration import configuration
 from libs.language import Lang
 from libs.wallpaper import wallpaper
 
-if platform not in {'android', 'ios'}:
+if platform != 'android':
     from kivy.core.window import Window
     from kivy.metrics import dp
     Window.size = dp(400), dp(650)
-    Logger.debug("Application is not Android.")
+    Logger.debug("OS is not Android.")
 
 Builder.load_string('''
 #:import AppLauncher libs.applauncher.AppLauncher
@@ -28,6 +28,7 @@ Builder.load_string('''
 #:import Gallery libs.gallery.Gallery
 #:import Privacy libs.settings.Privacy
 #:import TimeData libs.timedata.TimeData
+#:import AppContainer libs.launcher.AppContainer
 
 <Basement>:
     canvas.before:
@@ -90,6 +91,9 @@ Builder.load_string('''
         name: 'fonts'
         on_enter: self.add_element(FontBahn())
 
+    DirectionScreen:
+        name: 'all apps'
+        on_enter: self.add_element(AppContainer())
 ''')
 
 

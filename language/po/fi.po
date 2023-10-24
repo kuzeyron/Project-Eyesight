@@ -109,3 +109,6 @@ msgstr "Asetukset"
 
 msgid "Border width for text's"
 msgstr "Tekstin reunuksen leveys"
+
+msgid "All Apps"
+msgstr "Kaikki Sovellukset"

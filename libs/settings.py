@@ -43,10 +43,12 @@ class DirectionButton(LongPress, GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._app = App.get_running_app()
-        self._app.bind(settings_font=self.on_direction)
+        self._app.bind(settings_font=self.on_direction,
+                       language_language=self.on_direction)
 
     def on_direction(self, *largs):
         self.text = self._app.tr._(self.direction.title())
+
         if self.direction in {'home', 'fonts', 'settings'}:
             self.font_name = self._app.settings_font
 
