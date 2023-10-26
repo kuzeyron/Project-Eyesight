@@ -92,7 +92,7 @@ Builder.load_string('''
         on_enter: self.add_element(FontBahn())
 
     DirectionScreen:
-        name: 'all apps'
+        name: 'device applications'
         on_enter: self.add_element(AppContainer())
 ''')
 

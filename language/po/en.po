@@ -111,5 +111,5 @@ msgstr ""
 msgid "Border width for text's"
 msgstr ""
 
-msgid "All Apps"
+msgid "Device Applications"
 msgstr ""

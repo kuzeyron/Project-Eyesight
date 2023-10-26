@@ -29,7 +29,7 @@ source.exclude_dirs = tests, bin, venv, .cache
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.9.0
+version = 0.9.1
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -94,7 +94,7 @@ icon.filename = %(source.dir)s/assets/images/icon.png
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,READ_CONTACTS,QUERY_ALL_PACKAGES
+android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,READ_CONTACTS
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host

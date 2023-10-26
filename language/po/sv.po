@@ -110,5 +110,5 @@ msgstr "Inställningar"
 msgid "Border width for text's"
 msgstr "Kantbredd för text"
 
-msgid "All Apps"
-msgstr "Alla Appar"
+msgid "Device Applications"
+msgstr "Enhetsapplikationer"
