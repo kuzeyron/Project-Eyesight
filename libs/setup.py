@@ -4,7 +4,7 @@ from kivy.core.window import Window
 from kivy.logger import Logger
 from kivy.utils import platform
 
-__all__ = ('HideBars', )
+__all__ = ('Setup', )
 CUTOUT_HEIGHT = 0.
 
 if platform == 'android':
@@ -36,7 +36,7 @@ else:
         Logger.debug("Hiding bars is only supported on Android devices.")
 
 
-class HideBars:
+class Setup:
     cutout_height = CUTOUT_HEIGHT
 
     def __init__(self, **kwargs):

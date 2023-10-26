@@ -4,7 +4,7 @@ from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
                              ObjectProperty)
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.behaviors.touchripple import TouchRippleBehavior
-from .android_vibrator import vibrate
+from .vibrator import vibrate
 
 __all__ = ('LongPress', )
 

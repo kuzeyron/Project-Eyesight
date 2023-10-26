@@ -19,7 +19,7 @@ Builder.load_string('''
     opacity: 0
     canvas.before:
         Color:
-            rgba: root.background_color if root.state == 'down' else app.coloro
+            rgba: root.background_color if root.state == 'down' else app.color
         RoundedRectangle:
             pos: self.pos
             radius: app.border_radius

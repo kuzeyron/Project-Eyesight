@@ -8,7 +8,7 @@ from kivy.properties import (BooleanProperty, ColorProperty, NumericProperty,
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
-from .android_battery import battery
+from .battery import battery
 from .long_press import LongPress
 
 __all__ = ('TimeData', )

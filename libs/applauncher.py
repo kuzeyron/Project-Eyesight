@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.label import Label
 
-from .android_launchapps import launch_app
+from .launchapps import launch_app
 from .long_press import LongPress
 
 __all__ = ('AppLauncher', )
@@ -20,7 +20,7 @@ Builder.load_string('''
             pos: self.pos
             size: self.size
         Color:
-            rgba: 1, 1, 1, .1
+            rgba: app.color
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \

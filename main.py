@@ -7,8 +7,8 @@ from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
 from kivy.uix.screenmanager import ScreenManager
 from kivy.utils import get_color_from_hex, platform
 
-from libs.android_call import CallService
-from libs.android_hide_system_bars import HideBars
+from libs.call import CallService
+from libs.setup import Setup
 from libs.configuration import configuration
 from libs.language import Lang
 from libs.wallpaper import wallpaper
@@ -101,7 +101,7 @@ class Basement(ScreenManager):
     pass
 
 
-class ProjectSimplifier(App, HideBars):
+class ProjectSimplifier(App, Setup):
     appconfig = DictProperty()
     background = ObjectProperty(None, allownone=True)
     border_radius = ListProperty()
