@@ -47,7 +47,7 @@ class Setup:
 
     def key_press(self, w, k, *lr):
         if there := k in {27} and platform in {'android'}:
-            manager = self.root.ids.manager
+            manager = self.root
             manager.current = 'home'
             manager.transition.direction = 'up'
 

@@ -1,20 +1,46 @@
 from functools import partial
 from os import listdir
-from os.path import join
+from os.path import basename, join
+from shutil import move
 from threading import Thread
 from time import sleep
 
 from kivy.app import App
-from kivy.clock import Clock
+from kivy.clock import Clock, mainthread
 from kivy.lang import Builder
+from kivy.logger import Logger
 from kivy.properties import (BooleanProperty, NumericProperty, ObjectProperty,
                              StringProperty)
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.checkbox import CheckBox
-from kivy.uix.scrollview import ScrollView
 from kivy.uix.stacklayout import StackLayout
+from kivy.utils import platform
 
 from .configuration import set_value
 from .wallpaper import wallpaper
+
+if platform == 'android':
+    from android.permissions import Permission, request_permissions
+    from androidstorage4kivy import Chooser, SharedStorage
+    from android import api_version
+
+    def can_share(permissions, status):
+        perm = {p.split('.')[-1]: status[xy]
+                for xy, p in enumerate(permissions)}
+
+        if perm.get('READ_EXTERNAL_STORAGE', False):
+            isset = True
+
+            if api_version > 29:
+                isset = perm.get('READ_MEDIA_IMAGES', False)
+
+            if isset:
+                _app = App.get_running_app()
+                _call = _app.root.get_screen('wallpapers').children[0]
+                _child = _call.children[0].children[0].children[0]
+                _child.chooser.choose_content("image/*")
+
 
 __all__ = ('Gallery', 'Wallpaper')
 
@@ -65,12 +91,28 @@ Builder.load_string('''
             width: dp(5)
 
 <Gallery>:
-    GalleryPlatform:
-        padding: dp(5), dp(5)
-        size_hint_y: None
-        height: self.minimum_height
+    orientation: 'vertical'
+    spacing: dp(15)
+
+    ScrollView:
+        GalleryPlatform:
+            padding: dp(5), dp(5)
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: dp(5)
+            folder: root.folder
+
+    AddWallpapers:
+        size_hint: None, None
+        size: dp(150), dp(70)
         spacing: dp(5)
-        folder: root.folder
+        pos_hint: {'center_x': .5}
+
+        Image:
+            source: 'assets/images/add.png'
+        Label:
+            size_hint_x: None
+            text: 'Add more'
 
 ''')
 
@@ -98,7 +140,35 @@ class Wallpaper(CheckBox):
             set_value('settings', 'wallpaper', self.filename)
 
 
-class Gallery(ScrollView):
+class AddWallpapers(ButtonBehavior, BoxLayout):
+    chooser = ObjectProperty(None, allownone=True)
+
+    def on_kv_post(self, *largs):
+        if platform == 'android':
+            self.chooser = Chooser(self.chooser_callback)
+
+    @mainthread
+    def chooser_callback(self, uri_list):
+        try:
+            ss = SharedStorage()
+            for uri in uri_list:
+                if path := ss.copy_from_shared(uri):
+                    newname = join('assets', 'wallpapers', basename(path))
+                    move(path, newname)
+                    Logger.debug('Successfully copied %s to %s',
+                                 basename(path), newname)
+                    p = self.parent.children[-1].children[0]
+                    p.add_widget(Wallpaper(filename=newname, active=True))
+        except Exception as e:
+            Logger.warning('SharedStorageExample.chooser_callback(): %s', e)
+
+    def on_release(self, *largs):
+        if self.chooser is not None:
+            request_permissions([Permission.READ_EXTERNAL_STORAGE,
+                                 Permission.READ_MEDIA_IMAGES], can_share)
+
+
+class Gallery(BoxLayout):
     folder = StringProperty('assets/wallpapers')
 
 
