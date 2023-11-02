@@ -25,7 +25,7 @@ if platform == 'android':
     from androidstorage4kivy import Chooser, SharedStorage
     from android import api_version
 
-    def can_share(permissions, status):
+    def can_copy_images(permissions, status):
         perm = {p.split('.')[-1]: status[xy]
                 for xy, p in enumerate(permissions)}
 
@@ -104,7 +104,7 @@ Builder.load_string('''
 
     AddWallpapers:
         size_hint: None, None
-        size: dp(150), dp(70)
+        size: dp(160), dp(70)
         spacing: dp(5)
         pos_hint: {'center_x': .5}
 
@@ -112,7 +112,7 @@ Builder.load_string('''
             source: 'assets/images/add.png'
         Label:
             size_hint_x: None
-            text: 'Add more'
+            text: self.parent.text
 
 ''')
 
@@ -141,9 +141,15 @@ class Wallpaper(CheckBox):
 
 
 class AddWallpapers(ButtonBehavior, BoxLayout):
+    __events__ = ('on_update', )
     chooser = ObjectProperty(None, allownone=True)
+    text = StringProperty()
 
     def on_kv_post(self, *largs):
+        self._app = App.get_running_app()
+        self._app.bind(language_language=self.on_update)
+        self.dispatch('on_update')
+
         if platform == 'android':
             self.chooser = Chooser(self.chooser_callback)
 
@@ -165,7 +171,12 @@ class AddWallpapers(ButtonBehavior, BoxLayout):
     def on_release(self, *largs):
         if self.chooser is not None:
             request_permissions([Permission.READ_EXTERNAL_STORAGE,
-                                 Permission.READ_MEDIA_IMAGES], can_share)
+                                 Permission.READ_MEDIA_IMAGES],
+                                can_copy_images)
+
+    def on_update(self, *largs):
+        if self._app.tr is not None:
+            self.text = self._app.tr._('Add more')
 
 
 class Gallery(BoxLayout):
