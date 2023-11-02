@@ -29,17 +29,16 @@ if platform == 'android':
         perm = {p.split('.')[-1]: status[xy]
                 for xy, p in enumerate(permissions)}
 
-        if perm.get('READ_EXTERNAL_STORAGE', False):
-            isset = True
+        isset = perm.get('READ_EXTERNAL_STORAGE', False)
 
-            if api_version > 29:
-                isset = perm.get('READ_MEDIA_IMAGES', False)
+        if api_version > 29:
+            isset = perm.get('READ_MEDIA_IMAGES', False)
 
-            if isset:
-                _app = App.get_running_app()
-                _call = _app.root.get_screen('wallpapers').children[0]
-                _child = _call.children[0].children[0].children[0]
-                _child.chooser.choose_content("image/*")
+        if isset:
+            _app = App.get_running_app()
+            _call = _app.root.get_screen('wallpapers').children[0]
+            _child = _call.children[0].children[0].children[0]
+            _child.chooser.choose_content("image/*")
 
 
 __all__ = ('Gallery', 'Wallpaper')
