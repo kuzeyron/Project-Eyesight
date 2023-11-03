@@ -1,11 +1,11 @@
 # Project Eyesight
-For people with impaired vision.
+To empower people with impaired vision and make life a lot better.
 
 ## Usage
-When the application has started you will see the normal view.
-For accessing the application settings you have to hold down the time-board for around 10 seconds.
-The wait time is due to prevent accessing the settings by mistake.
-When using the cards and buttons you will hold it down until the vibrator stops. It is to prevent actions by mistake.
+When the application starts, you will see the normal default view.
+To access the app settings, hold down the time-board for around 10 seconds.
+This is to prevent accessing the settings by mistake.
+When using the cards and buttons, press and hold them until the vibrator stops, to prevent actions by mistake.
 
 ## Privacy
 You can find the Privacy statement [here](https://github.com/kuzeyron/ProjectEyesight/blob/main/PRIVACY.md).
