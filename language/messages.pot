@@ -111,3 +111,6 @@ msgstr ""
 
 msgid "Device Applications"
 msgstr ""
+
+msgid "Add more"
+msgstr ""

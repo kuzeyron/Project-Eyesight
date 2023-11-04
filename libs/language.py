@@ -9,7 +9,7 @@ __all__ = ['locales', 'Lang']
 
 
 def locales():
-    available = {'sv', 'en', 'fi'}
+    available = {'sv', 'en', 'fi', 'de', 'fr', 'es'}
 
     if platform == 'android':
         jnius = import_module('jnius')
@@ -61,7 +61,7 @@ class Lang(Observable):
         return False
 
     def switch_lang(self, lang):
-        if lang in {'sv', 'en', 'fi', 'auto'}:
+        if lang in {'sv', 'en', 'fi', 'auto', 'de', 'fr', 'es'}:
             lang = locales() if lang == 'auto' else lang
             # get the right locales directory, and instanciate a gettext
             locale_dir = join('language', 'data', 'locales')

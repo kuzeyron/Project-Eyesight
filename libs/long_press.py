@@ -17,7 +17,6 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
     short_press_time = NumericProperty(.08)
     min_state_time = NumericProperty(.5)
     background_color = ColorProperty((.25, .15, .25, .7))
-    background_up = ColorProperty((.25, .15, .25, .7))
     always_release = BooleanProperty(True)
     ripple_scale = NumericProperty(.25)
     show_traces = BooleanProperty(True)
@@ -26,26 +25,26 @@ class LongPress(ButtonBehavior, TouchRippleBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._app = App.get_running_app()
+        self.background_color = self._app.coloro
 
     def on_state(self, instance, status):
-
         if not self.override:
             self.long_press_time = self._app.press_delay
 
         if status == 'down':
-            color = self._app.coloro
-            self.background_color = [self.c_switch(x, step=.1)
-                                     for x in color]
+            self.background_color = [self.c_switch(x, step=.2)
+                                     for x in self._app.color]
             self._clock1 = Clock.schedule_once(self._do_short_press,
                                                self.short_press_time)
             self._clock2 = Clock.schedule_once(self._do_long_press,
                                                self.long_press_time)
         else:
+            self.background_color = self._app.coloro
             self._clock1.cancel()
             self._clock2.cancel()
 
     def c_switch(self, value, step, *largs):
-        if sum(self._app.color[:3]) <= 0.5:
+        if sum(self._app.color[:3]) <= .5:
             return value + step
         return max(value - step, 0)
 

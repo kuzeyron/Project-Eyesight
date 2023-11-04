@@ -112,3 +112,6 @@ msgstr "Kantbredd för text"
 
 msgid "Device Applications"
 msgstr "Enhetsapplikationer"
+
+msgid "Add more"
+msgstr "Lägg till fler"

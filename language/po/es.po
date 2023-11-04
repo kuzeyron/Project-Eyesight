@@ -12,107 +12,106 @@ msgstr ""
 "PO-Revision-Date: 2013-08-01 15:36+0200\n"
 "Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
 "Language-Team: Mathieu Virbel <kuzeyron@gmail.com>\n"
-"Language: English\n"
+"Language: Española\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 msgid "Phonebook"
-msgstr ""
+msgstr "Directorio telefónico"
 
 msgid "Monday"
-msgstr ""
+msgstr "Lunes"
 
 msgid "Tuesday"
-msgstr ""
+msgstr "Martes"
 
 msgid "Wednesday"
-msgstr ""
+msgstr "Miércoles"
 
 msgid "Thursday"
-msgstr ""
+msgstr "Jueves"
 
 msgid "Friday"
-msgstr ""
+msgstr "Viernes"
 
 msgid "Saturday"
-msgstr ""
+msgstr "Sábado"
 
 msgid "Sunday"
-msgstr ""
+msgstr "Domingo"
 
 msgid "Battery"
-msgstr ""
+msgstr "Batería"
 
 msgid "Charging"
-msgstr ""
+msgstr "Cargando"
 
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 msgid "Favorite contacts"
-msgstr ""
+msgstr "Contactos favoritos"
 
 msgid "All contacts"
-msgstr ""
+msgstr "Todos los contactos"
 
 msgid "Device language"
-msgstr ""
+msgstr "Idioma del dispositivo"
 
 msgid "Color theme"
-msgstr ""
+msgstr "Tema de color"
 
 msgid "Device contacts"
-msgstr ""
+msgstr "Contactos del dispositivo"
 
 msgid "Short delay"
-msgstr ""
+msgstr "Breve retraso"
 
 msgid "Medium delay"
-msgstr ""
+msgstr "Retraso medio"
 
 msgid "Long delay"
-msgstr ""
+msgstr "Retraso largo"
 
 msgid "Press delay"
-msgstr ""
+msgstr "Retraso de prensa"
 
 msgid "Seconds"
-msgstr ""
+msgstr "Segundos"
 
 msgid "Wallpapers"
-msgstr ""
+msgstr "Fondos de pantalla"
 
 msgid "Date format"
-msgstr ""
+msgstr "Formato de fecha"
 
 msgid "Time format"
-msgstr ""
+msgstr "Formato de tiempo"
 
 msgid "Color opacity"
-msgstr ""
+msgstr "Opacidad del color"
 
 msgid "Border radius"
-msgstr ""
-
+msgstr "Radio del borde"
 
 msgid "Privacy"
-msgstr ""
+msgstr "Privacidad"
 
 msgid "Gathering all available wallpapers"
-msgstr ""
+msgstr "Reuniendo todos los fondos de pantalla disponibles"
 
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
 msgid "Border width for text's"
-msgstr ""
+msgstr "Ancho de borde para texto"
 
 msgid "Device Applications"
-msgstr ""
+msgstr "Aplicaciones de dispositivos"
 
 msgid "Add more"
-msgstr ""
+msgstr "Añadir más"

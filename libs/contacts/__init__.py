@@ -19,7 +19,7 @@ Builder.load_string('''
     opacity: 0
     canvas.before:
         Color:
-            rgba: root.background_color if root.state == 'down' else app.color
+            rgba: root.background_color
         RoundedRectangle:
             pos: self.pos
             radius: app.border_radius
@@ -27,7 +27,7 @@ Builder.load_string('''
         Color:
             rgba: 1, 1, 1, .1
         SmoothLine:
-            width: dp(1)
+            width: dp(2)
             rounded_rectangle: self.x, self.y, self.width, \
                 self.height, app.border_radius[0]
 
@@ -46,7 +46,8 @@ class Contact(LongPress, Image):
                            markup=True,
                            padding=('50dp', '10dp'))
         self._app.bind(settings_font=self.on_number,
-                       settings_font_border=self.on_number)
+                       settings_font_border=self.on_number,
+                       coloro=self.set_color)
 
     def on_number(self, *largs):
         font_size = int(self.label.font_size / 1.8)
@@ -61,3 +62,6 @@ class Contact(LongPress, Image):
 
     def on_long_press(self, *largs):
         self._app.contact_caller.call(self.number)
+
+    def set_color(self, *largs):
+        self.background_color = self._app.coloro

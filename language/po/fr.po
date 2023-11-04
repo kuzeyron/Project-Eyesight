@@ -12,107 +12,106 @@ msgstr ""
 "PO-Revision-Date: 2013-08-01 15:36+0200\n"
 "Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
 "Language-Team: Mathieu Virbel <kuzeyron@gmail.com>\n"
-"Language: English\n"
+"Language: Français\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 msgid "Phonebook"
-msgstr ""
+msgstr "Annuaire"
 
 msgid "Monday"
-msgstr ""
+msgstr "Lundi"
 
 msgid "Tuesday"
-msgstr ""
+msgstr "Mardi"
 
 msgid "Wednesday"
-msgstr ""
+msgstr "Mercredi"
 
 msgid "Thursday"
-msgstr ""
+msgstr "Jeudi"
 
 msgid "Friday"
-msgstr ""
+msgstr "Vendredi"
 
 msgid "Saturday"
-msgstr ""
+msgstr "Samedi"
 
 msgid "Sunday"
-msgstr ""
+msgstr "Dimanche"
 
 msgid "Battery"
-msgstr ""
+msgstr "Batterie"
 
 msgid "Charging"
-msgstr ""
+msgstr "Mise en charge"
 
 msgid "Back"
-msgstr ""
+msgstr "ArrièreBakåt"
 
 msgid "Favorite contacts"
-msgstr ""
+msgstr "Contacts favoris"
 
 msgid "All contacts"
-msgstr ""
+msgstr "Tous les contacts"
 
 msgid "Device language"
-msgstr ""
+msgstr "Langue de l'appareil"
 
 msgid "Color theme"
-msgstr ""
+msgstr "Thème de couleur"
 
 msgid "Device contacts"
-msgstr ""
+msgstr "Contacts de l'appareil"
 
 msgid "Short delay"
-msgstr ""
+msgstr "Court délai"
 
 msgid "Medium delay"
-msgstr ""
+msgstr "Délai moyen"
 
 msgid "Long delay"
-msgstr ""
+msgstr "Long délai"
 
 msgid "Press delay"
-msgstr ""
+msgstr "Délai d'appui"
 
 msgid "Seconds"
-msgstr ""
+msgstr "Secondes"
 
 msgid "Wallpapers"
-msgstr ""
+msgstr "Fonds d'écran"
 
 msgid "Date format"
-msgstr ""
+msgstr "Format de date"
 
 msgid "Time format"
-msgstr ""
+msgstr "Format de l'heure"
 
 msgid "Color opacity"
-msgstr ""
+msgstr "Opacité des couleurs"
 
 msgid "Border radius"
-msgstr ""
-
+msgstr "Rayon de la frontière"
 
 msgid "Privacy"
-msgstr ""
+msgstr "Confidentialité"
 
 msgid "Gathering all available wallpapers"
-msgstr ""
+msgstr "Rassembler tous les fonds d'écran disponibles"
 
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
 
 msgid "Border width for text's"
-msgstr ""
+msgstr "Largeur de bordure pour le texte"
 
 msgid "Device Applications"
-msgstr ""
+msgstr "Applications de l'appareil"
 
 msgid "Add more"
-msgstr ""
+msgstr "Ajouter plus"

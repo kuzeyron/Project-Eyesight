@@ -112,3 +112,6 @@ msgstr "Tekstin reunuksen leveys"
 
 msgid "Device Applications"
 msgstr "Laitesovellukset"
+
+msgid "Add more"
+msgstr "Lisää enemmän"

@@ -9,7 +9,7 @@ __all__ = ('locales', 'set_value', 'get_value', 'get_language', )
 
 
 def locales():
-    available = {'sv', 'en', 'fi'}
+    available = {'sv', 'en', 'fi', 'de', 'es', 'fr'}
 
     if platform == 'android':
         jnius = import_module('jnius')

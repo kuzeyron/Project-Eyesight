@@ -14,13 +14,13 @@ Builder.load_string('''
     font_name: app.settings_font
     canvas.before:
         Color:
-            rgba: root.background_color if root.state == 'down' else app.coloro
+            rgba: root.background_color[:3] + [.05]
         RoundedRectangle:
-            radius: app.border_radius
             pos: self.pos
+            radius: app.border_radius
             size: self.size
         Color:
-            rgba: app.color
+            rgba: 1, 1, 1, .1
         SmoothLine:
             width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \

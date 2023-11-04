@@ -16,7 +16,7 @@ from libs.wallpaper import wallpaper
 if platform != 'android':
     from kivy.core.window import Window
     from kivy.metrics import dp
-    Window.size = dp(400), dp(650)
+    Window.size = dp(500), dp(750)
     Logger.debug("OS is not Android.")
 
 Builder.load_string('''
