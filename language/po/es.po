@@ -21,7 +21,7 @@ msgid "SMS"
 msgstr "SMS"
 
 msgid "Phonebook"
-msgstr "Directorio telefónico"
+msgstr "Contactos"
 
 msgid "Monday"
 msgstr "Lunes"
