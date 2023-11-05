@@ -9,7 +9,7 @@ __all__ = ('locales', 'set_value', 'get_value', 'get_language', )
 
 
 def locales():
-    available = {'sv', 'en', 'fi', 'de', 'es', 'fr'}
+    available = {'de', 'en', 'es', 'fi', 'fr', 'it', 'nl', 'pt', 'sv'}
 
     if platform == 'android':
         jnius = import_module('jnius')
@@ -61,7 +61,6 @@ def get_value(table=None) -> dict:
     res = cur.execute(f"SELECT * FROM {table}")
     result = res.fetchone()
     res.close()
-    print("PING", table, result)
 
     return result
 

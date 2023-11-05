@@ -1,3 +1,4 @@
+# Example for an internationalized Kivy app
 # Copyright (C) 2013 Mathieu Virbel
 # This file is distributed under the same license as the Kivy package.
 # Mathieu Virbel <mat@kivy.org>, 2013
@@ -11,106 +12,106 @@ msgstr ""
 "PO-Revision-Date: 2013-08-01 15:36+0200\n"
 "Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
 "Language-Team: Mathias Lindström <kuzeyron@gmail.com>\n"
-"Language: English\n"
+"Language: Português\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 msgid "Phonebook"
-msgstr ""
+msgstr "Contatos"
 
 msgid "Monday"
-msgstr ""
+msgstr "Segunda-feira"
 
 msgid "Tuesday"
-msgstr ""
+msgstr "Terça-feira"
 
 msgid "Wednesday"
-msgstr ""
+msgstr "Quarta-feira"
 
 msgid "Thursday"
-msgstr ""
+msgstr "Quinta-feira"
 
 msgid "Friday"
-msgstr ""
+msgstr "Sexta-feira"
 
 msgid "Saturday"
-msgstr ""
+msgstr "Sábado"
 
 msgid "Sunday"
-msgstr ""
+msgstr "Domingo"
 
 msgid "Battery"
-msgstr ""
+msgstr "Bateria"
 
 msgid "Charging"
-msgstr ""
+msgstr "Carregando"
 
 msgid "Back"
-msgstr ""
+msgstr "Voltar"
 
 msgid "Favorite contacts"
-msgstr ""
+msgstr "Contatos favoritos"
 
 msgid "All contacts"
-msgstr ""
+msgstr "Todos os contatos"
 
 msgid "Device language"
-msgstr ""
+msgstr "Idioma do dispositivo"
 
 msgid "Color theme"
-msgstr ""
+msgstr "Tema de cores"
 
 msgid "Device contacts"
-msgstr ""
+msgstr "Contatos do dispositivo"
 
 msgid "Short delay"
-msgstr ""
+msgstr "Pequeno atraso"
 
 msgid "Medium delay"
-msgstr ""
+msgstr "Atraso médio"
 
 msgid "Long delay"
-msgstr ""
+msgstr "Longo atraso"
 
 msgid "Press delay"
-msgstr ""
+msgstr "Atraso de imprensa"
 
 msgid "Seconds"
-msgstr ""
+msgstr "Segundos"
 
 msgid "Wallpapers"
-msgstr ""
+msgstr "Papeis de parede"
 
 msgid "Date format"
-msgstr ""
+msgstr "Formato de data"
 
 msgid "Time format"
-msgstr ""
+msgstr "Formato de hora"
 
 msgid "Color opacity"
-msgstr ""
+msgstr "Opacidade da cor"
 
 msgid "Border radius"
-msgstr ""
+msgstr "Raio da borda"
 
 msgid "Privacy"
-msgstr ""
+msgstr "Privacidade"
 
 msgid "Gathering all available wallpapers"
-msgstr ""
+msgstr "Reunindo todos os papéis de parede disponíveis"
 
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 msgid "Border width for text's"
-msgstr ""
+msgstr "Largura da borda do texto"
 
 msgid "Device Applications"
-msgstr ""
+msgstr "Aplicativos de dispositivos"
 
 msgid "Add more"
-msgstr ""
+msgstr "Adicione mais"

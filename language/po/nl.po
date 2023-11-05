@@ -1,3 +1,4 @@
+# Example for an internationalized Kivy app
 # Copyright (C) 2013 Mathieu Virbel
 # This file is distributed under the same license as the Kivy package.
 # Mathieu Virbel <mat@kivy.org>, 2013
@@ -11,106 +12,106 @@ msgstr ""
 "PO-Revision-Date: 2013-08-01 15:36+0200\n"
 "Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
 "Language-Team: Mathias Lindström <kuzeyron@gmail.com>\n"
-"Language: English\n"
+"Language: Nederlands\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 msgid "Phonebook"
-msgstr ""
+msgstr "Telefoonboek"
 
 msgid "Monday"
-msgstr ""
+msgstr "Maandag"
 
 msgid "Tuesday"
-msgstr ""
+msgstr "Dinsdag"
 
 msgid "Wednesday"
-msgstr ""
+msgstr "Woensdag"
 
 msgid "Thursday"
-msgstr ""
+msgstr "Donderdag"
 
 msgid "Friday"
-msgstr ""
+msgstr "Vrijdag"
 
 msgid "Saturday"
-msgstr ""
+msgstr "Zaterdag"
 
 msgid "Sunday"
-msgstr ""
+msgstr "Zondag"
 
 msgid "Battery"
-msgstr ""
+msgstr "Batterij"
 
 msgid "Charging"
-msgstr ""
+msgstr "Opladen"
 
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 msgid "Favorite contacts"
-msgstr ""
+msgstr "Favoriete contacten"
 
 msgid "All contacts"
-msgstr ""
+msgstr "Alle contacten"
 
 msgid "Device language"
-msgstr ""
+msgstr "Apparaattaal"
 
 msgid "Color theme"
-msgstr ""
+msgstr "Kleur thema"
 
 msgid "Device contacts"
-msgstr ""
+msgstr "Apparaatcontacten"
 
 msgid "Short delay"
-msgstr ""
+msgstr "Korte vertraging"
 
 msgid "Medium delay"
-msgstr ""
+msgstr "Gemiddelde vertraging"
 
 msgid "Long delay"
-msgstr ""
+msgstr "Lange vertraging"
 
 msgid "Press delay"
-msgstr ""
+msgstr "Druk op vertraging"
 
 msgid "Seconds"
-msgstr ""
+msgstr "Seconden"
 
 msgid "Wallpapers"
-msgstr ""
+msgstr "Achtergronden"
 
 msgid "Date format"
-msgstr ""
+msgstr "Datumnotatie"
 
 msgid "Time format"
-msgstr ""
+msgstr "Tijd formaat"
 
 msgid "Color opacity"
-msgstr ""
+msgstr "Kleurdekking"
 
 msgid "Border radius"
-msgstr ""
+msgstr "Randradius"
 
 msgid "Privacy"
-msgstr ""
+msgstr "Privacy"
 
 msgid "Gathering all available wallpapers"
-msgstr ""
+msgstr "Alle beschikbare achtergronden verzamelen"
 
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 msgid "Border width for text's"
-msgstr ""
+msgstr "Randbreedte voor tekst"
 
 msgid "Device Applications"
-msgstr ""
+msgstr "Apparaattoepassingen"
 
 msgid "Add more"
-msgstr ""
+msgstr "Voeg meer toe"

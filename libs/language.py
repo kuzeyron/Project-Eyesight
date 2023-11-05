@@ -6,18 +6,16 @@ from kivy.lang import Observable
 from kivy.utils import platform
 
 __all__ = ['locales', 'Lang']
+available = {'de', 'en', 'es', 'fi', 'fr',
+             'it', 'nl', 'pt', 'sv'}
 
 
 def locales():
-    available = {'sv', 'en', 'fi', 'de', 'fr', 'es'}
-
     if platform == 'android':
         jnius = import_module('jnius')
         autoclass = jnius.autoclass
         locale = autoclass('java.util.Locale')
-        locale = str(
-            locale.getDefault().getLanguage()
-        )
+        locale = str(locale.getDefault().getLanguage())
 
     elif platform == 'linux':
         locale = import_module('locale')
@@ -61,9 +59,8 @@ class Lang(Observable):
         return False
 
     def switch_lang(self, lang):
-        if lang in {'sv', 'en', 'fi', 'auto', 'de', 'fr', 'es'}:
+        if lang in available | {'auto'}:
             lang = locales() if lang == 'auto' else lang
-            # get the right locales directory, and instanciate a gettext
             locale_dir = join('language', 'data', 'locales')
             locales_ = gettext.translation('langapp',
                                            locale_dir,
@@ -71,6 +68,5 @@ class Lang(Observable):
             self.ugettext = locales_.gettext
             self.lang = lang
 
-            # update all the kv rules attached to this text
             for func, largs, _ in self.observers:
                 func(largs, None, None)
