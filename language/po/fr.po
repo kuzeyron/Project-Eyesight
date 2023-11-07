@@ -51,7 +51,7 @@ msgid "Charging"
 msgstr "Mise en charge"
 
 msgid "Back"
-msgstr "ArrièreBakåt"
+msgstr "Retour"
 
 msgid "Favorite contacts"
 msgstr "Contacts favoris"

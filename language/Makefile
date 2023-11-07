@@ -11,6 +11,9 @@ po:
 	msgmerge --update --no-fuzzy-matching --backup=off po/it.po messages.pot
 	msgmerge --update --no-fuzzy-matching --backup=off po/nl.po messages.pot
 	msgmerge --update --no-fuzzy-matching --backup=off po/pt.po messages.pot
+	msgmerge --update --no-fuzzy-matching --backup=off po/da.po messages.pot
+	msgmerge --update --no-fuzzy-matching --backup=off po/is.po messages.pot
+	msgmerge --update --no-fuzzy-matching --backup=off po/no.po messages.pot
 
 mo:
 	mkdir -p data/locales/en/LC_MESSAGES
@@ -22,6 +25,9 @@ mo:
 	mkdir -p data/locales/it/LC_MESSAGES
 	mkdir -p data/locales/nl/LC_MESSAGES
 	mkdir -p data/locales/pt/LC_MESSAGES
+	mkdir -p data/locales/da/LC_MESSAGES
+	mkdir -p data/locales/is/LC_MESSAGES
+	mkdir -p data/locales/no/LC_MESSAGES
 	msgfmt -c -o data/locales/en/LC_MESSAGES/langapp.mo po/en.po
 	msgfmt -c -o data/locales/sv/LC_MESSAGES/langapp.mo po/sv.po
 	msgfmt -c -o data/locales/fi/LC_MESSAGES/langapp.mo po/fi.po
@@ -31,3 +37,6 @@ mo:
 	msgfmt -c -o data/locales/it/LC_MESSAGES/langapp.mo po/it.po
 	msgfmt -c -o data/locales/nl/LC_MESSAGES/langapp.mo po/nl.po
 	msgfmt -c -o data/locales/pt/LC_MESSAGES/langapp.mo po/pt.po
+	msgfmt -c -o data/locales/da/LC_MESSAGES/langapp.mo po/da.po
+	msgfmt -c -o data/locales/is/LC_MESSAGES/langapp.mo po/is.po
+	msgfmt -c -o data/locales/no/LC_MESSAGES/langapp.mo po/no.po

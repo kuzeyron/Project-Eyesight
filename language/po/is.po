@@ -12,7 +12,7 @@ msgstr ""
 "PO-Revision-Date: 2013-08-01 15:36+0200\n"
 "Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
 "Language-Team: Mathias Lindström <kuzeyron@gmail.com>\n"
-"Language: Española\n"
+"Language: íslenskur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,97 +21,97 @@ msgid "SMS"
 msgstr "SMS"
 
 msgid "Phonebook"
-msgstr "Contactos"
+msgstr "Símaskrá"
 
 msgid "Monday"
-msgstr "Lunes"
+msgstr "Mánudagur"
 
 msgid "Tuesday"
-msgstr "Martes"
+msgstr "Þriðjudagur"
 
 msgid "Wednesday"
-msgstr "Miércoles"
+msgstr "Miðvikudagur"
 
 msgid "Thursday"
-msgstr "Jueves"
+msgstr "Fimmtudagur"
 
 msgid "Friday"
-msgstr "Viernes"
+msgstr "Föstudagur"
 
 msgid "Saturday"
-msgstr "Sábado"
+msgstr "Laugardagur"
 
 msgid "Sunday"
-msgstr "Domingo"
+msgstr "Sunnudagur"
 
 msgid "Battery"
-msgstr "Batería"
+msgstr "Rafhlaða"
 
 msgid "Charging"
-msgstr "Cargando"
+msgstr "Hlaðast"
 
 msgid "Back"
-msgstr "Atrás"
+msgstr "Til baka"
 
 msgid "Favorite contacts"
-msgstr "Contactos favoritos"
+msgstr "Uppáhalds tengiliðir"
 
 msgid "All contacts"
-msgstr "Todos los contactos"
+msgstr "Allir tengiliðir"
 
 msgid "Device language"
-msgstr "Idioma del dispositivo"
+msgstr "Tungumál tækis"
 
 msgid "Color theme"
-msgstr "Tema de color"
+msgstr "Litþema"
 
 msgid "Device contacts"
-msgstr "Contactos del dispositivo"
+msgstr "Tengiliðir tækis"
 
 msgid "Short delay"
-msgstr "Breve retraso"
+msgstr "Stutt seinkun"
 
 msgid "Medium delay"
-msgstr "Retraso medio"
+msgstr "Miðlungs seinkun"
 
 msgid "Long delay"
-msgstr "Retraso largo"
+msgstr "Löng seinkun"
 
 msgid "Press delay"
-msgstr "Retraso al presionar"
+msgstr "Ýta seinkun"
 
 msgid "Seconds"
-msgstr "Segundos"
+msgstr "Sekúndur"
 
 msgid "Wallpapers"
-msgstr "Fondos de pantalla"
+msgstr "Veggfóður"
 
 msgid "Date format"
-msgstr "Formato de fecha"
+msgstr "Dagsetningarsnið"
 
 msgid "Time format"
-msgstr "Formato de tiempo"
+msgstr "Tímasnið"
 
 msgid "Color opacity"
-msgstr "Opacidad del color"
+msgstr "Litaógegnsæi"
 
 msgid "Border radius"
-msgstr "Radio del borde"
+msgstr "Jaðarradius"
 
 msgid "Privacy"
-msgstr "Privacidad"
+msgstr "Friðhelgi"
 
 msgid "Gathering all available wallpapers"
-msgstr "Reuniendo todos los fondos de pantalla disponibles"
+msgstr "Safna öllum tiltækum veggfóðri"
 
 msgid "Settings"
-msgstr "Ajustes"
+msgstr "Stillingar"
 
 msgid "Border width for text's"
-msgstr "Ancho de borde para texto"
+msgstr "Jaðarbreidd fyrir texta"
 
 msgid "Device Applications"
-msgstr "Aplicaciones de dispositivos"
+msgstr "Tækjaforrit"
 
 msgid "Add more"
-msgstr "Añadir más"
+msgstr "Bæta við meira"
