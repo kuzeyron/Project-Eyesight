@@ -53,6 +53,12 @@ msgstr "Laddar"
 msgid "Back"
 msgstr "Bakåt"
 
+msgid "Home"
+msgstr "Hem"
+
+msgid "Fonts"
+msgstr "Teckensnitt"
+
 msgid "Favorite contacts"
 msgstr "Favorit kontakter"
 

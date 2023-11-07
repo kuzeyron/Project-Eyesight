@@ -53,6 +53,12 @@ msgstr "Hlaðast"
 msgid "Back"
 msgstr "Til baka"
 
+msgid "Home"
+msgstr "Heim"
+
+msgid "Fonts"
+msgstr "Leturgerðir"
+
 msgid "Favorite contacts"
 msgstr "Uppáhalds tengiliðir"
 

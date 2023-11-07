@@ -53,6 +53,12 @@ msgstr "Oplader"
 msgid "Back"
 msgstr "Tilbage"
 
+msgid "Home"
+msgstr "Hjem"
+
+msgid "Fonts"
+msgstr "Skrifttyper"
+
 msgid "Favorite contacts"
 msgstr "Foretrukne kontakter"
 

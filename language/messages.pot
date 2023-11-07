@@ -52,6 +52,12 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+msgid "Home"
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
 msgid "Favorite contacts"
 msgstr ""
 

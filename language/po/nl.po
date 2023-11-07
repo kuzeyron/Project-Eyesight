@@ -53,6 +53,12 @@ msgstr "Opladen"
 msgid "Back"
 msgstr "Terug"
 
+msgid "Home"
+msgstr "Thuis"
+
+msgid "Fonts"
+msgstr "Lettertypen"
+
 msgid "Favorite contacts"
 msgstr "Favoriete contacten"
 

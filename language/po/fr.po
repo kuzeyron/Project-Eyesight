@@ -53,6 +53,12 @@ msgstr "Mise en charge"
 msgid "Back"
 msgstr "Retour"
 
+msgid "Home"
+msgstr "Maison"
+
+msgid "Fonts"
+msgstr "Fontes"
+
 msgid "Favorite contacts"
 msgstr "Contacts favoris"
 
