@@ -78,9 +78,9 @@ class ColorGenerator(RecycleView):
 
     def on_kv_post(self, *largs):
         app = App.get_running_app()
-        self.data = [dict(color=[uniform(0.02, 1.0)
-                                 for j in range(3)] + [app.color[-1]])
-                     for x in range(self.amount)]
+        a = b = c = [x / 100 for x in range(0, 100, 15)]
+        self.data = [{'color': [x, y, z, app.color[-1]]}
+                     for x in a for y in b for z in c]
 
 
 class DeviceSettings(BoxLayout):
