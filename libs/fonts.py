@@ -41,7 +41,7 @@ Builder.load_string('''
             Label:
                 color: 1, 1, 1, .6
                 font_name: app.settings_font
-                font_size: dp(26)
+                font_size: dp(20)
                 outline_width: app.settings_font_border
                 size: self.texture_size
                 size_hint: None, .6
