@@ -1,0 +1,123 @@
+# Example for an internationalized Kivy app
+# Copyright (C) 2013 Mathieu Virbel
+# This file is distributed under the same license as the Kivy package.
+# Mathieu Virbel <mat@kivy.org>, 2013
+# Mathias Lindström <kuzeyron@gmail.com>, 2023
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 20:15+0300\n"
+"PO-Revision-Date: 2013-08-01 15:36+0200\n"
+"Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language-Team: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language: Lietuvių\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "SMS"
+msgstr ""
+
+msgid "Phonebook"
+msgstr "Telefono knyga"
+
+msgid "Monday"
+msgstr "Pirmadienis"
+
+msgid "Tuesday"
+msgstr "Antradienis"
+
+msgid "Wednesday"
+msgstr "Trečiadienis"
+
+msgid "Thursday"
+msgstr "Ketvirtadienis"
+
+msgid "Friday"
+msgstr "Penktadienis"
+
+msgid "Saturday"
+msgstr "Šeštadienis"
+
+msgid "Sunday"
+msgstr "Sekmadienis"
+
+msgid "Battery"
+msgstr "Baterija"
+
+msgid "Charging"
+msgstr "Įkraunama"
+
+msgid "Back"
+msgstr "Atgal"
+
+msgid "Home"
+msgstr "Pagrindinis"
+
+msgid "Fonts"
+msgstr "Šriftai"
+
+msgid "Favorite contacts"
+msgstr "Mėgstamiausi kontaktai"
+
+msgid "All contacts"
+msgstr "Visi kontaktai"
+
+msgid "Device language"
+msgstr "Įrenginio kalba"
+
+msgid "Color theme"
+msgstr "Spalvų tema"
+
+msgid "Device contacts"
+msgstr "Įrenginio kontaktai"
+
+msgid "Short delay"
+msgstr "Trumpas užlaikymas"
+
+msgid "Medium delay"
+msgstr "Vidutinio ilgio užlaikymas"
+
+msgid "Long delay"
+msgstr "Ilgas užlaikymas"
+
+msgid "Press delay"
+msgstr "Paspaudimo užlaikymas"
+
+msgid "Seconds"
+msgstr "Sekundės"
+
+msgid "Wallpapers"
+msgstr "Fonai"
+
+msgid "Date format"
+msgstr "Datos formatas"
+
+msgid "Time format"
+msgstr "Laiko formatas"
+
+msgid "Color opacity"
+msgstr "Spalvos nepermatomumas"
+
+msgid "Border radius"
+msgstr "Rėmelio spindulys"
+
+msgid "Privacy"
+msgstr "Privatumas"
+
+msgid "Gathering all available wallpapers"
+msgstr "Ruošiama visi galimi fonai"
+
+msgid "Settings"
+msgstr "Nustatymai"
+
+msgid "Border width for text's"
+msgstr "Ribos plotis teksto"
+
+msgid "Device Applications"
+msgstr "Įrenginio programos"
+
+msgid "Add more"
+msgstr "Pridėti daugiau"

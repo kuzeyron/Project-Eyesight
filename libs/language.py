@@ -6,8 +6,9 @@ from kivy.lang import Observable
 from kivy.utils import platform
 
 __all__ = ['locales', 'Lang']
-available = {'de', 'en', 'es', 'fi', 'fr', 'it',
-             'nl', 'no', 'pt', 'sv', 'da', 'is'}
+available = {'da', 'de', 'en', 'es', 'et', 'fi',
+             'fr', 'is', 'it', 'lt', 'nl', 'no',
+             'pt', 'sv'}
 
 
 def locales():

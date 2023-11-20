@@ -1,0 +1,123 @@
+# Example for an internationalized Kivy app
+# Copyright (C) 2013 Mathieu Virbel
+# This file is distributed under the same license as the Kivy package.
+# Mathieu Virbel <mat@kivy.org>, 2013
+# Mathias Lindström <kuzeyron@gmail.com>, 2023
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 20:15+0300\n"
+"PO-Revision-Date: 2013-08-01 15:36+0200\n"
+"Last-Translator: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language-Team: Mathias Lindström <kuzeyron@gmail.com>\n"
+"Language: Eesti\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "SMS"
+msgstr "SMS"
+
+msgid "Phonebook"
+msgstr "Telefoniraamat"
+
+msgid "Monday"
+msgstr "Esmaspäev"
+
+msgid "Tuesday"
+msgstr "Teisipäev"
+
+msgid "Wednesday"
+msgstr "Kolmapäev"
+
+msgid "Thursday"
+msgstr "Neljapäev"
+
+msgid "Friday"
+msgstr "Reede"
+
+msgid "Saturday"
+msgstr "Laupäev"
+
+msgid "Sunday"
+msgstr "Pühapäev"
+
+msgid "Battery"
+msgstr "Aku"
+
+msgid "Charging"
+msgstr "Laadimine"
+
+msgid "Back"
+msgstr "Tagasi"
+
+msgid "Home"
+msgstr "Kodu"
+
+msgid "Fonts"
+msgstr "Fondid"
+
+msgid "Favorite contacts"
+msgstr "Lemmikkontaktid"
+
+msgid "All contacts"
+msgstr "Kõik kontaktid"
+
+msgid "Device language"
+msgstr "Seadme keel"
+
+msgid "Color theme"
+msgstr "Värviteema"
+
+msgid "Device contacts"
+msgstr "Seadme kontaktid"
+
+msgid "Short delay"
+msgstr "Lühike viivitus"
+
+msgid "Medium delay"
+msgstr "Keskmine viivitus"
+
+msgid "Long delay"
+msgstr "Pikk viivitus"
+
+msgid "Press delay"
+msgstr "Vajutuse viivitus"
+
+msgid "Seconds"
+msgstr "Sekundid"
+
+msgid "Wallpapers"
+msgstr "Taustapildid"
+
+msgid "Date format"
+msgstr "Kuupäeva vorming"
+
+msgid "Time format"
+msgstr "Kellaaja vorming"
+
+msgid "Color opacity"
+msgstr "Värvi läbipaistvus"
+
+msgid "Border radius"
+msgstr "Ääre raadius"
+
+msgid "Privacy"
+msgstr "Privaatsus"
+
+msgid "Gathering all available wallpapers"
+msgstr "Kogutakse kõiki saadaolevaid taustapilte"
+
+msgid "Settings"
+msgstr "Seaded"
+
+msgid "Border width for text's"
+msgstr "Teksti ääre laius"
+
+msgid "Device Applications"
+msgstr "Seadme rakendused"
+
+msgid "Add more"
+msgstr "Lisa rohkem"

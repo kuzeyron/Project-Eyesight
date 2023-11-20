@@ -1,5 +1,4 @@
 from os.path import join
-from random import uniform
 
 from kivy.animation import Animation
 from kivy.app import App
