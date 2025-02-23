@@ -1,47 +1,28 @@
 from functools import partial
-from os import listdir
-from os.path import basename, join
-from shutil import move
+from os import listdir, makedirs, stat
+from os.path import basename, isdir, isfile, join
 from threading import Thread
 from time import sleep
 
 from kivy.app import App
 from kivy.clock import Clock, mainthread
+from kivy.core.image import Image
+from kivy.core.window import Window
 from kivy.lang import Builder
-from kivy.logger import Logger
 from kivy.properties import (BooleanProperty, NumericProperty, ObjectProperty,
                              StringProperty)
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.stacklayout import StackLayout
-from kivy.utils import platform
 
 from .configuration import set_value
-from .wallpaper import wallpaper
+from .setup import WALLPAPER_CACHE, WALLPAPER_STORAGE, SystemFileChooser
 
-if platform == 'android':
-    from android.permissions import Permission, request_permissions
-    from androidstorage4kivy import Chooser, SharedStorage
-    from android import api_version
+__all__ = ('cut_region', 'wallpaper', 'Gallery', 'Wallpaper')
 
-    def can_copy_images(permissions, status):
-        perm = {p.split('.')[-1]: status[xy]
-                for xy, p in enumerate(permissions)}
-
-        isset = perm.get('READ_EXTERNAL_STORAGE', False)
-
-        if api_version > 29:
-            isset = perm.get('READ_MEDIA_IMAGES', False)
-
-        if isset:
-            _app = App.get_running_app()
-            _call = _app.root.get_screen('wallpapers').children[0]
-            _child = _call.children[0].children[0].children[0]
-            _child.chooser.choose_content("image/*")
-
-
-__all__ = ('Gallery', 'Wallpaper')
+makedirs(WALLPAPER_STORAGE, exist_ok=True)
+makedirs(WALLPAPER_CACHE, exist_ok=True)
 
 Builder.load_string('''
 <Wallpaper>:
@@ -62,7 +43,7 @@ Builder.load_string('''
             size: self.size[0] - dp(5), self.size[1] - root.bwidth
         StencilUse
         Rectangle:
-            pos: self.x, self.y - (self.height / 3)
+            pos: self.pos
             size: self.width, self.height / self.image_ratio
             texture: self.texture if self.texture else None
         StencilUnUse
@@ -106,7 +87,6 @@ Builder.load_string('''
         size: dp(160), dp(70)
         spacing: dp(5)
         pos_hint: {'center_x': .5}
-
         Image:
             source: 'assets/images/add.png'
         Label:
@@ -114,6 +94,37 @@ Builder.load_string('''
             text: self.parent.text
 
 ''')
+
+
+def cut_region(texture=None, crop=None):
+    crop = crop or Window.size
+    target_ratio = crop[0] / crop[1]
+    target_width = target_ratio * texture.height
+
+    if texture.width < target_width:
+        return texture
+
+    target_x = (texture.width - target_width) / 2
+
+    return texture.get_region(x=target_x,
+                              y=0,
+                              width=target_width,
+                              height=texture.height)
+
+
+def wallpaper(source=None, crop=None, mipmap=None):
+    filesize = stat(source).st_size
+    filename = f"{filesize};{basename(source)}"
+    path = join(WALLPAPER_CACHE, filename)
+    mipmap = mipmap or False
+
+    if isfile(path):
+        texture = Image(path, mipmap=mipmap).texture
+    else:
+        texture = cut_region(Image(source, mipmap=mipmap).texture)
+        texture.save(path, flipped=False)
+
+    return texture
 
 
 class Wallpaper(CheckBox):
@@ -125,55 +136,52 @@ class Wallpaper(CheckBox):
     texture = ObjectProperty(None, allownone=True)
     image_height = NumericProperty()
 
-    def on_filename(self, *largs):
+    def on_filename(self, _, filename):
         self._app = App.get_running_app()
-        self.texture = wallpaper(self.filename)
+        self.texture = Image(filename).texture
         w, h = self.texture.size
         self.image_ratio = w / float(h)
-        self.active = (self.filename == self._app.wallpaper) or None
+        self.active = (filename == self._app.wallpaper) or None
 
-    def on_active(self, *largs):
-        if self.active:
-            self._app.background = self.texture
-            self._app.wallpaper = self.filename
+    def on_active(self, _, active):
+        if active:
+            _app = App.get_running_app()
+            _app.background = wallpaper(self.filename)
+            _app.wallpaper = self.filename
             set_value('settings', 'wallpaper', self.filename)
 
 
-class AddWallpapers(ButtonBehavior, BoxLayout):
+class AddWallpapers(SystemFileChooser, ButtonBehavior, BoxLayout):
     __events__ = ('on_update', )
-    chooser = ObjectProperty(None, allownone=True)
+    mime_type = StringProperty('image/*')
+    multiple = BooleanProperty(True)
     text = StringProperty()
 
-    def on_kv_post(self, *largs):
+    def on_kv_post(self, _):
         self._app = App.get_running_app()
         self._app.bind(language_language=self.on_update)
         self.dispatch('on_update')
 
-        if platform == 'android':
-            self.chooser = Chooser(self.chooser_callback)
+    def on_release(self):
+        self.trigger()
 
     @mainthread
-    def chooser_callback(self, uri_list):
-        try:
-            ss = SharedStorage()
-            for uri in uri_list:
-                if path := ss.copy_from_shared(uri):
-                    newname = join('assets', 'wallpapers', basename(path))
-                    move(path, newname)
-                    Logger.debug('Successfully copied %s to %s',
-                                 basename(path), newname)
-                    p = self.parent.children[-1].children[0]
-                    p.add_widget(Wallpaper(filename=newname, active=True))
-        except Exception as e:
-            Logger.warning('SharedStorageExample.chooser_callback(): %s', e)
+    def on_uris(self, _, uris):
+        from androidssystemfilechooser import (uri_image_to_texture,
+                                               uri_to_filename)
+        p = self.parent.children[-1].children[0]
 
-    def on_release(self, *largs):
-        if self.chooser is not None:
-            request_permissions([Permission.READ_EXTERNAL_STORAGE,
-                                 Permission.READ_MEDIA_IMAGES],
-                                can_copy_images)
+        for uri in uris:
+            path = join(WALLPAPER_STORAGE, f"{uri_to_filename(uri)}.png")
 
-    def on_update(self, *largs):
+            if not isfile(path):
+                texture = uri_image_to_texture(uri)
+                texture.save(path, flipped=False)
+                p.add_widget(Wallpaper(filename=path))
+
+        self.uris = []
+
+    def on_update(self):
         if self._app.tr is not None:
             self.text = self._app.tr._('Add more')
 
@@ -185,13 +193,24 @@ class Gallery(BoxLayout):
 class GalleryPlatform(StackLayout):
     folder = StringProperty()
 
-    def on_kv_post(self, *largs):
+    def on_kv_post(self, _):
         Thread(target=self.scan, daemon=True).start()
 
-    def scan(self, *largs):
-        for source in listdir(self.folder):
+    def scan(self):
+        included_wallpapers = []
+        uploaded_wallpapers = []
+
+        if isdir(self.folder):
+            included_wallpapers = [join(self.folder, file)
+                                   for file in listdir(self.folder)]
+
+        if isdir(WALLPAPER_STORAGE):
+            uploaded_wallpapers = [join(WALLPAPER_STORAGE, file)
+                                   for file in listdir(WALLPAPER_STORAGE)]
+
+        for source in included_wallpapers + uploaded_wallpapers:
             Clock.schedule_once(partial(self.on_source, source), 0)
             sleep(.05)
 
     def on_source(self, source, dt):
-        self.add_widget(Wallpaper(filename=join(self.folder, source)))
+        self.add_widget(Wallpaper(filename=source))

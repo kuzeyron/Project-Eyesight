@@ -35,3 +35,4 @@ Project Eyesight keeps its privacy policy under regular review and is found in t
 ### How to contact us  
 Email the maintainer at globalkuzeyron@gmail.com  
 On GitHub: https://github.com/kuzeyron/ProjectEyesight
+Business details: https://tietopalvelu.ytj.fi/yritys/3480589-4

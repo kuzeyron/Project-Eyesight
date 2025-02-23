@@ -27,7 +27,7 @@ Builder.load_string('''
         Color:
             rgba: 1, 1, 1, .1
         SmoothLine:
-            width: dp(2)
+            width: dp(1)
             rounded_rectangle: self.x, self.y, self.width, \
                 self.height, app.border_radius[0]
 

@@ -1,9 +1,10 @@
 import sqlite3
-import sys
-from importlib import import_module
-from os.path import dirname, exists, join
+from os.path import exists, join
 
 from kivy.utils import platform
+
+from libs.setup import app_storage_path
+
 
 __all__ = ('locales', 'set_value', 'get_value', 'get_language', )
 
@@ -14,12 +15,12 @@ def locales():
                  'pt', 'sv'}
 
     if platform == 'android':
-        jnius = import_module('jnius')
-        locale = jnius.autoclass('java.util.Locale')
+        from jnius import autoclass
+        locale = autoclass('java.util.Locale')
         locale = str(locale.getDefault().getLanguage())
     elif platform == 'linux':
-        locale = import_module('locale')
-        locale = locale.getdefaultlocale()[0]
+        from locale import getdefaultlocale
+        locale = getdefaultlocale()[0]
         locale = str(locale.split("_", -1)[0])
 
     return locale if locale in available else 'en'
@@ -30,27 +31,21 @@ def _dict_factory(cursor, row):
     return dict(zip(fields, row))
 
 
-def _reset_db():
-    file = join(dirname(sys.argv[0]),
-                'assets',
-                'data',
-                'default.dbk')
+def _reset_db(default_path=None, filename=None):
+    default_path = default_path or join('assets', 'data', 'default.dbk')
+    filename = filename or 'config.db'
+    backup = sqlite3.connect(default_path)
+    new = sqlite3.connect(join(app_storage_path(), filename))
+    query = "".join(line for line in backup.iterdump())
+    new.executescript(query)
 
-    if exists(file):
-        backup = sqlite3.connect(file)
-        new = sqlite3.connect('config.db')
-        query = "".join(line for line in backup.iterdump())
-        new.executescript(query)
-
-        return new
-
-    return False
+    return new
 
 
 def _db_exist(file=None):
-    file = file or 'config.db'
+    file = file or join(app_storage_path(), 'config.db')
 
-    if isinstance(file, str) and exists(file):
+    if exists(file):
         return sqlite3.connect(file)
 
     return _reset_db()

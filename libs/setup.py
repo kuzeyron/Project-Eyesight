@@ -1,19 +1,21 @@
-from importlib import import_module
+from os.path import join
 
 from kivy.core.window import Window
+from kivy.event import EventDispatcher
 from kivy.logger import Logger
 from kivy.utils import platform
 
-__all__ = ('Setup', )
+__all__ = ('Setup', 'SystemFileChooser', 'WALLPAPER_STORAGE', 'WALLPAPER_CACHE')
 CUTOUT_HEIGHT = 0.
 
 if platform == 'android':
-    ui_thread = import_module('android.runnable').run_on_ui_thread
-    jnius = import_module('jnius')
-    autoclass = jnius.autoclass
+    from android import mActivity
+    from android.runnable import run_on_ui_thread
+    from android.storage import app_storage_path
+    from androidssystemfilechooser import SystemFileChooser
+    from jnius import autoclass
 
     AndroidView = autoclass('android.view.View')
-    mActivity = import_module('android').mActivity
 
     try:
         decorview = mActivity.getWindow().getDecorView()
@@ -23,7 +25,7 @@ if platform == 'android':
     except Exception:
         pass
 
-    @ui_thread
+    @run_on_ui_thread
     def android_hide_system_bars():
         decorview.setSystemUiVisibility(
             AndroidView.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
@@ -34,6 +36,17 @@ if platform == 'android':
 else:
     def android_hide_system_bars():
         Logger.debug("Hiding bars is only supported on Android devices.")
+
+    def app_storage_path():
+        return '.'
+
+    class SystemFileChooser(EventDispatcher):
+        def trigger(self):
+            pass
+
+
+WALLPAPER_STORAGE = join(app_storage_path(), '.cache', 'wallpapers')
+WALLPAPER_CACHE = join(app_storage_path(), '.cache', '.wallpapers')
 
 
 class Setup:

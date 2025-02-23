@@ -29,7 +29,7 @@ source.exclude_dirs = tests, bin, venv, .cache
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.10.5
+version = 0.10.6
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -37,7 +37,7 @@ version = 0.10.5
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.10.13,hostpython3==3.10.13,kivy,androidstorage4kivy
+requirements = python3==3.10.13,hostpython3==3.10.13,kivy==2.2.1,androidstorage4kivy
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
