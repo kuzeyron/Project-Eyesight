@@ -7,7 +7,7 @@ The project has only one maintainer that works for Free so that people can obtai
 Project Eyesight do not collect any data.  
   
 ### How do we collect your data?  
-Project Eyesight do not collect any data.  
+Project Eyesight does not collect any data.  
   
 ### How will we use your data?  
 Project Eyesight will ask for needed permissions to be able to function. The data Project Eyesight uses will never leave your device.  
@@ -34,5 +34,5 @@ Project Eyesight keeps its privacy policy under regular review and is found in t
   
 ### How to contact us  
 Email the maintainer at globalkuzeyron@gmail.com  
-On GitHub: https://github.com/kuzeyron/ProjectEyesight
+On GitHub: https://github.com/kuzeyron/ProjectEyesight  
 Business details: https://tietopalvelu.ytj.fi/yritys/3480589-4
