@@ -4,7 +4,7 @@ Project Eyesight is an Open-Sourced project licensed under the GNU General Publi
 The project has only one maintainer that works for Free so that people can obtain the app for free. This privacy policy will explain how the Project Eyesight uses the personal data we collect from you while using Project Eyesight.  
   
 ### What data do we collect?  
-Project Eyesight do not collect any data.  
+Project Eyesight does not collect any data.  
   
 ### How do we collect your data?  
 Project Eyesight does not collect any data.  
