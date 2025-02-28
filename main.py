@@ -1,23 +1,16 @@
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.logger import Logger
 from kivy.properties import (BooleanProperty, ColorProperty, DictProperty,
                              ListProperty, NumericProperty, ObjectProperty,
                              StringProperty)
 from kivy.uix.screenmanager import ScreenManager
-from kivy.utils import get_color_from_hex, platform
+from kivy.utils import get_color_from_hex
 
 from libs.call import CallService
-from libs.setup import Setup
 from libs.configuration import configuration
 from libs.language import Lang
-from libs.wallpaper import wallpaper
-
-if platform != 'android':
-    from kivy.core.window import Window
-    from kivy.metrics import dp
-    Window.size = dp(500), dp(750)
-    Logger.debug("OS is not Android.")
+from libs.setup import Setup
+from libs.gallery import wallpaper
 
 Builder.load_string('''
 #:import AppLauncher libs.applauncher.AppLauncher
@@ -102,7 +95,6 @@ class Basement(ScreenManager):
 
 
 class ProjectSimplifier(App, Setup):
-    appconfig = DictProperty()
     background = ObjectProperty(None, allownone=True)
     border_radius = ListProperty()
     color = ColorProperty()
@@ -113,7 +105,7 @@ class ProjectSimplifier(App, Setup):
     settings_font_border = NumericProperty()
     format_date = StringProperty()
     format_time = StringProperty()
-    icon = 'assets/images/icon.png'
+    icon = StringProperty('assets/images/icon.png')
     language_language = StringProperty()
     press_delay = NumericProperty()
     settings_starred_contacts = StringProperty()
@@ -144,16 +136,15 @@ class ProjectSimplifier(App, Setup):
 
     def on_resume(self):
         self.trigger_events()
-        Logger.debug("Returning to the application.")
 
         return True
 
-    def switch_language(self, *largs):
-        self.tr.switch_lang(self.language_language)
+    def switch_language(self, _, lang):
+        self.tr.switch_lang(lang)
 
     def trigger_events(self, *largs):
-        Logger.debug("Triggers the events to happen.")
         self._change_of_events = not self._change_of_events
+
 
 
 if __name__ == '__main__':
