@@ -22,14 +22,14 @@ source.include_exts = py,png,jpg,jpeg,webp,kv,atlas,json,ttf,po,mo,kj,dbk,ktxt
 source.exclude_exts = db
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, venv, .cache
+source.exclude_dirs = tests, bin, .venv, .cache
 
 # (list) List of exclusions using pattern matching
 # Do not prefix with './'
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.10.6
+version = 0.12.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -37,7 +37,7 @@ version = 0.10.6
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,androidssystemfilechooser
+requirements = python3,kivy,AndroidsSystemFileChooser,filetype
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -100,7 +100,7 @@ android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,READ_CONTACTS
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 34
+android.api = 35
 
 # (int) Minimum API your APK / AAB will support.
 #android.minapi = 21
@@ -264,7 +264,9 @@ android.logcat_filters = *:S python:D
 
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
-android.archs = armeabi-v7a, arm64-v8a, x86, x86_64
+android.archs = armeabi-v7a
+# android.archs = armeabi-v7a, arm64-v8a, x86, x86_64
+#, arm64-v8a, x86, x86_64
 # android.archs = arm64-v8a
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
@@ -296,7 +298,7 @@ android.allow_backup = True
 #p4a.url =
 
 # (str) python-for-android fork to use in case if p4a.url is not specified, defaults to upstream (kivy)
-# p4a.fork = kuzeyron
+#p4a.fork = kuzeyron
 
 # (str) python-for-android branch to use, defaults to master
 p4a.branch = develop
