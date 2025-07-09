@@ -37,7 +37,7 @@ version = 0.10.6
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.10.13,hostpython3==3.10.13,kivy==2.2.1,androidstorage4kivy
+requirements = python3,kivy,androidssystemfilechooser
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -94,7 +94,7 @@ icon.filename = %(source.dir)s/assets/images/icon.png
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,READ_CONTACTS,READ_MEDIA_IMAGES,READ_EXTERNAL_STORAGE
+android.permissions = CALL_PHONE,VIBRATE,BATTERY_STATS,READ_CONTACTS
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -296,10 +296,10 @@ android.allow_backup = True
 #p4a.url =
 
 # (str) python-for-android fork to use in case if p4a.url is not specified, defaults to upstream (kivy)
-p4a.fork = kuzeyron
+# p4a.fork = kuzeyron
 
 # (str) python-for-android branch to use, defaults to master
-p4a.branch = cutouts
+p4a.branch = develop
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD
